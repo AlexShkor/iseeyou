@@ -11,11 +11,13 @@ namespace ISeeYou
     {
         private readonly SubjectViewService _subjects;
         private readonly SourcesViewService _sources;
+        private readonly UsersViewService _users;
 
-        public SourceFetcher(SubjectViewService subjects, SourcesViewService sources)
+        public SourceFetcher(SubjectViewService subjects, SourcesViewService sources, UsersViewService users)
         {
             _subjects = subjects;
             _sources = sources;
+            _users = users;
         }
 
         public void Run()
@@ -24,7 +26,7 @@ namespace ISeeYou
             foreach (var sourceDocument in cursor)
             {
                 var subjectIds = GetSubjects(sourceDocument.Id);
-                var analyzer = new SourceAnalyzer(sourceDocument.Id,subjectIds);
+                var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
                 analyzer.Run();
                 ResetRank(sourceDocument.Id);
             }
@@ -38,8 +40,7 @@ namespace ISeeYou
 
         private List<int> GetSubjects(int sourceId)
         {
-            return
-                _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
+            return _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
                     builder => builder.EQ(x => x, sourceId))).SetFields("Id").Select(x => x.Id).ToList();
         }
     }

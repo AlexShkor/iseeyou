@@ -1,5 +1,6 @@
 ﻿using System;
 using ISeeYou.Domain.Aggregates.Site;
+using ISeeYou.Domain.Aggregates.Subject.Commands;
 using ISeeYou.Platform.Domain;
 using ISeeYou.Platform.Domain.Interfaces;
 using ISeeYou.Platform.Extensions;
@@ -20,9 +21,22 @@ namespace ISeeYou.Domain.Aggregates.Subject
             });
         }
 
-        public void AddLike(string sourceId, DateTime dateTime)
+        public void AddPhotoLike(AddPhotoLike c)
         {
-            
+            if (State.LikedPhotos.Contains(c.PhotoId))
+            {
+                return;
+            }
+            Apply(new PhotoLikeAdded
+            {
+                Id = State.Id,
+                Image = c.Image,
+                EndDate = c.EndDate,
+                PhotoId = c.PhotoId,
+                SourceId = c.SourceId,
+                StartDate = c.StartDate,
+                SubjectId = c.SubjectId
+            });
         }
     }
 }
