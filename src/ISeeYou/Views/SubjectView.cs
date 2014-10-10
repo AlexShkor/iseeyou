@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ISeeYou.Views
 {
@@ -6,5 +7,7 @@ namespace ISeeYou.Views
     {
         [BsonId]
         public string Id { get; set; }
+
+        public List<string> Sources { get; set; } 
     }
 }

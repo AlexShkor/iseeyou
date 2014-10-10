@@ -1,4 +1,7 @@
-﻿using ISeeYou.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ISeeYou.Documents;
+using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Driver.Builders;
 
@@ -21,14 +24,23 @@ namespace ISeeYou
             foreach (var sourceDocument in cursor)
             {
                 var subjectIds = GetSubjects(sourceDocument.Id);
-                var analyzer = new SourceAnalyzer(sourceDocument.Id,subjectIds );
+                var analyzer = new SourceAnalyzer(sourceDocument.Id,subjectIds);
                 analyzer.Run();
+                ResetRank(sourceDocument.Id);
             }
         }
 
-        private string[] GetSubjects(string sourceId)
+        private void ResetRank(string sourceId)
         {
-            throw new System.NotImplementedException();
+            _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, sourceId),
+                Update<SourceDocument>.Set(x => x.Rank, 0));
+        }
+
+        private List<string> GetSubjects(string sourceId)
+        {
+            return
+                _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
+                    builder => builder.EQ(x => x, sourceId))).SetFields("Id").Select(x => x.Id).ToList();
         }
     }
 }
