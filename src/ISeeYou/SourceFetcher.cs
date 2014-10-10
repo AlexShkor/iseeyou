@@ -30,13 +30,13 @@ namespace ISeeYou
             }
         }
 
-        private void ResetRank(string sourceId)
+        private void ResetRank(int sourceId)
         {
             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, sourceId),
                 Update<SourceDocument>.Set(x => x.Rank, 0));
         }
 
-        private List<string> GetSubjects(string sourceId)
+        private List<int> GetSubjects(int sourceId)
         {
             return
                 _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,

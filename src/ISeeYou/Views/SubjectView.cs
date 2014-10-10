@@ -6,8 +6,8 @@ namespace ISeeYou.Views
     public class SubjectView
     {
         [BsonId]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public List<string> Sources { get; set; } 
+        public List<int> Sources { get; set; } 
     }
 }

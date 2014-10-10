@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using MongoDB.Driver.Linq;
 using VkAPIAsync.Wrappers.Common;
 using VkAPIAsync.Wrappers.Likes;
 using VkAPIAsync.Wrappers.Photos;
@@ -25,7 +23,7 @@ namespace ISeeYou
             var photos = GetPhotos(_sourceId);
             foreach (var photo in photos)
             {
-                var photoAnalyzer = new PhotoAnalyzer(_sourceId,photo, photo.DateCreated, _subjects);
+                var photoAnalyzer = new PhotoAnalyzer(_sourceId,photo, _subjects);
                 photoAnalyzer.Run();
             }
         }
@@ -72,10 +70,28 @@ namespace ISeeYou
                 var intersect = result.Intersect(_subjects);
                 foreach (var subjectId in intersect)
                 {
-                    
+                    GlobalQueue.Send(new AddPhotoLike
+                    {
+                        SubjectId = subjectId,
+                        StartDate = _photo.DateCreated,
+                        EndDate = DateTime.UtcNow,
+                        PhotoId = _photo.Id,
+                        SourceId = _sourceId,
+                        Image = _photo.Photo130
+                    });
                 }
                 offset += count;
             } while (result.TotalCount > offset + count);
         }
+    }
+
+    public class AddPhotoLike
+    {
+        public int SubjectId { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int? PhotoId { get; set; }
+        public int SourceId { get; set; }
+        public string Image { get; set; }
     }
 }
