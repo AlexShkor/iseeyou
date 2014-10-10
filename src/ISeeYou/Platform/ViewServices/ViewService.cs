@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using ISeeYou.Databases;
 using ISeeYou.Platform.Mongo;
+using ISeeYou.Views;
+using MongoDB.Driver;
 
 namespace ISeeYou.Platform.ViewServices
 {
@@ -13,7 +15,7 @@ namespace ISeeYou.Platform.ViewServices
             Database = database;
         }
 
-        protected abstract ReadonlyMongoCollection<T> Items { get; }
+        protected abstract MongoCollection<T> Items { get; }
 
         public virtual T GetById(string id)
         {
@@ -23,6 +25,11 @@ namespace ISeeYou.Platform.ViewServices
         public IEnumerable<T> GetAll()
         {
             return Items.FindAll();
+        }
+
+        public void Save(T user)
+        {
+            Items.Save(user);
         }
     }
 }

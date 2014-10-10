@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Шаг 1.</h4>
+<p>Нажмите кнопку <span>Получить код</span></p>
+<a type="submit" href="@Model" target="blank" class="btn btn-success">Получить код</a>
+<h4>Шаг 2.</h4>
+<p>Перейдите на новую открывшуюся вкладку</p>
+
+<h4>Шаг 3.</h4>
+<p>Скопируйте всю адресную строку</p>
+
+<h4>Шаг 4.</h4>
+<p>Вернитесь на эту страницу, вставте строку в поле ввода нажмите "Подключить"</p>
+<form method="POST" action="/subjects/authorize">
+    <button type="submit" class="btn btn-success">Подключить</button>
+    <input type="text" name="blankPageUrl" />
+</form>
+
+
+

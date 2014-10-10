@@ -51,23 +51,23 @@ namespace ISeeYou.Databases
             get { return _server.GetDatabase(_databaseName); }
         }
 
-        protected ReadonlyMongoCollection GetCollection(String collectionName)
+        protected MongoCollection GetCollection(String collectionName)
         {
-            return Database.GetCollection(collectionName).ToReadonly();
+            return Database.GetCollection(collectionName);
         }
 
-        protected ReadonlyMongoCollection<TDocument> GetCollection<TDocument>(String collectionName)
+        protected MongoCollection<TDocument> GetCollection<TDocument>(String collectionName)
         {
-            return Database.GetCollection<TDocument>(collectionName).ToReadonly();
+            return Database.GetCollection<TDocument>(collectionName);
         }
 
 
-        public ReadonlyMongoCollection<UserView> Users
+        public MongoCollection<UserView> Users
         {
             get { return GetCollection<UserView>(ViewCollections.Users); }
         }
 
-        public ReadonlyMongoCollection<SiteView> Sites
+        public MongoCollection<SiteView> Sites
         {
             get { return GetCollection<SiteView>(ViewCollections.Sites); }
         }

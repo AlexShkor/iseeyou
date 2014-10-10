@@ -2,6 +2,7 @@
 using ISeeYou.Platform.Mongo;
 using ISeeYou.Platform.ViewServices;
 using ISeeYou.Views;
+using MongoDB.Driver;
 
 namespace ISeeYou.ViewServices
 {
@@ -12,7 +13,7 @@ namespace ISeeYou.ViewServices
         {
         }
 
-        protected override ReadonlyMongoCollection<SiteView> Items
+        protected override MongoCollection<SiteView> Items
         {
             get { return Database.Sites; }
         }
