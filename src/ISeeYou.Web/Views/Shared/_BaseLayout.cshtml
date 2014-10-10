@@ -1,0 +1,47 @@
+﻿@using System.Web.Optimization
+@using ISeeYou.Web
+@using Poker.Web.App_Start
+
+<!DOCTYPE html>
+<html ng-app="poker">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CQRS poker</title>
+
+    <link rel="SHORTCUT ICON" href="~/Assets/app/css/img/favicon.ico" />
+    @Styles.Render("~/content/css")
+
+
+</head>
+<body ng-controller="AppCtrl" ng-init="init(@Model)" class="landing-layout">
+    <div id="globalLoader"
+         style="display: none;">
+        <div class="circle"></div>
+        <div class="circle1"></div>
+    </div>
+
+
+
+    @Html.Partial("Navigation")
+    <div id="main" ui-view>@RenderBody()</div>
+
+    <script src="/scripts/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script src="/scripts/angular.js" type="text/javascript"></script>
+    <script src="/scripts/angular-ui-router.js" type="text/javascript"></script>
+    <script src="/scripts/jquery.signalR-2.0.3.min.js" type="text/javascript"></script>
+    <script src="/signalr/hubs" type="text/javascript"></script>
+    <script src="/assets/vendor/angular-spiner/js/rzslider.min.js" type="text/javascript"></script>
+
+    <script src="/app/eventAggregatorService.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/app/signals.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+
+   
+    <script src="/app/header.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/app/home.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/app/tables.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/app/game.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+
+    <script src="/app/app.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+
+</body>
+</html>

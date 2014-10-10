@@ -1,0 +1,32 @@
+﻿<div class="navbar" style="position: static;" ng-controller="HeaderCtrl">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand light" href="/">CQRS<span class="redsuit">poker</span></a>
+            <div>
+                <ul class="nav">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/tables">Tables</a></li>
+                    }
+                </ul>
+                <ul class="nav  pull-right">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <text>
+                        <li><a href="/profile"><strong class="light">@User.Identity.Name</strong> </a></li>
+                        <li><a href="#" ng-click="logout()">Log Off </a></li>
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                        <li><a href="/account/login">Log In</a></li>
+                        <li><a href="/account/register">Sign Up</a></li>
+                        </text>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

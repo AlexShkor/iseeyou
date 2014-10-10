@@ -1,0 +1,655 @@
+﻿.gameTable {
+    position: relative;
+    width: 770px;
+    height: 650px;
+    margin: 0 0 0 50px;
+    padding: 0;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid black;
+    /* radial background */
+    background-color: #084803;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 12px #FFF;
+    -webkit-box-shadow: 2px 2px 12px #FFF;
+    box-shadow: 2px 2px 12px #512;
+}
+
+.playAreaNorthSouth {
+    clear: left;
+    overflow: hidden;
+    width: 765px;
+    padding-left: 18px;
+    height: 121px;
+    padding-top: 10px;
+    margin: 3px;
+}
+
+.playAreaEastWest {
+    float: left;
+    overflow: hidden;
+    padding: 0 6px;
+    margin: 3px;
+    width: 265px;
+    height: 380px;
+}
+
+.playAreaDealer {
+    overflow: hidden;
+    width: 196px;
+    height: 196px;
+    margin: 3px;
+    position: relative;
+    float: left;
+    margin-top: 90px;
+}
+
+/*cards*/
+.card {
+    cursor: pointer;
+    margin-top: 3px;
+    height: 76px;
+    width: 38px;
+    float: left;
+    border: 2px solid black;
+    text-align: center;
+    margin-left: 1px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    font-family: verdana;
+    background-color: white;
+}
+
+    .card.back {
+        background-image: url("/assets/app/css/img/card-back.png");
+        background-position: -2px -2px;
+        background-repeat: no-repeat;
+    }
+
+.overlap {
+    margin-left: -10px;
+}
+
+.card div {
+    height: 38px;
+    font-size: 42px;
+    width: 31px;
+    margin: auto;
+    letter-spacing: -10px;
+}
+
+.card.bigGap {
+    margin-left: 25px;
+}
+
+.card.firstCardOfSuit {
+    margin-left: 10px;
+}
+
+.card.selectableCardNorth:hover {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.card.selectableCardSouth:hover {
+    margin-top: -10px;
+    cursor: pointer;
+}
+
+.card.newline {
+    clear: left;
+}
+
+.card.newlineEast {
+    clear: right;
+}
+
+/*dealerArea*/
+.playAreaDealer .winningCard {
+    background-color: #FFF04A;
+}
+
+.playAreaDealer .bigArrow {
+    font-size: 45px;
+    color: #FFF;
+    float: left;
+    margin-top: -30px;
+    margin-left: 11px;
+}
+
+.playAreaDealer .west {
+    float: left;
+    margin-top: 23%;
+    height: 92px;
+    width: 44px;
+    margin-right: 4px;
+}
+
+.playAreaDealer .south {
+    height: 92px;
+    width: 44px;
+}
+
+.playAreaDealer .north {
+    height: 92px;
+    width: 44px;
+    margin-bottom: 4px;
+}
+
+.playAreaDealer .east {
+    float: left;
+    height: 92px;
+    width: 44px;
+    margin-top: 23%;
+    margin-left: 4px;
+}
+
+.playAreaDealer .box {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: rgb(36, 133, 19) 1px solid;
+}
+
+.playAreaDealer .card {
+    margin-top: 6px;
+}
+
+.playAreaDealer .letter {
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 36px;
+    float: left;
+    margin-top: 27px;
+    color: rgb(36, 133, 19);
+}
+
+/*sidebar*/
+.sideBarDialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.initialNewDeal {
+    margin: 40px 0 0 131px;
+}
+
+.sideBarDialog .ui-dialog-titlebar {
+    background-color: #cdcdcd;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    color: #333;
+    font-size: 18px;
+    font-family: Rockwell;
+    padding: 0 0 0 8px !important;
+    width: 150px;
+}
+
+.sideBarDialog .ui-dialog-content {
+    width: 150px;
+    overflow: hidden !important;
+}
+
+.sideBar {
+    position: absolute;
+    width: 150px;
+    height: 640px;
+    left: 780px;
+    border: 0px solid black;
+    margin: auto;
+    padding: 10px;
+    top: 0px;
+    border-radius: 1em;
+    line-height: 25px;
+    background-color: #333;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.sidebarSection {
+    font-family: Rockwell;
+    padding: 5px 10px 5px 10px;
+    line-height: -30px;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    margin-bottom: 10px;
+}
+
+    .sidebarSection a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+    }
+
+.rulesLink a {
+    font-family: Trebuchet MS;
+    font-size: 50px;
+}
+
+#sideBarCount {
+    height: 190px;
+}
+
+#sideBarContract {
+    height: 140px;
+}
+
+.handEstimation {
+    color: #333;
+    background-color: lightgrey;
+    border-collapse: separate;
+    border: 1px solid lightgrey;
+    padding: 0.3em 0.3em 0.5em 0.3em;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    _-webkit-border-radius: 5px;
+    margin-bottom: 3px;
+}
+
+    .handEstimation th {
+        padding: 0 0 0 0.4em;
+        font-size: 11px;
+        font-family: Georgia;
+    }
+
+    .handEstimation .suit {
+        font-size: 1.7em;
+        padding-right: 2px;
+    }
+
+    .handEstimation tbody td {
+        font-size: 20px;
+        width: 25px;
+        text-align: center;
+    }
+
+    .handEstimation input[type='text'] {
+        width: 18px;
+        font-size: 20px;
+        height: 24px;
+        text-align: center;
+        margin-bottom: 1px;
+        padding: 2px;
+    }
+
+    .handEstimation .overEstimated {
+        border: 1px solid red;
+    }
+
+    .handEstimation .correctlyEstimated {
+        border: 1px solid green;
+    }
+
+#sideBarContract {
+}
+
+#sideBarPrevTrick {
+    height: 140px;
+}
+
+.prevTrick {
+    -webkit-transform: scale(0.6, 0.6);
+    -moz-transform: scale(0.6, 0.6);
+    -ms-transform: scale(0.6, 0.6);
+    transform: scale(0.6, 0.6);
+    margin-top: 10px;
+    width: 140px;
+}
+
+    .prevTrick .eastwest {
+        float: left;
+        margin-top: 50px;
+        height: 92px;
+        width: 44px;
+    }
+
+    .prevTrick .northsouth {
+        height: 92px;
+        width: 44px;
+    }
+
+/*buttons*/
+.btn-xlarge {
+    font-size: 32px;
+    line-height: 1em;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+    .btn-xlarge [class^="icon-"] {
+        margin-top: 1px;
+    }
+
+/*result*/
+.resultArea {
+    height: 240px;
+    color: #333;
+    position: absolute;
+    width: 300px;
+    margin-left: 220px;
+    margin-top: 200px;
+    z-index: 1;
+    overflow: hidden;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid black;
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 12px #141155;
+    -webkit-box-shadow: 2px 2px 12px #141155;
+    box-shadow: 2px 2px 12px #141155;
+}
+
+.resultPanel .title {
+    text-align: center;
+    color: White;
+    margin-top: 10px;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.resultPanel hr {
+    margin: 0;
+}
+
+.resultPanel .message {
+    color: yellow;
+}
+
+.resultPanel .btn.first {
+    margin-left: 60px;
+}
+
+.resultPanel p {
+    color: black;
+}
+
+    .resultPanel p a {
+        color: white;
+    }
+
+
+.results-buttons {
+    margin-top: 10px;
+}
+
+.resultPanel {
+    text-align: center;
+    font-size: 22px;
+    color: white;
+    padding: 10px;
+    height: 240px;
+    overflow: auto;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border: 0px solid black;
+    background-color: rgb(39,71,201);
+    /* box shadow */
+    -moz-box-shadow: 2px 2px 12px #FFF;
+    -webkit-box-shadow: 2px 2px 12px #FFF;
+    box-shadow: 2px 2px 12px #1c1876;
+}
+
+#rulesBox {
+    display: none;
+    left: -350px;
+    position: absolute;
+    width: 300px;
+    font-size: 18px;
+}
+
+.replayTable {
+    width: 180px;
+}
+
+    .replayTable td {
+        font-size: 14px;
+    }
+
+    .replayTable .won-trick {
+        color: yellow;
+    }
+
+    .replayTable tr.green {
+        background: green;
+    }
+
+.sideBar .nav {
+    margin-bottom: 0;
+}
+
+.sideBar .nav-tabs > li > a, .sideBar .nav-pills > li > a {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+
+.table tbody tr.success > td {
+    background-color: #dff0d8;
+}
+
+.table tbody tr.error > td {
+    background-color: #f2dede;
+}
+
+.table tbody tr.warning > td {
+    background-color: #fcf8e3;
+}
+
+.table tbody tr.info > td {
+    background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover > td {
+    background-color: #d0e9c6;
+}
+
+.table-hover tbody tr.error:hover > td {
+    background-color: #ebcccc;
+}
+
+.table-hover tbody tr.warning:hover > td {
+    background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover > td {
+    background-color: #c4e3f3;
+}
+
+.sidebarSection .table tbody tr {
+    cursor: default;
+}
+
+.replay-hands {
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.replay-others {
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.rotate180 {
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -ms-writing-mode: lr-tb;
+    writing-mode: lr-tb;
+}
+
+.card div.card-value {
+    margin-top: -8px;
+    margin-left: -4px;
+}
+
+
+.player .card div.card-value {
+    margin-top: 10px;
+    margin-left: -4px;
+}
+
+
+.card div.card-symbol {
+    margin-top: -4px;
+    margin-left: -2px;
+}
+
+#gameLayout {
+    overflow: hidden;
+}
+
+    #gameLayout > div {
+        position: relative;
+        float: left;
+        left: 50%;
+        margin-top: 18px;
+    }
+
+.auctionPanel {
+    width: 250px;
+    height: 160px;
+}
+
+    .auctionPanel h2 {
+        text-align: center;
+        color: white;
+        font-size: 30px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .auctionPanel p {
+        text-align: center;
+        color: white;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+.cards-row {
+    height: 85px;
+}
+
+    .cards-row.east .card {
+        float: right;
+    }
+
+.deal-number {
+    margin-left: 20px;
+    z-index: 9999;
+    margin-top: -620px;
+    color: white;
+}
+
+.deal-number-value {
+    margin-left: 10px;
+}
+
+.table-caption {
+    margin-left: 20px;
+}
+
+.replay-btns {
+    top: 20px;
+    padding-left: 390px;
+}
+
+
+.time-label {
+    margin-left: 20px;
+    color: yellow;
+}
+
+.sidebar-replay {
+    width: 200px;
+}
+
+.horisontal-cards-holder {
+    position: relative;
+    float: left;
+    left: 50%;
+}
+
+.horisontal-cards-container {
+    position: relative;
+    float: left;
+    left: -50%;
+}
+
+.cards-devider {
+    width: 5px;
+    height: 80px;
+    float: left;
+}
+
+.player-name-under-cards {
+    text-align: center;
+    height: 18px;
+    color: #AECC23;
+}
+
+.auction-contract {
+    padding: 5px;
+    -moz-text-shadow: 0px 0px 10px #0BF;
+    -webkit-text-shadow: 0px 0px 10px #0BF;
+    text-shadow: 0px 0px 10px #0BF;
+    font-weight: bolder;
+    font-size: 40px;
+}
+
+.on-top {
+    z-index: 9999;
+}
+
+div.prev-card-value {
+    margin-top: 4px;
+    margin-left: -4px;
+}
+
+div.prev-card-symbol {
+    margin-left: -2px;
+}
+
+.medium-label {
+    font-size: 16px;
+}
+
+.big-label {
+    float: left;
+    font-size: 20px;
+}
+
+.label-card-value {
+    margin-left: 6px;
+    float: left;
+}
+
+.label-card-symbol {
+    margin-left: 3px;
+    float: left;
+}
+
+.auction-title {
+}
+
+.contract-symbol {
+}
+
+.contract-value {
+}
+
+.symbol-bigger {
+    font-size: 1.2em;
+}
+
+.sidebarSection #play {
+    margin-bottom: 10px;
+}

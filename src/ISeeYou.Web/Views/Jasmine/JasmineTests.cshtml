@@ -1,0 +1,42 @@
+﻿@using ISeeYou.Web
+@using Poker.Web.App_Start
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Jasmine Runner v2.0.0</title>
+    <link rel="shortcut icon" type="image/png" href="~/Scripts/jasmine-2.0.0/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/jasmine-2.0.0/jasmine.css">
+
+    <script type="text/javascript" src="~/Scripts/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="~/Scripts/jasmine-2.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="~/Scripts/jasmine-2.0.0/jasmine-html.js"></script>
+    <script type="text/javascript" src="~/Scripts/jasmine-2.0.0/boot.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-mocks.js"></script>
+</head>
+
+<body>
+
+    @*-- start scripts --*@
+
+    @*<script type="text/javascript" src="~/App/eventAggregatorService.js"></script>*@
+    <script src="/app/eventAggregatorService.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/app/signals.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
+    <script src="/assets/vendor/angular-spiner/js/rzslider.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/App/app.js"></script>
+    <script type="text/javascript" src="~/App/tables.js"></script>
+    <script type="text/javascript" src="~/App/game.js"></script>
+
+    <script src="~/App/Tests/gameTest.js"></script>
+    <script src="~/App/Tests/tablesTests.js"></script>
+
+    @*-- end scripts --*@
+
+</body>
+</html>
+

@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization
+@model ISeeYou.Web.Models.Security.SignUpModel
+
+@{
+    Layout = "_LoginLayout.cshtml";
+}
+
+<div id="register" class="animate form">
+    <form  action="@Url.Action("Register")" class="form-signin well" method="POST" autocomplete="on">
+        <h1>Sign up </h1>
+        @Html.ValidationSummary()
+        @Html.HiddenFor(x => x.ReturnUrl)
+        <p>
+            <label for="usernamesignup" class="uname">Your username</label>
+            <input id="usernamesignup" name="Username" required="required" type="text" value="@Model.Username"/>
+        </p>
+        <p>
+            <label for="emailsignup" class="youmail">Your email</label>
+            <input id="emailsignup" name="EmailAddress" required="required" type="email" value="@Model.EmailAddress"/>
+        </p>
+        <p>
+            <label for="passwordsignup" class="youpasswd">Your password </label>
+            <input id="passwordsignup" name="Password" required="required" type="password" />
+        </p>
+        <p>
+            <label for="passwordsignup_confirm" class="youpasswd">Please confirm your password </label>
+            <input id="passwordsignup_confirm" name="ConfirmedPassword" required="required" type="password" />
+        </p>
+        <p class="signin button">
+            <input type="submit" class="btn btn-large" value="Sign up" />
+        </p>
+        <p class="change_link">
+        </p>
+    </form>
+</div>

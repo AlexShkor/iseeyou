@@ -1,0 +1,39 @@
+﻿.gameBox {
+    position: absolute;
+    left: 650px;
+    text-align: center;
+    border: solid 2px white;
+    padding: 13px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.gameTitle {
+    color: #FFCC33;
+    font-family: 'PT Sans Narrow';
+    font-size: 32px;
+    font-weight: 600;
+    float: left;
+    margin-left: 50px;
+    margin-top: -50px;
+}
+
+.card {
+    border: 1.0px solid black;
+    width: 0.7em;
+    height: 1.7em;
+    padding: 3px 11px 13px 4px;
+    margin-left: 6px;
+    float: left;
+    font-size: 2em;
+    text-align: center;
+    line-height: 100%;
+    height: 1.7em;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    letter-spacing: -7px;
+    font-family: "Georgia";
+    background-color: #FFF;
+    margin-top: 0.33em;
+}

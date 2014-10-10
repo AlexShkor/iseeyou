@@ -1,0 +1,14 @@
+﻿@{
+    Layout = null;
+}
+<div class="container">
+    <div class="well">
+        <p>My avatar:</p>
+        <img ng-src="{{currentAvatar}}"/>
+    </div>
+    <div class="row">
+        <div class="span2" ng-repeat="avatar in avatars">
+            <a href="#" ng-click="choose(avatar)"><img ng-src="{{avatar.Url}}" /></a>
+        </div>
+    </div>
+</div>

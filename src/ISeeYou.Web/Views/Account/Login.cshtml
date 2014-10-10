@@ -1,0 +1,31 @@
+﻿@using System.Web.Optimization
+@model ISeeYou.Web.Models.Security.LoginModel
+
+@{
+    Layout = "_LoginLayout.cshtml";
+}
+<div id="login" class="animate form">
+    <form  action="@Url.Action("Login")" class="form-signin well" method="POST" autocomplete="on">
+        <h1>Log in</h1>
+        @Html.ValidationSummary()
+        @Html.HiddenFor(x => x.ReturnUrl)
+        <p>
+            <label for="email" class="youmail">Your email</label>
+            <input id="email" name="email" required="required" type="text" placeholder="mymail@mail.com" />
+        </p>
+        <p>
+            <label for="password" class="youpasswd">Your password </label>
+            <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" />
+        </p>
+        <p class="keeplogin">
+            @Html.CheckBoxFor(x => x.RememberMe)
+            <label for="RememberMe">Keep me logged in</label>
+        </p>
+        <p class="login button">
+            <input type="submit" class="btn btn-large" value="Login" />
+        </p>
+        <p class="change_link">
+            <a id="forgotPasswordLink" href="/account/forgot">Forgot password?</a>
+        </p>
+    </form>
+</div>
