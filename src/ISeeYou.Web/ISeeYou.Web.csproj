@@ -248,14 +248,12 @@
     <Compile Include="Controllers\ActionResults\JsonNetResult.cs" />
     <Compile Include="Controllers\ActionResults\LowerCamelCaseContractResolver.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="FacebookClientFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Security\LoginModel.cs" />
     <Compile Include="Models\Security\SignUpModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewDataFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -281,8 +279,6 @@
     <Content Include="Assets\app\css\landing.css" />
     <Content Include="Assets\app\css\login.css" />
     <Content Include="Assets\app\css\m-buttons.css" />
-    <Content Include="Assets\app\css\poker.css" />
-    <Content Include="Assets\app\css\table.css" />
     <Content Include="Assets\avatars\avatar-10.jpg" />
     <Content Include="Assets\avatars\avatar-110.jpg" />
     <Content Include="Assets\avatars\avatar-18.jpg" />
@@ -792,7 +788,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>38800</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:666/</IISUrl>
+          <IISUrl>http://localhost:3434/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

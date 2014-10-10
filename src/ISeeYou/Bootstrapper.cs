@@ -108,7 +108,7 @@ namespace ISeeYou
         {
             var namespaces = isReplayMode
                 // Only View and Index handlers are used when replaying
-                ? new[] { "Poker.Handlers.ViewHandlers", "Poker.Handlers.ViewHandlers" }
+                ? new[] { "ISeeYou.Handlers.ViewHandlers", "ISeeYou.Handlers.ViewHandlers" }
                 // but all handlers are used in standard mode
                 : new string[] { };
 

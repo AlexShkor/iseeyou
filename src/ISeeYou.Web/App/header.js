@@ -1,4 +1,4 @@
-﻿angular.module('poker.header', []).controller('HeaderCtrl', 
+﻿angular.module('app.header', []).controller('HeaderCtrl',
 function ($scope, $location, eventAggregatorService, $timeout, $http) {
    
     $scope.logout = function () {

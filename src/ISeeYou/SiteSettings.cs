@@ -4,7 +4,7 @@ namespace ISeeYou
 {
     public class SiteSettings
     {
-        public const string SiteId = "ParalectPoker";
+        public const string SiteId = "ISeeYou";
 
         [SettingsProperty("mongo.events_connection_string")]
         public string MongoEventsConnectionString { get; set; }

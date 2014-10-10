@@ -42,14 +42,12 @@ namespace ISeeYou.Web.Controllers
             CryptographicHelper cryptoHelper, 
             IdGenerator idGenerator, 
             AuthenticationService authenticationService, 
-            FacebookClientFactory fbFactory,
             SiteSettings settings)
         {
             _usersService = usersService;
             _cryptoHelper = cryptoHelper;
             _idGenerator = idGenerator;
             _authenticationService = authenticationService;
-            _fb = fbFactory.GetClient();
             _settings = settings;
         }
 

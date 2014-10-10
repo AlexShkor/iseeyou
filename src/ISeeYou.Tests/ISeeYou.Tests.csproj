@@ -63,7 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Poker.Web\ISeeYou.Web.csproj">
+    <ProjectReference Include="..\ISeeYou.Web\ISeeYou.Web.csproj">
       <Project>{B9D0EA51-72B6-4591-B403-06DB1E8BA39D}</Project>
       <Name>ISeeYou.Web</Name>
     </ProjectReference>

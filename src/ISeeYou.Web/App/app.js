@@ -1,11 +1,9 @@
-var app = angular.module("poker",
+var app = angular.module("app",
     ["ui.router",
      "hubs.service",
      "event-agregator",
-     "poker.home",
-     "poker.header",
-     "poker.tables",
-     "poker.game"]);
+     "app.home",
+     "app.header"]);
 app.value('$', $);
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 

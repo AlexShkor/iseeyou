@@ -1,12 +1,11 @@
 ﻿@using System.Web.Optimization
 @using ISeeYou.Web
-@using Poker.Web.App_Start
 
 <!DOCTYPE html>
-<html ng-app="poker">
+<html ng-app="app">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>CQRS poker</title>
+    <title>I SEE YOU</title>
 
     <link rel="SHORTCUT ICON" href="~/Assets/app/css/img/favicon.ico" />
     @Styles.Render("~/content/css")
@@ -35,11 +34,9 @@
     <script src="/app/eventAggregatorService.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
     <script src="/app/signals.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
 
-   
+
     <script src="/app/header.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
     <script src="/app/home.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
-    <script src="/app/tables.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
-    <script src="/app/game.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
 
     <script src="/app/app.js?v=@BundleConfig.ContentVersion" type="text/javascript"></script>
 

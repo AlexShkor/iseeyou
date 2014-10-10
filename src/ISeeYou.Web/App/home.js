@@ -1,5 +1,5 @@
 
-angular.module('poker.home', [])
+angular.module('app.home', [])
     .controller("HomeController", function($scope) {
         var self = this;
         this.$scope = $scope;
