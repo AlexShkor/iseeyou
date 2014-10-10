@@ -115,6 +115,11 @@
     <Compile Include="Authentication\AkqPrincipal.cs" />
     <Compile Include="Authentication\AuthenticationService.cs" />
     <Compile Include="Authentication\FacebookAuthorize.cs" />
+    <Compile Include="Domain\Aggregates\Subject\Commands\CreateSubject.cs" />
+    <Compile Include="Domain\Aggregates\Subject\SiteApplicationService.cs" />
+    <Compile Include="Domain\Aggregates\Subject\SubjectAggregate.cs" />
+    <Compile Include="Domain\Aggregates\Subject\Events\SubjectCreated.cs" />
+    <Compile Include="Domain\Aggregates\Subject\SubjectState.cs" />
     <Compile Include="Domain\Aggregates\User\Commands\SetProfileAvatar.cs" />
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="Platform\Mvc\BaseController.cs" />
