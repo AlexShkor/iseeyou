@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Fetcher", "src\ISee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Vk", "src\ISeeYou.Vk\ISeeYou.Vk.csproj", "{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkAPIAsync", "src\ISeeYou.VkAPI45\VkAPIAsync.csproj", "{831AA7CD-7A50-4C32-A6C1-6C4371087836}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
