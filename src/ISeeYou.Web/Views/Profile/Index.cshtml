@@ -1,12 +1,20 @@
-﻿@{
-    Layout = null;
-}
+﻿@model ISeeYou.Web.Controllers.ProfileViewModel
+
 <div class="container">
     <div class="well">
-        <h4>My Profile:</h4>
-        not implemented
+        <h4>Профайл @Model.User.UserName</h4>
     </div>
-    <ul class="nav nav-pills">
-        <li><a href="/profile/avatar">Change avatar</a></li>
-    </ul>
+
+    <div>
+        @foreach (var subject in Model.User.Subjects)
+        {
+            <div>@subject.Name</div>
+        }
+    </div>
+
+
+    <div>
+        <a class="btn btn-large btn-info" href="@Url.Action("AddSubject", "Subjects")">Добавьте нового обозреваемого юзера !</a>
+    </div>
+
 </div>

@@ -11,7 +11,7 @@ namespace ISeeYou.Web
 
             routes.MapRoute(
                "Default", "{*path}",
-                defaults: new { controller = "Home", action = "Index"}
+                defaults: new { controller = "Subjects", action = "Index" }
             );
         }
     }

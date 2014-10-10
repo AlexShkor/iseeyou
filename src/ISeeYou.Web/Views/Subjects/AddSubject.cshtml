@@ -1,0 +1,9 @@
+﻿@model ISeeYou.Web.Controllers.SubjectViewModel
+
+    <form method="POST" action="/subjects/addSubject">
+        <label for="SubjectUrl" style="display: inline-block">Введите адресную строку пользователя (адресс домашней страницы)</label>
+        <div>
+            <button type="submit" class="btn btn-success">Добавить!</button>
+            <input id="SubjectUrl" name="SubjectUrl" class="span6" style="margin: 5px" required />
+        </div>
+    </form>

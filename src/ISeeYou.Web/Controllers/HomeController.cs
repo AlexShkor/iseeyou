@@ -13,7 +13,9 @@ namespace ISeeYou.Web.Controllers
         [GET("", IgnoreRoutePrefix = true)]
         public ActionResult Index()
         {
-            return View("Templates/Empty","_BaseLayout");
+
+            return RedirectToAction("Index", "Subjects");
+            //return View("Templates/Empty","_BaseLayout");
         }
     }
 }

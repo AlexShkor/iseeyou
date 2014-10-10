@@ -1,0 +1,19 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>I SEE YOU</title>
+    <link rel="SHORTCUT ICON" href="~/Assets/app/css/img/favicon.ico" />
+    @Styles.Render("~/content/css")
+</head>
+<body class="landing-layout">
+    @Html.Partial("Navigation")
+    <div id="wrapper" class="container">
+        @RenderBody()
+    </div>
+</body>
+</html>
