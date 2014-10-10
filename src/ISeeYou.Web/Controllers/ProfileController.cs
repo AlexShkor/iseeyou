@@ -2,6 +2,7 @@
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using ISeeYou.Platform.Mvc;
+using ISeeYou.Views;
 using ISeeYou.ViewServices;
 
 namespace ISeeYou.Web.Controllers
@@ -16,10 +17,11 @@ namespace ISeeYou.Web.Controllers
             _users = users;
         }
 
-        [GET("view")]
+        [GET("index")]
         public ActionResult Index()
         {
-            return View();
+            var model = new ProfileViewModel() {User = _users.GetById(UserId)};
+            return View(model);
         }
 
         [GET("choose-avatar")]
@@ -28,5 +30,10 @@ namespace ISeeYou.Web.Controllers
             return View();
         }
 
+    }
+
+    public class ProfileViewModel
+    {
+        public UserView User { get; set; } 
     }
 }
