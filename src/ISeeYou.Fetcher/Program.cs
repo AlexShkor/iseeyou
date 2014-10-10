@@ -10,6 +10,7 @@ namespace ISeeYou.Fetcher
     {
         static void Main(string[] args)
         {
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using ISeeYou.Documents;
 using ISeeYou.Platform.Mongo;
 using ISeeYou.Views;
 using MongoDB.Driver;
@@ -70,6 +71,16 @@ namespace ISeeYou.Databases
         public MongoCollection<SiteView> Sites
         {
             get { return GetCollection<SiteView>(ViewCollections.Sites); }
+        }
+
+        public MongoCollection<SourceDocument> Sources
+        {
+            get { return GetCollection<SourceDocument>(ViewCollections.Sources); }
+        }
+
+        public MongoCollection<SubjectView> Subjects
+        {
+            get { return GetCollection<SubjectView>(ViewCollections.Subjects); }
         }
 
     }

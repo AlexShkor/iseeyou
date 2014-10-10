@@ -20,7 +20,7 @@ namespace ISeeYou.ViewServices
             _crypto = crypto;
         }
 
-        protected override MongoCollection<UserView> Items
+        public override MongoCollection<UserView> Items
         {
             get { return Database.Users; }
         }

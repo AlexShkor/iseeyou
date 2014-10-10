@@ -13,7 +13,7 @@ namespace ISeeYou.ViewServices
         {
         }
 
-        protected override MongoCollection<SiteView> Items
+        public override MongoCollection<SiteView> Items
         {
             get { return Database.Sites; }
         }

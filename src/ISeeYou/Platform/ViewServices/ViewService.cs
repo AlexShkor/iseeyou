@@ -15,7 +15,7 @@ namespace ISeeYou.Platform.ViewServices
             Database = database;
         }
 
-        protected abstract MongoCollection<T> Items { get; }
+        public abstract MongoCollection<T> Items { get; }
 
         public virtual T GetById(string id)
         {

@@ -115,6 +115,7 @@
     <Compile Include="Authentication\AkqPrincipal.cs" />
     <Compile Include="Authentication\AuthenticationService.cs" />
     <Compile Include="Authentication\FacebookAuthorize.cs" />
+    <Compile Include="Documents\SourceDocument.cs" />
     <Compile Include="Domain\Aggregates\Subject\Commands\CreateSubject.cs" />
     <Compile Include="Domain\Aggregates\Subject\SiteApplicationService.cs" />
     <Compile Include="Domain\Aggregates\Subject\SubjectAggregate.cs" />
@@ -203,6 +204,8 @@
     <Compile Include="Platform\ViewModels\BaseFilterModel.cs" />
     <Compile Include="Platform\ViewModels\BaseViewModel.cs" />
     <Compile Include="Platform\ViewModels\ValidationError.cs" />
+    <Compile Include="SourceAnalyzer.cs" />
+    <Compile Include="SourceFetcher.cs" />
     <Compile Include="ViewServices\SiteViewService.cs" />
     <Compile Include="Handlers\ViewHandlers\UserViewHandler.cs" />
     <Compile Include="Helpers\CryptographicHelper.cs" />
@@ -289,8 +292,11 @@
     <Compile Include="Platform\Utilities\IndexedEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Databases\ViewDatabase.cs" />
+    <Compile Include="ViewServices\SourcesViewService.cs" />
+    <Compile Include="ViewServices\SubjectViewService.cs" />
     <Compile Include="ViewServices\UserViewService.cs" />
     <Compile Include="Views\Site\SiteView.cs" />
+    <Compile Include="Views\SubjectView.cs" />
     <Compile Include="Views\UserView.cs" />
   </ItemGroup>
   <ItemGroup>
