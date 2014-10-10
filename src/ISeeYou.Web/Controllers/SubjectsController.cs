@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using ISeeYou.Platform.Mvc;
+using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
 using ISeeYou.Vk.Helpers;
@@ -18,10 +19,12 @@ namespace ISeeYou.Web.Controllers
     public class SubjectsController : BaseController
     {
         private readonly UsersViewService _users;
+        private readonly SubjectViewService _subjects;
 
-        public SubjectsController(UsersViewService users)
+        public SubjectsController(UsersViewService users, SubjectViewService subjects)
         {
             _users = users;
+            _subjects = subjects;
         }
 
         [GET("index")]
@@ -63,11 +66,18 @@ namespace ISeeYou.Web.Controllers
         public async Task<ActionResult> AddSubject(SubjectViewModel model)
         {
             var id = GetSubjectFromUrl(model.SubjectUrl);
-            
+            var subject = await GetUserFromVk(id);
+            var user = _users.GetById(UserId);
+            _subjects.Save(new SubjectView
+            {
+                Id = subject.Id.Value,
+                Name = string.Format("{0} {1}", subject.FacultyName, subject.LastName),
+                Token = user.Token
+            });
             return View();
         }
 
-        private async Task<string> GetSubjectFromUrl(string url)
+        private string GetSubjectFromUrl(string url)
         {
             string id;
             
@@ -84,9 +94,9 @@ namespace ISeeYou.Web.Controllers
 
         }
 
-        private async Task<object> GetUserFromVk(string id)
+        private async Task<User> GetUserFromVk(string id)
         {
-            return await Users.Get(new List<string>() {id}, new List<string>() {"sex"});
+            return (await Users.Get(new List<string>() {id}, new List<string>() {"sex"}))[0];
         }
 
 
