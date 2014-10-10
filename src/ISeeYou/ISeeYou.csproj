@@ -111,12 +111,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Aggregates\Subject\Commands\AddPhotoLike.cs" />
     <Compile Include="Authentication\AkqIdentity.cs" />
     <Compile Include="Authentication\AkqPrincipal.cs" />
     <Compile Include="Authentication\AuthenticationService.cs" />
     <Compile Include="Authentication\FacebookAuthorize.cs" />
     <Compile Include="Documents\SourceDocument.cs" />
     <Compile Include="Domain\Aggregates\Subject\Commands\CreateSubject.cs" />
+    <Compile Include="Domain\Aggregates\Subject\Events\PhotoLikeAdded.cs" />
     <Compile Include="Domain\Aggregates\Subject\SiteApplicationService.cs" />
     <Compile Include="Domain\Aggregates\Subject\SubjectAggregate.cs" />
     <Compile Include="Domain\Aggregates\Subject\Events\SubjectCreated.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Domain\Aggregates\User\Commands\SetProfileAvatar.cs" />
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="GlobalQueue.cs" />
+    <Compile Include="PhotoAnalyzer.cs" />
     <Compile Include="Platform\Mvc\BaseController.cs" />
     <Compile Include="Hubs\UsersHub.cs" />
     <Compile Include="Platform\Mongo\IdGenerator.cs" />

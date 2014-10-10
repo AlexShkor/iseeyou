@@ -8,7 +8,7 @@ namespace ISeeYou.Platform.Domain
     {
         private readonly Dictionary<Type, Action<object>> _handlers = new Dictionary<Type, Action<object>>();
 
-        protected virtual AggregateState On<TMessage>(Action<TMessage> handler) where TMessage : IEvent
+        protected AggregateState On<TMessage>(Action<TMessage> handler) where TMessage : IEvent
         {
             _handlers.Add(typeof(TMessage), o =>
             {
