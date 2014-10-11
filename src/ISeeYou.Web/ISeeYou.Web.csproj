@@ -299,6 +299,7 @@
     <Content Include="Assets\avatars\avatar-94.jpg" />
     <Content Include="Assets\chips.png" />
     <Content Include="Assets\avatars\sample_avatar.jpg" />
+    <Content Include="Assets\app\css\img\like_vk.png" />
     <Content Include="Assets\vendor\amplify.js" />
     <Content Include="Assets\vendor\amplify.min.js" />
     <Content Include="Assets\vendor\angular-spiner\css\rzslider.css" />
