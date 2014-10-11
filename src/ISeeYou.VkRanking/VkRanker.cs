@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
+using ISeeYou.Helpers;
 using ISeeYou.ViewServices;
 using ISeeYou.VkRanking.Models;
 using MongoDB.Driver;
@@ -75,6 +76,7 @@ namespace ISeeYou.VkRanking
                         }
                         catch (Exception ex)
                         {
+                            Console.WriteLine("RankByCommonFriends Error: \n\r" + JsonHelper.ToJson(ex));
                             continue;
                         }
                     }
