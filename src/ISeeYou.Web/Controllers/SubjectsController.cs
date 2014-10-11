@@ -77,7 +77,8 @@ namespace ISeeYou.Web.Controllers
                 Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
                 Token = user.Token
             });
-            user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = subject.LastName });
+         
+            user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
             _users.Save(user);
             
             return RedirectToAction("Index", "Profile");
