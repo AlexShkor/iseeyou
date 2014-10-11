@@ -32,16 +32,21 @@ namespace ISeeYou
             }
         }
 
+        private List<int> GetSubjects(int id)
+        {
+            return _sources.Items.Find(Query.EQ("_id", id)).SetFields("SubjectId").Select(x=> x.SubjectId).ToList();
+        }
+
         private void ResetRank(int sourceId)
         {
             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, sourceId),
                 Update<SourceDocument>.Set(x => x.Rank, 0));
         }
 
-        private List<int> GetSubjects(int sourceId)
-        {
-            return _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
-                    builder => builder.EQ(x => x, sourceId))).SetFields("Id").Select(x => x.Id).ToList();
-        }
+        //private List<int> GetSubjects(int sourceId)
+        //{
+        //    return _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
+        //            builder => builder.EQ(x => x, sourceId))).SetFields("Id").Select(x => x.Id).ToList();
+        //}
     }
 }

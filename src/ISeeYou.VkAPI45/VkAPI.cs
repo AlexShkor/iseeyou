@@ -77,7 +77,7 @@ namespace VkAPIAsync
             {
                 return _accessToken;
             }
-            internal set
+            set
             {
                 _accessToken = value;
             }

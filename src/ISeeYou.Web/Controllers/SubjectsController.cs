@@ -74,7 +74,7 @@ namespace ISeeYou.Web.Controllers
             _subjects.Save(new SubjectView
             {
                 Id = subject.Id.Value,
-                Name = string.Format("{0} {1}", subject.FacultyName, subject.LastName),
+                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
                 Token = user.Token
             });
             user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = subject.LastName });
@@ -91,11 +91,7 @@ namespace ISeeYou.Web.Controllers
             if (id.Length > 0 && char.IsDigit(id, 0))
                 return id;
 
-            id = UrlUtility.LastSegment(url);
-            var user = GetUserFromVk(id);
-
-            return user.Id.ToString();
-
+            return UrlUtility.LastSegment(url);
         }
 
         private async Task<User> GetUserFromVk(string id)
