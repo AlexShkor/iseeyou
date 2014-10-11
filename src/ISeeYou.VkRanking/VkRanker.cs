@@ -67,6 +67,7 @@ namespace ISeeYou.VkRanking
                     {
                         try
                         {
+                            Task.Delay(1000).Wait();
                             var commonFriends = Friends.GetMutual(subject.Id.Value, friend.Id).Result;
                             _ranks[friend.Id] += commonFriends.Count;
                             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.Id), Update<SourceDocument>.Inc(x => x.Rank, commonFriends.Count).Set(x => x.SubjectId, subject.Id), UpdateFlags.Upsert);
