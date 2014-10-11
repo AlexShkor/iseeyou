@@ -17,6 +17,7 @@ namespace ISeeYou.Ranker
     {
         static int Main(string[] args)
         {
+            Console.WriteLine("Starting");
             StructureMap.IContainer container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
@@ -27,12 +28,14 @@ namespace ISeeYou.Ranker
             var token = application != null ? application.Token : null;
             if (token == null)
             {
+                Console.WriteLine("Exiting");
                 return 1;
             }
 
             VkAPI.AccessToken = token;
             while (true)
             {
+                Console.WriteLine("Iteration");
                 var all = subjects.GetAll();
                 foreach (var subjectView in all)
                 {
