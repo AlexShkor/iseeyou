@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VkAPIAsync.Wrappers.Common;
 using VkAPIAsync.Wrappers.Photos;
@@ -36,14 +37,24 @@ namespace ISeeYou
             ListCount<Photo> result = null;
             do
             {
-                result = Photos.GetAll(sourceId, count, offset).Result;
-                foreach (var photo in result)
+                try
                 {
-                    yield return photo;
+
+                    result = Photos.GetAll(sourceId, count, offset).Result;
                 }
-                Task.Delay(300).Wait();
-                offset += count;
-            } while (result.TotalCount > offset);
+                catch 
+                {
+                }
+                if (result != null)
+                {
+                    foreach (var photo in result)
+                    {
+                        yield return photo;
+                    }
+                    Task.Delay(300).Wait();
+                    offset += count;
+                }
+            } while (result != null && result.TotalCount > offset);
 
         }
     }
