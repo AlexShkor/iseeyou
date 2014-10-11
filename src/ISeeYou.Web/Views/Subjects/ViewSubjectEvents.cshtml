@@ -1,0 +1,22 @@
+﻿@model ISeeYou.Web.Controllers.SubjectEventsViewModel
+           
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th><p style="margin-left: 30px">Фото</p></th>
+                <th>Источник</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var evt in Model.Events)
+            {
+              
+                <tr>
+                    <td><img src="@evt.Image" style="margin-left: 30px" /></td>
+                    <td style="vertical-align: middle"><a href="@string.Format("http://www.vk.com/id{0}", evt.SourceId)" target="_blank">@string.Format("vk.com/id{0}", evt.SourceId)</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

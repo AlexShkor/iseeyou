@@ -19,7 +19,7 @@
                 @foreach (var subject in Model.User.Subjects)
                 {
                     <tr>
-                        <td>@subject.Name</td>
+                        <td><a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a></td>
                         <td>@subject.Id</td>
                     </tr>
                 }

@@ -11,6 +11,7 @@ using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
 using ISeeYou.Vk.Helpers;
+using MongoDB.Driver.Builders;
 using VkAPIAsync.Wrappers.Users;
 
 namespace ISeeYou.Web.Controllers
@@ -20,11 +21,13 @@ namespace ISeeYou.Web.Controllers
     {
         private readonly UsersViewService _users;
         private readonly SubjectViewService _subjects;
+        private readonly EventsViewService _events;
 
-        public SubjectsController(UsersViewService users, SubjectViewService subjects)
+        public SubjectsController(UsersViewService users, SubjectViewService subjects, EventsViewService events)
         {
             _users = users;
             _subjects = subjects;
+            _events = events;
         }
 
         [GET("index")]
@@ -100,6 +103,17 @@ namespace ISeeYou.Web.Controllers
             return (await Users.Get(new List<string>() {id}, new List<string>() {"sex"}))[0];
         }
 
+        [GET("ViewSubjectEvents")]
+        public ActionResult ViewSubjectEvents(int id)
+        {
+            var model = new SubjectEventsViewModel()
+            {
+                Events = _events.Items.Find(Query.EQ("SubjectId", id)).Select(x => x).ToList<EventView>()
+            };
+
+            return View(model);
+        }
+
     }
 
 
@@ -112,4 +126,10 @@ namespace ISeeYou.Web.Controllers
     {
         public string Url { get; set; }
     }
+
+    public class SubjectEventsViewModel
+    {
+        public List<EventView> Events { get; set; } 
+    }
+
 }
