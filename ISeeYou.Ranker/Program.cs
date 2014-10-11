@@ -21,14 +21,21 @@ namespace ISeeYou.Ranker
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var subjects = container.GetInstance<SubjectViewService>();
-            var token = container.GetInstance<SiteSettings>().FetcherToken;
+            var appId = container.GetInstance<SiteSettings>().FetcherToken;
+            var application = container.GetInstance<AppsViewService>()
+                .Items.FindOne(Query<AppView>.EQ(x => x.Id, appId));
+            var token = application != null ? application.Token : null;
+            if (token == null)
+            {
+                return;
+            }
+
             VkAPI.AccessToken = token;
             while (true)
             {
                 var all = subjects.GetAll();
                 foreach (var subjectView in all)
                 {
-                    VkAPI.AccessToken = subjectView.Token ?? VkAPI.AccessToken;
                     try
                     {
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
