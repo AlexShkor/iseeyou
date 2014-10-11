@@ -43,6 +43,7 @@ namespace ISeeYou.VkRanking
         public List<RankedProfile> UpdateRankedProfiles(int id)
         {
             var profile = Users.Get(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
+            Task.Delay(400).Wait();
             var friends = Friends.Get(id, new[] { "sex", "university", "schools" }).Result;
             Console.WriteLine("Profile " +(profile != null));
             if (profile != null)

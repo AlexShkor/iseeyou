@@ -41,7 +41,7 @@ namespace ISeeYou.Ranker
                     try
                     {
                         Console.WriteLine("Precessing Subject " + subjectView.Id);
-                        Task.Delay(300).Wait();
+                        Task.Delay(400).Wait();
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                     }
                     catch (AggregateException e)
