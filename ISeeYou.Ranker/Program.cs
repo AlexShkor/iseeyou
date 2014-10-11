@@ -32,7 +32,6 @@ namespace ISeeYou.Ranker
                     try
                     {
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
-
                     }
                     catch (Exception)
                     {
