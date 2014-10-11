@@ -27,6 +27,16 @@ namespace ISeeYou.Ranker
             new Bootstrapper().ConfigureMongoDb(container);
             var subjects = container.GetInstance<SubjectViewService>();
             var appId = container.GetInstance<SiteSettings>().FetcherToken;
+            var application = container.GetInstance<AppsViewService>()
+                .GetById(appId);
+            var token = application != null ? application.Token : null;
+            if (token == null)
+            {
+                Console.WriteLine("Exiting");
+                return 1;
+            }
+
+            VkAPI.AccessToken = token;
             while (true)
             {
                 var all = subjects.GetAll();
@@ -36,9 +46,7 @@ namespace ISeeYou.Ranker
                     {
                         Console.WriteLine("Precessing Subject " + subjectView.Id);
                         Thread.Sleep(400);
-                        var ranker = container.GetInstance<VkRanker>();
-                        ranker.Authorize(int.Parse(appId),"ineoi@tut.by","paralects1");
-                        ranker.UpdateRankedProfiles(subjectView.Id);
+                        container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                     }
                     catch (Exception e)
                     {
