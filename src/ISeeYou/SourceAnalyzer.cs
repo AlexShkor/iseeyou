@@ -40,7 +40,7 @@ namespace ISeeYou
                 try
                 {
 
-                    result = Photos.GetAll(sourceId, count, offset).Result;
+                    result = Photos.GetAll(sourceId, count, offset, true).Result;
                 }
                 catch 
                 {
