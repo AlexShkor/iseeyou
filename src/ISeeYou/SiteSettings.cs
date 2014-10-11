@@ -12,11 +12,6 @@ namespace ISeeYou
         [SettingsProperty("mongo.views_connection_string")]
         public string MongoViewConnectionString { get; set; }
             
-        [SettingsProperty("mongo.logs_connection_string")]
-        public string MongoLogsConnectionString { get; set; }
-
-        [SettingsProperty("mongo.admin_connection_string")]
-        public string MongoAdminConnectionString { get; set; }
 
         [SettingsProperty("sendgrid.username")]
         public string SendgridUsername { get; set; }
