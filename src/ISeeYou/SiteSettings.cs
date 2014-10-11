@@ -11,6 +11,9 @@ namespace ISeeYou
 
         [SettingsProperty("mongo.views_connection_string")]
         public string MongoViewConnectionString { get; set; }
+
+        [SettingsProperty("fetcher.token")]
+        public string FetcherToken { get; set; }
             
         //[SettingsProperty("mongo.logs_connection_string")]
         //public string MongoLogsConnectionString { get; set; }
