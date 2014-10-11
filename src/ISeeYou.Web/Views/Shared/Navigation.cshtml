@@ -7,7 +7,7 @@
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                            <li><a style="color: red" href="#">@User.Identity.Name </a></li>
+                            <li><a href="/profile/index" style="color: red">@User.Identity.Name</a></li>
                             <li><a href="/account/logoff">Выйти </a></li>
                         </text>
                     }
