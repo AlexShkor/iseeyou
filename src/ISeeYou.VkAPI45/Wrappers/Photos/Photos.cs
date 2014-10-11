@@ -243,7 +243,7 @@ namespace VkAPIAsync.Wrappers.Photos
 
             XmlNode result = (await VkAPI.Manager.Execute()).GetResponseXml();
             return VkAPI.Manager.MethodSuccessed
-                       ? new ListCount<Photo>(result.Int("int").Value, result.SelectNodes("items/*")
+                       ? new ListCount<Photo>(result.Int("count").Value, result.SelectNodes("items/*")
                                .Cast<XmlNode>()
                                .Select(x => new Photo(x))
                                .ToList())
