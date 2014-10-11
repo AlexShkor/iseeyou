@@ -62,8 +62,8 @@ namespace ISeeYou
             container.Configure(config =>
             {
                 config.For<MongoViewDatabase>().Singleton().Use(new MongoViewDatabase(settings.MongoViewConnectionString).EnsureIndexes());
-                //config.For<MongoLogsDatabase>().Singleton().Use(new MongoLogsDatabase(settings.MongoLogsConnectionString).EnsureIndexes());
-                //config.For<MongoEventsDatabase>().Singleton().Use(new MongoEventsDatabase(settings.MongoEventsConnectionString));
+                config.For<MongoLogsDatabase>().Singleton().Use(new MongoLogsDatabase(settings.MongoViewConnectionString).EnsureIndexes());
+                config.For<MongoEventsDatabase>().Singleton().Use(new MongoEventsDatabase(settings.MongoViewConnectionString));
                 //config.For<MongoAdminDatabase>().Singleton().Use(new MongoAdminDatabase(settings.MongoAdminConnectionString));
             });
         }
