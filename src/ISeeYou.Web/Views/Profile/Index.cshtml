@@ -21,6 +21,7 @@
                     <tr>
                         <td><a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a></td>
                         <td>@subject.Id</td>
+                        <td><a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="btn btn-danger pull-right">Удалить</a></td>
                     </tr>
                 }
             </tbody>
