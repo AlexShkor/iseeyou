@@ -32,7 +32,7 @@ namespace ISeeYou
             {
                 await Task.Delay(300);
                 result = await Likes.GetList(new LikeType(LikeType.LikeTypeEnum.Photo), _sourceId, _photo.Id, offset: 0, count: count);
-                if (result.Any())
+                if (result != null && result.Any())
                 {
                     var intersect = result.Intersect(_subjects);
                     foreach (var subjectId in intersect)
@@ -50,7 +50,7 @@ namespace ISeeYou
                     }
                 }
                 offset += count;
-            } while (result.TotalCount > offset);
+            } while (result != null && result.TotalCount > offset);
         }
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
+using ISeeYou.VkRanking;
 using MongoDB.Driver.Builders;
 using StructureMap;
 using VkAPIAsync;
-using IContainer = System.ComponentModel.IContainer;
 
-namespace ISeeYou.Fetcher
+namespace ISeeYou.Ranker
 {
     class Program
     {
@@ -20,17 +20,24 @@ namespace ISeeYou.Fetcher
             StructureMap.IContainer container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
-            var token = container.GetInstance<SubjectViewService>().Items.FindOne(Query<SubjectView>.NE(x => x.Token, null)).Token;
+            var subjects = container.GetInstance<SubjectViewService>();
+            var token = subjects.Items.FindOne(Query<SubjectView>.NE(x => x.Token, null)).Token;
             VkAPI.AccessToken = token;
             while (true)
             {
-                try
+                var all = subjects.GetAll();
+                foreach (var subjectView in all)
                 {
-                    container.GetInstance<SourceFetcher>().Run().Wait();
-                }
-                catch (Exception)
-                {
+                    VkAPI.AccessToken = subjectView.Token ?? VkAPI.AccessToken;
+                    try
+                    {
+                        container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
 
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
             }
         }
