@@ -31,7 +31,7 @@ namespace ISeeYou
             ConfigureSettings(container);
             ConfigureMongoDb(container);
             ConfigureTransport(container, isReplayMode);
-            //ConfigureEventStore(container);
+            ConfigureEventStore(container);
             ConfigureUniform(container);
             ConfigureUpgrade(container);
             ServiceLocator.SetLocatorProvider(() => new StructureMapServiceLocator(container));
@@ -73,21 +73,21 @@ namespace ISeeYou
             //BsonClassMap.RegisterClassMap<UserView>();
         }
 
-        //public void ConfigureEventStore(IContainer container)
-        //{
-        //    var settings = container.GetInstance<SiteSettings>();
-        //    var dispatcher = container.GetInstance<IDispatcher>();
+        public void ConfigureEventStore(IContainer container)
+        {
+            var settings = container.GetInstance<SiteSettings>();
+            var dispatcher = container.GetInstance<IDispatcher>();
 
-        //    var transitionsRepository = new MongoTransitionRepository(settings.MongoEventsConnectionString);
+            var transitionsRepository = new MongoTransitionRepository(settings.MongoViewConnectionString);
 
-        //    container.Configure(config =>
-        //    {
-        //        config.For<ITransitionRepository>().Singleton().Use(transitionsRepository);
-        //        config.For<IEventBus>().Singleton().Use(new DispatcherEventBus(dispatcher));
-        //        config.For<IRepository>().Use<Repository>();
-        //        config.For(typeof(IRepository<>)).Use(typeof(Repository<>));
-        //    });
-        //}
+            container.Configure(config =>
+            {
+                config.For<ITransitionRepository>().Singleton().Use(transitionsRepository);
+                config.For<IEventBus>().Singleton().Use(new DispatcherEventBus(dispatcher));
+                config.For<IRepository>().Use<Repository>();
+                config.For(typeof(IRepository<>)).Use(typeof(Repository<>));
+            });
+        }
 
         public void ConfigureUniform(IContainer container)
         {
