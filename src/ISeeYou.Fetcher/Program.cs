@@ -35,7 +35,16 @@ namespace ISeeYou.Fetcher
             //var token = container.GetInstance<SubjectViewService>().Items.FindOne(Query<SubjectView>.NE(x => x.Token, null)).Token;
             #endregion
 
-            var token = container.GetInstance<SiteSettings>().FetcherToken;
+            var appId = container.GetInstance<SiteSettings>().FetcherToken;
+            var application = container.GetInstance<AppsViewService>()
+                .Items.FindOne(Query<AppView>.EQ(x => x.Id, appId));
+            var token = application != null ? application.Token : null;
+
+            if (token == null)
+            {
+                return;
+            }
+
             VkAPI.AccessToken = token;
             while (true)
             {
