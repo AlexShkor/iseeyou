@@ -19,8 +19,9 @@
                 @foreach (var subject in Model.User.Subjects)
                 {
                     <tr>
-                        <td>@subject.Name</td>
+                        <td><a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a></td>
                         <td>@subject.Id</td>
+                        <td><a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="btn btn-danger pull-right">Удалить</a></td>
                     </tr>
                 }
             </tbody>
@@ -34,7 +35,7 @@
 
     <div>
         <div style="margin-top: 30px;">
-            <a class="btn btn-large btn-info span11" href="@Url.Action("AddSubject", "Subjects")">Добавьте обозреваемого юзера !</a>
+            <a class="btn btn-large btn-info span11" href="@Url.Action("AddSubject", "Subjects")">Добавить обозреваемого юзера !</a>
         </div>
     </div>
 

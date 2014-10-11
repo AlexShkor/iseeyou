@@ -1,20 +1,21 @@
 ﻿<div class="navbar" style="position: static;" ng-controller="HeaderCtrl">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand light" href="/">I<span class="redsuit">SEE</span>YOU</a>
+            <a class="brand light" href="/"><span style="color: red">i</span>See<span style="color: red">You</span></a>
             <div>
                 <ul class="nav  pull-right">
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                        <li><a href="/account/logoff">Log Off </a></li>
+                            <li><a style="color: red" href="#">@User.Identity.Name </a></li>
+                            <li><a href="/account/logoff">Выйти </a></li>
                         </text>
                     }
                     else
                     {
                         <text>
-                        <li><a href="/account/login">Log In</a></li>
-                        <li><a href="/account/register">Sign Up</a></li>
+                        <li><a href="/account/login">Войти</a></li>
+                        <li><a href="/account/register">Регистрация</a></li>
                         </text>
                     }
                 </ul>

@@ -45,7 +45,9 @@ namespace ISeeYou
                             EndDate = DateTime.UtcNow,
                             PhotoId = _photo.Id.Value,
                             SourceId = _sourceId,
-                            Image = _photo.Photo130
+                            Image = _photo.Photo130,
+                            ImageBig = _photo.Photo604,
+                            AlbumId = _photo.AlbumId.Value
                         });
                     }
                 }

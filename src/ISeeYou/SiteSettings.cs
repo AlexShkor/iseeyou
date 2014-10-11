@@ -6,17 +6,20 @@ namespace ISeeYou
     {
         public const string SiteId = "ISeeYou";
 
-        [SettingsProperty("mongo.events_connection_string")]
-        public string MongoEventsConnectionString { get; set; }
+        //[SettingsProperty("mongo.events_connection_string")]
+        //public string MongoEventsConnectionString { get; set; }
 
         [SettingsProperty("mongo.views_connection_string")]
         public string MongoViewConnectionString { get; set; }
-            
-        [SettingsProperty("mongo.logs_connection_string")]
-        public string MongoLogsConnectionString { get; set; }
 
-        [SettingsProperty("mongo.admin_connection_string")]
-        public string MongoAdminConnectionString { get; set; }
+        [SettingsProperty("fetcher.token")]
+        public string FetcherToken { get; set; }
+            
+        //[SettingsProperty("mongo.logs_connection_string")]
+        //public string MongoLogsConnectionString { get; set; }
+
+        //[SettingsProperty("mongo.admin_connection_string")]
+        //public string MongoAdminConnectionString { get; set; }
 
         [SettingsProperty("sendgrid.username")]
         public string SendgridUsername { get; set; }

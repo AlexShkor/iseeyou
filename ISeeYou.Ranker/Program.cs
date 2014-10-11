@@ -21,7 +21,7 @@ namespace ISeeYou.Ranker
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var subjects = container.GetInstance<SubjectViewService>();
-            var token = subjects.Items.FindOne(Query<SubjectView>.NE(x => x.Token, null)).Token;
+            var token = container.GetInstance<SiteSettings>().FetcherToken;
             VkAPI.AccessToken = token;
             while (true)
             {
@@ -32,7 +32,6 @@ namespace ISeeYou.Ranker
                     try
                     {
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
-
                     }
                     catch (Exception)
                     {

@@ -13,5 +13,7 @@ namespace ISeeYou.Views
         public DateTime EndDate { get; set; }
         public int SourceId { get; set; }
         public string Image { get; set; }
+        public string ImageBig { get; set; }
+        public int AlbumId { get; set; }
     }
 }

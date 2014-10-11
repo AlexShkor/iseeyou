@@ -1,0 +1,36 @@
+﻿@model ISeeYou.Web.Controllers.SubjectEventsViewModel
+           
+
+@if (Model.Events.Count > 0)
+{
+    <div>
+        <table class="table">
+            <thead style="font-size: 20px; margin-bottom: 20px">
+                <tr>
+                    <th><span style="margin-left: 60px;">Фото</span></th>
+                    <th><span>Источник</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var evt in Model.Events)
+                {
+                    <tr>
+                        <td><img src="@evt.Image" style="margin-left: 30px" /></td>
+                        <td style="vertical-align: middle; font-size: 15px;">
+                            <a href="@string.Format("http://www.vk.com/id{0}", evt.SourceId)" target="_blank">@string.Format("vk.com/id{0}", evt.SourceId)</a>
+                        </td>
+                        <td style="vertical-align: middle">
+                            <div class="like-vk" style="padding: 35px;"></div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <h2 class="text-center" style="padding-top: 50px;">Нету информации :(</h2>
+}
+
