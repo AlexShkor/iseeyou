@@ -31,7 +31,10 @@ namespace ISeeYou.Web.Controllers
         public ActionResult Index()
         {
             var user = _users.GetById(UserId);
-            var subjects = user.Subjects;
+
+            if (!string.IsNullOrEmpty(user.Token))
+                return RedirectToAction("Index", "Profile");
+
             return View();
         }
 
@@ -65,7 +68,7 @@ namespace ISeeYou.Web.Controllers
         [POST("AddSubject")]
         public async Task<ActionResult> AddSubject(SubjectViewModel model)
         {
-            var id = GetSubjectFromUrl(model.SubjectUrl);
+            var id = GetSubjectIdFromUrl(model.SubjectUrl);
             var subject = await GetUserFromVk(id);
             var user = _users.GetById(UserId);
             _subjects.Save(new SubjectView
@@ -74,13 +77,15 @@ namespace ISeeYou.Web.Controllers
                 Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
                 Token = user.Token
             });
-            return View();
+            user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = subject.LastName });
+            _users.Save(user);
+            
+            return RedirectToAction("Index", "Profile");
         }
 
-        private string GetSubjectFromUrl(string url)
+        private string GetSubjectIdFromUrl(string url)
         {
             string id;
-            
             id = UrlUtility.ExtractVkUserId(url);
            
             if (id.Length > 0 && char.IsDigit(id, 0))
@@ -94,48 +99,7 @@ namespace ISeeYou.Web.Controllers
             return (await Users.Get(new List<string>() {id}, new List<string>() {"sex"}))[0];
         }
 
-
-
     }
-
-
-
-//
-//    public static async Task<string> Send(string url)
-//        {
-//            try
-//            {
-//                _request = (HttpWebRequest) WebRequest.Create(new Uri(url));
-//                _request.Timeout = Timeout;
-//                _request.UserAgent = "VkAPI.NET " + VkAPI.Version;
-//
-//                _response = (HttpWebResponse)(await _request.GetResponseAsync());
-//
-//                Stream responseStream = _response.GetResponseStream();
-//
-//                if (responseStream == null)
-//                {
-//                    throw new ApiRequestNullResult("Не получено никаких данных");
-//                }
-//                var sr = new StreamReader(responseStream);
-//         
-//                var result = await sr.ReadToEndAsync();
-//
-//                _response.Close();
-//                responseStream.Dispose();
-//                sr.Dispose();
-//
-//                return result;
-//            }
-//            catch (Exception e)
-//            {
-//                throw new ApiRequestNullResult("Неизвестная ошибка: " + e.Message);
-//            }
-//        }
-
-
-
-
 
 
     public class SubjectViewModel

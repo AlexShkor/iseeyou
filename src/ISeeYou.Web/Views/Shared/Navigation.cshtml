@@ -3,18 +3,12 @@
         <div class="container">
             <a class="brand light" href="/">I<span class="redsuit">SEE</span>YOU</a>
             <div>
-                <ul class="nav">
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li><a href="/">Home</a></li>
-                    }
-                </ul>
                 <ul class="nav  pull-right">
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                        <li><a href="/profile"><strong class="light">@User.Identity.Name</strong> </a></li>
-                        <li><a href="#" ng-click="logout()">Log Off </a></li>
+                        <li><a href="/profile/index"><strong class="light">@User.Identity.Name</strong> </a></li>
+                        <li><a href="/account/logoff">Log Off </a></li>
                         </text>
                     }
                     else
