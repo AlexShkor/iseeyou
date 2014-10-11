@@ -17,7 +17,7 @@ namespace ISeeYou.Fetcher
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             StructureMap.IContainer container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);
@@ -42,7 +42,7 @@ namespace ISeeYou.Fetcher
 
             if (token == null)
             {
-                return;
+                return 1;
             }
 
             VkAPI.AccessToken = token;
