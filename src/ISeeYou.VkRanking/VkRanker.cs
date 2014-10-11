@@ -58,26 +58,26 @@ namespace ISeeYou.VkRanking
 
         private void RankByCommonFriends(User subject, IEnumerable<User> friends)
         {
-            try
+            foreach (var friend in friends)
             {
-
-                foreach (var friend in friends)
+                if (friend.Id.HasValue)
                 {
-                    if (friend.Id.HasValue)
+                    if (subject.Id != null)
                     {
-                        if (subject.Id != null)
+                        try
                         {
                             var commonFriends = Friends.GetMutual(subject.Id.Value, friend.Id).Result;
                             _ranks[friend.Id] += commonFriends.Count;
                             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.Id), Update<SourceDocument>.Inc(x => x.Rank, commonFriends.Count).Set(x => x.SubjectId, subject.Id), UpdateFlags.Upsert);
                         }
+                        catch (Exception ex)
+                        {
+                            continue;
+                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                return;
-            }
+            
         }
 
         private void RankBySchoolAndUniversity(User subject, IEnumerable<User> friends)
