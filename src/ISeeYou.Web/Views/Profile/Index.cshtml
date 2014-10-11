@@ -2,33 +2,39 @@
 
 <div class="container">
     <div class="well">
-        <h4 class="text-center">Профайл @Model.User.UserName</h4>
+        <h4 class="text-center"><span class="highlight">@Model.User.UserName</span></h4>
     </div>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var subject in Model.User.Subjects)
-            {
+    
+    @if (Model.User.Subjects.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@subject.Name</td>
-                    <td>@subject.Id</td>
+                    <th>Имя</th>
+                    <th>Айдишка</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
 
+                @foreach (var subject in Model.User.Subjects)
+                {
+                    <tr>
+                        <td>@subject.Name</td>
+                        <td>@subject.Id</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3 class="text-center">Вы пока ни за кем не шпионите</h3>
+    }
+    
 
     <div>
-        <div class="pull-right">
-            <a class="btn btn-large btn-info" href="@Url.Action("AddSubject", "Subjects")">Добавьте обозреваемого юзера !</a>
+        <div style="margin-top: 30px;">
+            <a class="btn btn-large btn-info span11" href="@Url.Action("AddSubject", "Subjects")">Добавьте обозреваемого юзера !</a>
         </div>
     </div>
 
