@@ -181,7 +181,6 @@
     <Compile Include="Platform\Output\ConsoleWrapper.cs" />
     <Compile Include="Platform\Output\IInputReader.cs" />
     <Compile Include="Platform\Output\IOutputWriter.cs" />
-    <Compile Include="Platform\Replay\Replayer.cs" />
     <Compile Include="Platform\Scheduling\IoCJobFactory.cs" />
     <Compile Include="Platform\Scheduling\IQuartzServer.cs" />
     <Compile Include="Platform\Scheduling\IScheduledJob.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="Platform\Upgrade\EventUpgrader.cs" />
     <Compile Include="Platform\Upgrade\IUpgrader.cs" />
     <Compile Include="Platform\Upgrade\UpgradeDocument.cs" />
-    <Compile Include="Platform\Upgrade\UpgradeManager.cs" />
     <Compile Include="Handlers\ViewHandlers\SiteViewHandler.cs" />
     <Compile Include="Helpers\SimpleAES.cs" />
     <Compile Include="Platform\Extensions\BoolExt.cs" />
@@ -311,6 +309,7 @@
     <Folder Include="Handlers\SingleUseEventHandlers\SignalR\" />
     <Folder Include="Handlers\ViewHandlers\ReducedHandlers\" />
     <Folder Include="Handlers\WorkflowHandlers\" />
+    <Folder Include="Platform\Replay\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>

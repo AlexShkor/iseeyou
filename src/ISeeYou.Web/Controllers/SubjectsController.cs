@@ -33,11 +33,6 @@ namespace ISeeYou.Web.Controllers
         [GET("index")]
         public ActionResult Index()
         {
-            var user = _users.GetById(UserId);
-
-            if (!string.IsNullOrEmpty(user.Token))
-                return RedirectToAction("Index", "Profile");
-
             return View();
         }
 
@@ -112,6 +107,20 @@ namespace ISeeYou.Web.Controllers
             };
 
             return View(model);
+        }
+
+        [GET("DeleteSubject")]
+        public ActionResult DeleteSubject(int id)
+        {
+            _subjects.Items.Remove(Query.EQ("_id", id));
+            _events.Items.Remove(Query.EQ("SubjectId", id));
+            var user = _users.GetById(UserId);
+
+            user.Subjects.RemoveAll(s => s.Id == id.ToString());
+            _users.Save(user);
+
+
+            return RedirectToAction("Index", "Profile");
         }
 
     }
