@@ -44,6 +44,10 @@ namespace ISeeYou.Ranker
                         Console.WriteLine("Precessing Subject " + subjectView.Id);
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                     }
+                    catch (AggregateException e)
+                    {
+                        Console.WriteLine("AggregateException: " + string.Join(";", e.InnerExceptions.Select(x => x.Message).ToArray()));
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: " + e.Message);
