@@ -10,6 +10,7 @@ using ISeeYou.Helpers;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.VkRanking;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using StructureMap;
 using VkAPIAsync;
@@ -50,7 +51,11 @@ namespace ISeeYou.Ranker
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: \n\r" + JsonHelper.ToJson(e));
-                        container.GetInstance<MongoViewDatabase>().GetCollection("temp_logs").Save(e);
+                        container.GetInstance<MongoViewDatabase>().GetCollection("temp_logs").Save(new BsonDocument
+                        {
+                            {"_id", ObjectId.GenerateNewId()},
+                            {"data", new BsonDocumentWrapper(e)}
+                        });
                     }
                 }
             }
