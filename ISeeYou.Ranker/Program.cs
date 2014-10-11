@@ -35,13 +35,13 @@ namespace ISeeYou.Ranker
             VkAPI.AccessToken = token;
             while (true)
             {
-                Console.WriteLine("Iteration");
                 var all = subjects.GetAll();
                 foreach (var subjectView in all)
                 {
                     try
                     {
                         Console.WriteLine("Precessing Subject " + subjectView.Id);
+                        Task.Delay(300).Wait();
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                     }
                     catch (AggregateException e)
