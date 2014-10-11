@@ -41,11 +41,12 @@ namespace ISeeYou.Ranker
                 {
                     try
                     {
+                        Console.WriteLine("Precessing Subject " + subjectView.Id);
                         container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-
+                        Console.WriteLine("Error: " + e.Message);
                     }
                 }
             }

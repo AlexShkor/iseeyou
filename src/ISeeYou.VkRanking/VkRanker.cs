@@ -44,7 +44,7 @@ namespace ISeeYou.VkRanking
         {
             var profile = Users.Get(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
             var friends = Friends.Get(id, new[] { "sex", "university", "schools" }).Result;
-
+            Console.WriteLine("Profile " +(profile != null));
             if (profile != null)
             {
                 RankBySex(profile, friends);
