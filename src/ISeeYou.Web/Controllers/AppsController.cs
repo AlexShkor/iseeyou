@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
@@ -8,6 +9,7 @@ using AttributeRouting.Web.Mvc;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Helpers;
+using ISeeYou.VkRanking;
 
 namespace ISeeYou.Web.Controllers
 {
@@ -15,11 +17,16 @@ namespace ISeeYou.Web.Controllers
     public class AppsController : Controller
     {
         private readonly AppsViewService _apps;
+        private readonly SubjectViewService _subjects;
+        private readonly VkRanker _ranker;
 
-        public AppsController(AppsViewService apps)
+        public AppsController(AppsViewService apps, SubjectViewService subjects, VkRanker ranker)
         {
             _apps = apps;
+            _subjects = subjects;
+            _ranker = ranker;
         }
+
         [GET("")]
         public ActionResult Index()
         {

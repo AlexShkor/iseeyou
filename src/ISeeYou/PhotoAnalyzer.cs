@@ -4,55 +4,53 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ISeeYou.Domain.Aggregates.Subject.Commands;
-using VkAPIAsync.Wrappers.Common;
-using VkAPIAsync.Wrappers.Likes;
-using VkAPIAsync.Wrappers.Photos;
-
+using ISeeYou.Vk.Api;
 namespace ISeeYou
 {
     public class PhotoAnalyzer
     {
         private readonly int _sourceId;
-        private readonly Photo _photo;
+        private readonly WallPost _wallPost;
         private readonly List<int> _subjects;
 
-        public PhotoAnalyzer(int sourceId, Photo photo, List<int> subjects)
+        public PhotoAnalyzer(int sourceId, WallPost wallPost, List<int> subjects)
         {
             _sourceId = sourceId;
             _subjects = subjects;
-            _photo = photo;
+            _wallPost = wallPost;
         }
 
-        public async Task Run()
+        public void Run()
         {
-            var offset = 0;
-            const int count = 200;
-            ListCount<int> result = null;
-            do
-            {
-                await Task.Delay(200);
-                result = await Likes.GetList(new LikeType(LikeType.LikeTypeEnum.Photo), _sourceId, _photo.Id, offset: 0, count: count);
+            var api = new VkApi(null);
+            var result = api.Likes(_wallPost.id, _sourceId);
                 if (result != null && result.Any())
                 {
                     var intersect = result.Intersect(_subjects);
+                    var photo = _wallPost.attachments.Select(x => x.photo).FirstOrDefault();
                     foreach (var subjectId in intersect)
                     {
                         GlobalQueue.Send(new AddPhotoLike
                         {
                             Id = subjectId.ToString(CultureInfo.InvariantCulture),
                             SubjectId = subjectId,
-                            StartDate = _photo.DateCreated,
+                            StartDate = UnixTimeStampToDateTime(_wallPost.date),
                             EndDate = DateTime.UtcNow,
-                            PhotoId = _photo.Id.Value,
+                            PhotoId = _wallPost.id,
                             SourceId = _sourceId,
-                            Image = _photo.Photo130,
-                            ImageBig = _photo.Photo604,
-                            AlbumId = _photo.AlbumId.Value
+                            Image = photo.photo_130,
+                            ImageBig = photo.photo_604
                         });
                     }
                 }
-                offset += count;
-            } while (result != null && result.TotalCount > offset);
+        }
+
+        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace ISeeYou.Views
     public class EventView
     {
         [BsonId]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Type { get; set; }
         public int SubjectId { get; set; }
         public DateTime? StartDate { get; set; }

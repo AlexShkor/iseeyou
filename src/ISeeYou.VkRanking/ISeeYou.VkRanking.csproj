@@ -78,6 +78,10 @@
       <Project>{831aa7cd-7a50-4c32-a6c1-6c4371087836}</Project>
       <Name>VkAPIAsync</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ISeeYou.Vk\ISeeYou.Vk.csproj">
+      <Project>{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}</Project>
+      <Name>ISeeYou.Vk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ISeeYou\ISeeYou.csproj">
       <Project>{56caf3fe-51ac-419b-82d2-82ca4a8242f2}</Project>
       <Name>ISeeYou</Name>

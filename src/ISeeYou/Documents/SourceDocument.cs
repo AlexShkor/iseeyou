@@ -10,5 +10,7 @@ namespace ISeeYou.Documents
         public int Rank { get; set; }
 
         public int SubjectId { get; set; }
+
+        public int Calls { get; set; }
     }
 }

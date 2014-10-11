@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
@@ -21,15 +22,22 @@ namespace ISeeYou
             _users = users;
         }
 
-        public async Task Run()
+        public void Run()
         {
             var cursor = _sources.Items.Find(Query<SourceDocument>.NE(x=> x.Rank, 0)).SetSortOrder(SortBy<SourceDocument>.Descending(x => x.Rank));
             foreach (var sourceDocument in cursor)
             {
-                var subjectIds = GetSubjects(sourceDocument.Id);
-                var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
-                await analyzer.Run();
-                ResetRank(sourceDocument.Id);
+                try
+                {
+                    var subjectIds = GetSubjects(sourceDocument.Id);
+                    var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
+                    analyzer.Run();
+                    ResetRank(sourceDocument.Id);
+                }
+                catch (Exception e)
+                {
+                    
+                }
             }
         }
 
@@ -41,7 +49,7 @@ namespace ISeeYou
         private void ResetRank(int sourceId)
         {
             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, sourceId),
-                Update<SourceDocument>.Set(x => x.Rank, 0));
+                Update<SourceDocument>.Set(x => x.Rank, 0).Inc(x => x.Calls, 1));
         }
 
         //private List<int> GetSubjects(int sourceId)

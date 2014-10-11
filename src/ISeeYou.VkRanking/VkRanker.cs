@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
+using ISeeYou.Vk.Api;
+using ISeeYou.Vk.Dto;
 using ISeeYou.VkRanking.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -42,8 +44,9 @@ namespace ISeeYou.VkRanking
 
         public List<RankedProfile> UpdateRankedProfiles(int id)
         {
-            var profile = Users.Get(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
-            var friends = Friends.Get(id, new[] { "sex", "university", "schools" }).Result;
+            var api = new VkApi(null);
+            var profile = api.GetUsers(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).FirstOrDefault();
+            var friends = api.GetUserFriends(id.ToString(), new[] { "sex", "university", "schools" });
 
             if (profile != null)
             {
@@ -122,7 +125,7 @@ namespace ISeeYou.VkRanking
             }
         }
 
-        private void RankBySex(User subject, IEnumerable<User> friends)
+        private void RankBySex(VkUser subject, IEnumerable<FriendDto> friends)
         {
             foreach (var friend in friends)
             {

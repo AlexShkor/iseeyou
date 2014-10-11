@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using ISeeYou.Vk.Api;
 using VkAPIAsync.Wrappers.Common;
 using VkAPIAsync.Wrappers.Photos;
 
@@ -17,44 +19,20 @@ namespace ISeeYou
             _subjects = subjects;
         }
 
-        public async Task Run()
+        public void Run()
         {
-            var photos = GetPhotos(_sourceId);
-            foreach (var photo in photos)
+            var wallPosts = GetWall(_sourceId).ToList();
+            foreach (var wallPost in wallPosts)
             {
-                if (photo.Id.HasValue)
-                {
-                    var photoAnalyzer = new PhotoAnalyzer(_sourceId, photo, _subjects);
-                    await photoAnalyzer.Run();
-                }
+                    var photoAnalyzer = new PhotoAnalyzer(_sourceId, wallPost, _subjects);
+                    photoAnalyzer.Run();
             }
         }
 
-        private IEnumerable<Photo> GetPhotos(int sourceId)
+        private IEnumerable<WallPost> GetWall(int sourceId)
         {
-            var offset = 0;
-            const int count = 200;
-            ListCount<Photo> result = null;
-            do
-            {
-                try
-                {
-
-                    result = Photos.GetAll(sourceId, count, offset, true).Result;
-                }
-                catch 
-                {
-                }
-                if (result != null)
-                {
-                    foreach (var photo in result)
-                    {
-                        yield return photo;
-                    }
-                    Task.Delay(300).Wait();
-                    offset += count;
-                }
-            } while (result != null && result.TotalCount > offset);
+            var api = new VkApi(null);
+            return api.GetWall(sourceId).Where(x=> x.attachments != null && x.attachments.Any(a => a.photo != null));
 
         }
     }

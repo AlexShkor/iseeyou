@@ -7,11 +7,11 @@ namespace ISeeYou.Domain.Aggregates.Subject
     {
         public string Id { get; set; }
 
-        public SortedSet<int> LikedPhotos { get; set; }  
+        public SortedSet<long> LikedPhotos { get; set; }  
 
         public SubjectState()
         {
-            LikedPhotos = new SortedSet<int>();
+            LikedPhotos = new SortedSet<long>();
             On((SubjectCreated e) => Id = e.Id);
             On((PhotoLikeAdded e) => LikedPhotos.Add(e.PhotoId));
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,6 +30,18 @@ namespace ISeeYou.Vk.Api
             var json = Call("users.get", parametrs);
 
             return Parse<List<VkUser>>(json);  
+        }
+
+        public List<int> GetUserFriends(string uid, string[] fields)
+        {
+            var parametrs = new NameValueCollection
+            {
+                {"user_id", uid},
+                {"fields", string.Join(",", fields)}
+            };
+            var json = Call("friends.get", parametrs);
+
+            return Parse<List<int>>(json);  
         }
 
         public void Post(string ownerId, string message, string url,VkSaveWallPhotoResult photo)
@@ -80,6 +93,54 @@ namespace ISeeYou.Vk.Api
             }
             json = response.SelectToken("response").ToString();
             return JsonConvert.DeserializeObject<T>(json);
+        }
+        
+        private List<int> ParseUsers(string json)
+        {
+            var response = JObject.Parse(json);
+            var error = response.SelectToken("error");
+            if (error != null)
+            {
+                throw new VkResponseException(error.ToString());
+            }
+            json = response.SelectToken("response").SelectToken("users").ToString();
+            return JsonConvert.DeserializeObject<List<int>>(json);
+        }
+
+        private IEnumerable<T> ParseListing<T>(string json)
+        {
+            var response = JObject.Parse(json);
+            var error = response.SelectToken("error");
+            if (error != null)
+            {
+                throw new VkResponseException(error.ToString());
+            }
+            var jobject = response.SelectToken("response");
+            var totalScount = jobject[0];
+            var index = 1;
+            JToken jtoken = null;
+            
+            while (true)
+            {
+                try
+                {
+                    jtoken = jobject[index];
+                }
+                catch (Exception)
+                {
+                    jtoken = null;
+                }
+                if (jtoken != null)
+                {
+                    var str = jtoken.ToString();
+                yield return jobject[index].ToObject<T>();
+                index++;
+                }
+                else
+                {
+                    yield break;
+                }
+            }
         }
 
         private string Call(string methodName, NameValueCollection parametrs, string method = "POST")
@@ -156,6 +217,73 @@ namespace ISeeYou.Vk.Api
                 return JsonConvert.DeserializeObject<VkUploadFileResult>(json);
             }
         }
+
+        public List<PhotoDto> GetPhotos(int userId)
+        {
+            var json = Call("photos.getAll", new NameValueCollection()
+            {
+                { "owner_id", userId.ToString(CultureInfo.InvariantCulture) },
+                { "offset", "0"},
+                { "count", "200"},
+            });
+            return Parse<List<PhotoDto>>(json);
+        }
+
+        public List<WallPost> GetWall(int userId)
+        {
+            var json = Call("wall.get", new NameValueCollection()
+            {
+                { "owner_id", userId.ToString(CultureInfo.InvariantCulture) },
+                   { "offset", "0"},
+                { "count", "100"},
+                { "filter", "posted_photo"},
+            });
+            return ParseListing<WallPost>(json).ToList();
+        }
+
+        public List<int> Likes(long itemId, long ownerId)
+        {
+            var json = Call("likes.getList", new NameValueCollection()
+            {
+                {"type", "post"},
+                {"item_id", itemId.ToString(CultureInfo.InvariantCulture)},
+                {"owner_id", ownerId.ToString(CultureInfo.InvariantCulture)},
+                {"offset", "0"},
+                {"count", "1000"},
+            });
+            return ParseUsers(json).ToList();
+        }
+    }
+
+    public class WallPost
+    {
+        public long id { get; set; }
+        public long date { get; set; }
+        public long owner_id { get; set; }
+        public string text { get; set; }
+        public List<AttachmetVk> attachments { get; set; } 
+
+    }
+
+    public class AttachmetVk
+    {
+        public string type { get; set; }
+
+        public PhotoAttachment photo { get; set; }
+    }
+
+    public class PhotoDto
+    {
+        public int id { get; set; }
+        public int date { get; set; }
+    }
+
+    public class PhotoAttachment
+    {
+        public int id { get; set; }
+        public string photo_604 { get; set; }
+        public string photo_130 { get; set; }
+        public long owner_id { get; set; }
     }
 
 

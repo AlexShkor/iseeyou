@@ -39,6 +39,7 @@ namespace VkAPIAsync
             try
             {
                 _request = (HttpWebRequest) WebRequest.Create(new Uri(url));
+                _request.Method = "POST";
                 _request.Timeout = Timeout;
                 _request.UserAgent = "VkAPI.NET " + VkAPI.Version;
 
