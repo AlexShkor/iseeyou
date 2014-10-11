@@ -30,7 +30,7 @@ namespace ISeeYou
             ListCount<int> result = null;
             do
             {
-                await Task.Delay(300);
+                await Task.Delay(200);
                 result = await Likes.GetList(new LikeType(LikeType.LikeTypeEnum.Photo), _sourceId, _photo.Id, offset: 0, count: count);
                 if (result != null && result.Any())
                 {
