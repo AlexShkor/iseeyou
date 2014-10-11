@@ -18,6 +18,7 @@ namespace ISeeYou.Databases
         public static string Sources = "sources";
         public static string Subjects = "subjects";
         public static string Events = "events";
+        public static string Apps = "apps";
     }
 
     public class ViewDatabase

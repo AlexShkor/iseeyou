@@ -1,0 +1,14 @@
+﻿@using ISeeYou.Platform.Extensions
+@model System.Collections.Generic.IEnumerable<ISeeYou.Views.AppView>
+
+<form method="POST" action="@Url.Action("Add")" >
+    <input type="text" name="id" />
+    <input type="submit"/>
+</form>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li><a href="/apps/authorize/@item.Id">@item.Id - @item.Token.HasValue() </a></li>
+    }
+</ul>

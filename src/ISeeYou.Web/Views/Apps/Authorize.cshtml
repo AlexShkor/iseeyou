@@ -1,0 +1,27 @@
+﻿@model ISeeYou.Web.Controllers.AuthorizeViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Шаг 1.</h4>
+<p>Нажмите кнопку <span>"Получить код"</span></p>
+<div style="margin-bottom: 15px">
+    <a type="submit" href="@Model.Url" target="blank" class="btn btn-success">Получить код</a>
+</div>
+
+<h4 class="">Шаг 2.</h4>
+<p>Перейдите на новую открывшуюся вкладку</p>
+
+<h4>Шаг 3.</h4>
+<p>Скопируйте всю адресную строку</p>
+
+<h4>Шаг 4.</h4>
+<p>Вернитесь на эту страницу, вставте строку в поле ввода нажмите "Подключить"</p>
+<form method="POST" action="/apps/authorize">
+    <input type="hidden" value="@Model.Id" name="id"/>
+    <button type="submit" class="btn btn-success">Подключить</button>
+    <input required style="margin-left: 15px;" class="span8" type="text" name="blankPageUrl" />
+</form>
+
+
