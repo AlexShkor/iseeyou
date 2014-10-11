@@ -21,7 +21,7 @@ namespace ISeeYou.Ranker
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var subjects = container.GetInstance<SubjectViewService>();
-            var appId = container.GetInstance<SiteSettings>().FetcherToken;
+            var appId = "4584967";
             var application = container.GetInstance<AppsViewService>()
                 .Items.FindOne(Query<AppView>.EQ(x => x.Id, appId));
             var token = application != null ? application.Token : null;
