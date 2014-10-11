@@ -13,7 +13,7 @@
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                        <li><a href="/profile"><strong class="light">@User.Identity.Name</strong> </a></li>
+                        <li><a href="/profile/index"><strong class="light">@User.Identity.Name</strong> </a></li>
                         <li><a href="#" ng-click="logout()">Log Off </a></li>
                         </text>
                     }
