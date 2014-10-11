@@ -71,7 +71,9 @@ namespace VkAPIAsync
         {
             _apiResponseXml = null;
             string req = Builder.BuildQuery(needAuth);
+            Console.WriteLine("API Request: " + req);
             _apiResponseString = await ApiRequest.Send(req);
+            Console.WriteLine("API Response: " + _apiResponseString);
             if (!string.IsNullOrWhiteSpace(_apiResponseString) & !JSON)
             {
                 _apiResponseXml = new XmlDocument();
@@ -84,6 +86,7 @@ namespace VkAPIAsync
                 else
                 {
                     var code = Convert.ToInt32(isError.SelectSingleNode("error_code").InnerText);
+                    Console.WriteLine("API Response Error Code: " + code);
                     var msg = isError.SelectSingleNode("error_msg").InnerText;
                     var ht = new Dictionary<string, string>();
                     var pparams = isError.SelectNodes("request_params/param");
