@@ -88,5 +88,10 @@ namespace ISeeYou.Databases
             get { return GetCollection<EventView>(ViewCollections.Events); }
         }
 
+        public MongoCollection<AppView> Apps
+        {
+            get { return GetCollection<AppView>(ViewCollections.Apps); }
+        }
+
     }
 }

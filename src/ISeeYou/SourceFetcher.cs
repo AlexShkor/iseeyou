@@ -23,7 +23,7 @@ namespace ISeeYou
 
         public async Task Run()
         {
-            var cursor = _sources.Items.FindAll().SetSortOrder(SortBy<SourceDocument>.Descending(x => x.Rank));
+            var cursor = _sources.Items.Find(Query<SourceDocument>.NE(x=> x.Rank, 0)).SetSortOrder(SortBy<SourceDocument>.Descending(x => x.Rank));
             foreach (var sourceDocument in cursor)
             {
                 var subjectIds = GetSubjects(sourceDocument.Id);

@@ -300,6 +300,7 @@
     <Compile Include="ViewServices\SourcesViewService.cs" />
     <Compile Include="ViewServices\SubjectViewService.cs" />
     <Compile Include="ViewServices\UserViewService.cs" />
+    <Compile Include="Views\AppView.cs" />
     <Compile Include="Views\EventView.cs" />
     <Compile Include="Views\Site\SiteView.cs" />
     <Compile Include="Views\SubjectView.cs" />

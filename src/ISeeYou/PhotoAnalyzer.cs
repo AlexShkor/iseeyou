@@ -30,7 +30,7 @@ namespace ISeeYou
             ListCount<int> result = null;
             do
             {
-                await Task.Delay(300);
+                await Task.Delay(200);
                 result = await Likes.GetList(new LikeType(LikeType.LikeTypeEnum.Photo), _sourceId, _photo.Id, offset: 0, count: count);
                 if (result != null && result.Any())
                 {
@@ -45,7 +45,9 @@ namespace ISeeYou
                             EndDate = DateTime.UtcNow,
                             PhotoId = _photo.Id.Value,
                             SourceId = _sourceId,
-                            Image = _photo.Photo130
+                            Image = _photo.Photo130,
+                            ImageBig = _photo.Photo604,
+                            AlbumId = _photo.AlbumId.Value
                         });
                     }
                 }

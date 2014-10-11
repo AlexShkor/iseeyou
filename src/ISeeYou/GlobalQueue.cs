@@ -18,6 +18,8 @@ namespace ISeeYou
                 {
                     Id = c.PhotoId,
                     Image = c.Image,
+                    ImageBig = c.ImageBig,
+                    AlbumId = c.AlbumId,
                     SubjectId = c.SubjectId,
                     EndDate = c.EndDate,
                     SourceId = c.SourceId,

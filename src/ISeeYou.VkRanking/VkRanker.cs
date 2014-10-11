@@ -19,7 +19,6 @@ namespace ISeeYou.VkRanking
     {
         private const int RANK_STEP = 10;
         private readonly SourcesViewService _sources;
-        
         private Dictionary<int?, int> _ranks;
 
         public VkRanker(SourcesViewService sources)

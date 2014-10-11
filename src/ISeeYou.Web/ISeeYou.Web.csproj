@@ -233,6 +233,7 @@
     <Compile Include="App_Start\AttributeRoutingConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="UrlUtility.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
@@ -761,6 +762,8 @@
     <Content Include="Views\Subjects\ViewSubjectEvents.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Subjects\AddSubject.cshtml" />
+    <Content Include="Views\Apps\Index.cshtml" />
+    <Content Include="Views\Apps\Authorize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\app\js\" />
