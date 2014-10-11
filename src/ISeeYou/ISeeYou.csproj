@@ -210,6 +210,7 @@
     <Compile Include="Platform\ViewModels\ValidationError.cs" />
     <Compile Include="SourceAnalyzer.cs" />
     <Compile Include="SourceFetcher.cs" />
+    <Compile Include="ViewServices\EventsViewService.cs" />
     <Compile Include="ViewServices\SiteViewService.cs" />
     <Compile Include="Handlers\ViewHandlers\UserViewHandler.cs" />
     <Compile Include="Helpers\CryptographicHelper.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="ViewServices\SourcesViewService.cs" />
     <Compile Include="ViewServices\SubjectViewService.cs" />
     <Compile Include="ViewServices\UserViewService.cs" />
+    <Compile Include="Views\EventView.cs" />
     <Compile Include="Views\Site\SiteView.cs" />
     <Compile Include="Views\SubjectView.cs" />
     <Compile Include="Views\UserView.cs" />

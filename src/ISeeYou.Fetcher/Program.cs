@@ -20,12 +20,19 @@ namespace ISeeYou.Fetcher
             StructureMap.IContainer container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
-            container.GetInstance<SourcesViewService>().Save(new SourceDocument { Id = 2409833, Rank = 22, SubjectId = 4155632 });
+            container.GetInstance<SourcesViewService>().Save(new SourceDocument { Id = 2409833, Rank = 22, SubjectId = 28232817 });
             var token = container.GetInstance<SubjectViewService>().Items.FindOne(Query<SubjectView>.NE(x => x.Token, null)).Token;
             VkAPI.AccessToken = token;
-            for (int i = 0; i < 5; i++)
+            while (true)
             {
-                container.GetInstance<SourceFetcher>().Run();
+                try
+                {
+                    container.GetInstance<SourceFetcher>().Run().Wait();
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
     }
