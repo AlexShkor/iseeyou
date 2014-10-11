@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ISeeYou.Databases;
 using ISeeYou.Documents;
+using ISeeYou.Helpers;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.VkRanking;
@@ -39,9 +41,17 @@ namespace ISeeYou.Ranker
                 var all = subjects.GetAll();
                 foreach (var subjectView in all)
                 {
-                    Console.WriteLine("Precessing Subject " + subjectView.Id);
-                    Thread.Sleep(400);
-                    container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
+                    try
+                    {
+                        Console.WriteLine("Precessing Subject " + subjectView.Id);
+                        Thread.Sleep(400);
+                        container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: \n\r" + JsonHelper.ToJson(e));
+                        container.GetInstance<MongoViewDatabase>().GetCollection("temp_logs").Save(e);
+                    }
                 }
             }
         }

@@ -52,7 +52,7 @@ namespace ISeeYou.Databases
             get { return _server.GetDatabase(_databaseName); }
         }
 
-        protected MongoCollection GetCollection(String collectionName)
+        public MongoCollection GetCollection(String collectionName)
         {
             return Database.GetCollection(collectionName);
         }
