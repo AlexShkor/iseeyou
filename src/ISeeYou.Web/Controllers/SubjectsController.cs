@@ -33,11 +33,6 @@ namespace ISeeYou.Web.Controllers
         [GET("index")]
         public ActionResult Index()
         {
-            var user = _users.GetById(UserId);
-
-            if (!string.IsNullOrEmpty(user.Token))
-                return RedirectToAction("Index", "Profile");
-
             return View();
         }
 
