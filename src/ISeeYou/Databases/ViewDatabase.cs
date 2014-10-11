@@ -17,6 +17,7 @@ namespace ISeeYou.Databases
         public const string Tables = "tables";
         public static string Sources = "sources";
         public static string Subjects = "subjects";
+        public static string Events = "events";
     }
 
     public class ViewDatabase

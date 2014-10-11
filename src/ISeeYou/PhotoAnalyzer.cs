@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using ISeeYou.Domain.Aggregates.Subject.Commands;
 using VkAPIAsync.Wrappers.Common;
 using VkAPIAsync.Wrappers.Likes;
@@ -22,30 +23,34 @@ namespace ISeeYou
             _photo = photo;
         }
 
-        public async void Run()
+        public async Task Run()
         {
             var offset = 0;
             const int count = 200;
             ListCount<int> result = null;
             do
             {
+                await Task.Delay(300);
                 result = await Likes.GetList(new LikeType(LikeType.LikeTypeEnum.Photo), _sourceId, _photo.Id, offset: 0, count: count);
-                var intersect = result.Intersect(_subjects);
-                foreach (var subjectId in intersect)
+                if (result != null && result.Any())
                 {
-                    GlobalQueue.Send(new AddPhotoLike
+                    var intersect = result.Intersect(_subjects);
+                    foreach (var subjectId in intersect)
                     {
-                        Id = subjectId.ToString(CultureInfo.InvariantCulture),
-                        SubjectId = subjectId,
-                        StartDate = _photo.DateCreated,
-                        EndDate = DateTime.UtcNow,
-                        PhotoId = _photo.Id.Value,
-                        SourceId = _sourceId,
-                        Image = _photo.Photo130
-                    });
+                        GlobalQueue.Send(new AddPhotoLike
+                        {
+                            Id = subjectId.ToString(CultureInfo.InvariantCulture),
+                            SubjectId = subjectId,
+                            StartDate = _photo.DateCreated,
+                            EndDate = DateTime.UtcNow,
+                            PhotoId = _photo.Id.Value,
+                            SourceId = _sourceId,
+                            Image = _photo.Photo130
+                        });
+                    }
                 }
                 offset += count;
-            } while (result.TotalCount > offset + count);
+            } while (result != null && result.TotalCount > offset);
         }
     }
 }

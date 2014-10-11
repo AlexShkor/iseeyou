@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
@@ -20,14 +21,14 @@ namespace ISeeYou
             _users = users;
         }
 
-        public void Run()
+        public async Task Run()
         {
             var cursor = _sources.Items.FindAll().SetSortOrder(SortBy<SourceDocument>.Descending(x => x.Rank));
             foreach (var sourceDocument in cursor)
             {
                 var subjectIds = GetSubjects(sourceDocument.Id);
                 var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
-                analyzer.Run();
+                await analyzer.Run();
                 ResetRank(sourceDocument.Id);
             }
         }

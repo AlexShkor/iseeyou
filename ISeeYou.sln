@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Vk", "src\ISeeYou.V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkAPIAsync", "src\ISeeYou.VkAPI45\VkAPIAsync.csproj", "{831AA7CD-7A50-4C32-A6C1-6C4371087836}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.VkRanking", "src\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj", "{38483746-2A8E-4364-997E-5EA17C86447C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Ranker", "ISeeYou.Ranker\ISeeYou.Ranker.csproj", "{39876B3F-21E4-4A42-9720-C11ABCB4FC71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,14 @@ Global
 		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

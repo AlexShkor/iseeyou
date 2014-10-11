@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using VkAPIAsync.Wrappers.Common;
 using VkAPIAsync.Wrappers.Photos;
 
@@ -15,7 +16,7 @@ namespace ISeeYou
             _subjects = subjects;
         }
 
-        public async void Run()
+        public async Task Run()
         {
             var photos = GetPhotos(_sourceId);
             foreach (var photo in photos)
@@ -23,7 +24,7 @@ namespace ISeeYou
                 if (photo.Id.HasValue)
                 {
                     var photoAnalyzer = new PhotoAnalyzer(_sourceId, photo, _subjects);
-                    photoAnalyzer.Run();
+                    await photoAnalyzer.Run();
                 }
             }
         }
@@ -40,8 +41,9 @@ namespace ISeeYou
                 {
                     yield return photo;
                 }
+                Task.Delay(300).Wait();
                 offset += count;
-            } while (result.TotalCount > offset + count);
+            } while (result.TotalCount > offset);
 
         }
     }
