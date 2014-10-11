@@ -7,14 +7,15 @@
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                        <li><a href="/account/logoff">Log Off </a></li>
+                            <li><a style="color: red" href="#">@User.Identity.Name </a></li>
+                            <li><a href="/account/logoff">Выйти </a></li>
                         </text>
                     }
                     else
                     {
                         <text>
-                        <li><a href="/account/login">Log In</a></li>
-                        <li><a href="/account/register">Sign Up</a></li>
+                        <li><a href="/account/login">Войти</a></li>
+                        <li><a href="/account/register">Регистрация</a></li>
                         </text>
                     }
                 </ul>
