@@ -50,12 +50,7 @@ namespace ISeeYou.Ranker
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Error: \n\r" + JsonHelper.ToJson(e));
-                        container.GetInstance<MongoViewDatabase>().GetCollection("temp_logs").Save(new BsonDocument
-                        {
-                            {"_id", ObjectId.GenerateNewId()},
-                            {"data", JsonHelper.ToJson(e)}
-                        });
+                        Console.WriteLine("Error!");
                     }
                 }
             }

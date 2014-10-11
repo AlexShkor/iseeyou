@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -44,8 +45,9 @@ namespace ISeeYou.VkRanking
 
         public List<RankedProfile> UpdateRankedProfiles(int id)
         {
-            var profile = Users.Get(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
+            var profile = Users.Get(new[] { id.ToString(CultureInfo.InvariantCulture) }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
             Thread.Sleep(400);
+            Console.WriteLine("Sleep " + 400);
             var friends = Friends.Get(id, new[] { "sex", "university", "schools" }).Result;
             Console.WriteLine("Profile " +(profile != null));
             if (profile != null)
@@ -76,8 +78,7 @@ namespace ISeeYou.VkRanking
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("RankByCommonFriends Error: \n\r" + JsonHelper.ToJson(ex));
-                            continue;
+                            Console.WriteLine("Error... RankByCommonFriends");
                         }
                     }
                 }
