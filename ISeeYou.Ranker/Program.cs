@@ -54,7 +54,7 @@ namespace ISeeYou.Ranker
                         container.GetInstance<MongoViewDatabase>().GetCollection("temp_logs").Save(new BsonDocument
                         {
                             {"_id", ObjectId.GenerateNewId()},
-                            {"data", new BsonDocumentWrapper(e)}
+                            {"data", JsonHelper.ToJson(e)}
                         });
                     }
                 }
