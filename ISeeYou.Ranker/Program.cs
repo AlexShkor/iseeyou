@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.Views;
@@ -39,7 +40,7 @@ namespace ISeeYou.Ranker
                 foreach (var subjectView in all)
                 {
                     Console.WriteLine("Precessing Subject " + subjectView.Id);
-                    Task.Delay(1000).Wait();
+                    Thread.Sleep(400);
                     container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                 }
             }

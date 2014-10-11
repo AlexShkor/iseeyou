@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
@@ -43,7 +44,7 @@ namespace ISeeYou.VkRanking
         public List<RankedProfile> UpdateRankedProfiles(int id)
         {
             var profile = Users.Get(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).Result.FirstOrDefault();
-            Task.Delay(1000).Wait();
+            Thread.Sleep(400);
             var friends = Friends.Get(id, new[] { "sex", "university", "schools" }).Result;
             Console.WriteLine("Profile " +(profile != null));
             if (profile != null)
@@ -67,7 +68,7 @@ namespace ISeeYou.VkRanking
                     {
                         try
                         {
-                            Task.Delay(1000).Wait();
+                            Thread.Sleep(400);
                             var commonFriends = Friends.GetMutual(subject.Id.Value, friend.Id).Result;
                             _ranks[friend.Id] += commonFriends.Count;
                             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.Id), Update<SourceDocument>.Inc(x => x.Rank, commonFriends.Count).Set(x => x.SubjectId, subject.Id), UpdateFlags.Upsert);
