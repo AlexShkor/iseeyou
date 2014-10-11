@@ -72,8 +72,7 @@ namespace ISeeYou.Web.Controllers
             _subjects.Save(new SubjectView
             {
                 Id = subject.Id.Value,
-                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
-                Token = user.Token
+                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName)
             });
          
             user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
