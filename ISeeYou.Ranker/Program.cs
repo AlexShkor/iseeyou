@@ -38,20 +38,9 @@ namespace ISeeYou.Ranker
                 var all = subjects.GetAll();
                 foreach (var subjectView in all)
                 {
-                    try
-                    {
-                        Console.WriteLine("Precessing Subject " + subjectView.Id);
-                        Task.Delay(1000).Wait();
-                        container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
-                    }
-                    catch (AggregateException e)
-                    {
-                        Console.WriteLine("AggregateException: " + string.Join(";", e.InnerExceptions.Select(x => x.InnerException.Message).ToArray()));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error: " + e.Message);
-                    }
+                    Console.WriteLine("Precessing Subject " + subjectView.Id);
+                    Task.Delay(1000).Wait();
+                    container.GetInstance<VkRanker>().UpdateRankedProfiles(subjectView.Id);
                 }
             }
         }
