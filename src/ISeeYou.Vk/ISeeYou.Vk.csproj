@@ -47,6 +47,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\AttachmetVk.cs" />
+    <Compile Include="Dto\PhotoAttachment.cs" />
+    <Compile Include="Dto\PhotoDto.cs" />
+    <Compile Include="Dto\VkSaveWallPhotoResult.cs" />
+    <Compile Include="Dto\VkUploadFileResult.cs" />
+    <Compile Include="Dto\VkUploadServer.cs" />
+    <Compile Include="Dto\WallPost.cs" />
     <Compile Include="Dto\PhotoAlbum.cs" />
     <Compile Include="Dto\VkGroupInfo.cs" />
     <Compile Include="Api\VkApi.cs" />
@@ -55,15 +62,12 @@
     <Compile Include="Dto\VkUser.cs" />
     <Compile Include="Dto\VkPost.cs" />
     <Compile Include="Helpers\VkHelper.cs" />
-    <Compile Include="Infrastructure\MyWebRequest.cs" />
+    <Compile Include="Infrastructure\VkResponseException.cs" />
     <Compile Include="Infrastructure\OAuthResponce.cs" />
-    <Compile Include="Infrastructure\VkAttachment.cs" />
-    <Compile Include="Infrastructure\VkExtendedAttachment.cs" />
+    <Compile Include="Infrastructure\VkWebRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\Attachments\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>

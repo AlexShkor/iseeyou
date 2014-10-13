@@ -9,7 +9,6 @@ using AttributeRouting.Web.Mvc;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Helpers;
-using ISeeYou.VkRanking;
 
 namespace ISeeYou.Web.Controllers
 {

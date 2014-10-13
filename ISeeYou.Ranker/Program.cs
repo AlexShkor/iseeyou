@@ -1,6 +1,5 @@
 ﻿using System;
 using ISeeYou.ViewServices;
-using ISeeYou.VkRanking;
 using StructureMap;
 
 namespace ISeeYou.Ranker

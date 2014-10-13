@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
 using ISeeYou.Vk.Dto;
-using ISeeYou.VkRanking.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-namespace ISeeYou.VkRanking
+
+namespace ISeeYou
+{
     public class VkRanker
     {
         private const int RANK_STEP = 10;

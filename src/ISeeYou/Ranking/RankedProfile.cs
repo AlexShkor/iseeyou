@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ISeeYou.VkRanking.Models
+﻿namespace ISeeYou
 {
     public class RankedProfile
     {

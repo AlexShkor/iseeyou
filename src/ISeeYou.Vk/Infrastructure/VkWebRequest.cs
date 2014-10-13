@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -83,13 +83,5 @@ namespace ISeeYou.Vk.Infrastructure
             return responseFromServer;
         }
 
-    }
-
-    public class VkResponseException : Exception
-    {
-        public VkResponseException(string message):base(message)
-        {
-            
-        }
     }
 }

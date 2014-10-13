@@ -60,10 +60,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj">
-      <Project>{38483746-2A8E-4364-997E-5EA17C86447C}</Project>
-      <Name>ISeeYou.VkRanking</Name>
-    </ProjectReference>
     <ProjectReference Include="..\src\ISeeYou\ISeeYou.csproj">
       <Project>{56CAF3FE-51AC-419B-82D2-82CA4A8242F2}</Project>
       <Name>ISeeYou</Name>

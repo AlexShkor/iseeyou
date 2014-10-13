@@ -774,10 +774,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj">
-      <Project>{38483746-2A8E-4364-997E-5EA17C86447C}</Project>
-      <Name>ISeeYou.VkRanking</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ISeeYou.Vk\ISeeYou.Vk.csproj">
       <Project>{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}</Project>
       <Name>ISeeYou.Vk</Name>
