@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using ISeeYou.Domain.Aggregates.Subject.Commands;
 using ISeeYou.Vk.Api;
+
 namespace ISeeYou
 {
     public class PhotoAnalyzer
@@ -24,25 +24,25 @@ namespace ISeeYou
         {
             var api = new VkApi(null);
             var result = api.Likes(_wallPost.id, _sourceId);
-                if (result != null && result.Any())
+            if (result != null && result.Any())
+            {
+                var intersect = result.Intersect(_subjects);
+                var photo = _wallPost.attachments.Select(x => x.photo).FirstOrDefault();
+                foreach (var subjectId in intersect)
                 {
-                    var intersect = result.Intersect(_subjects);
-                    var photo = _wallPost.attachments.Select(x => x.photo).FirstOrDefault();
-                    foreach (var subjectId in intersect)
+                    GlobalQueue.Send(new AddPhotoLike
                     {
-                        GlobalQueue.Send(new AddPhotoLike
-                        {
-                            Id = subjectId.ToString(CultureInfo.InvariantCulture),
-                            SubjectId = subjectId,
-                            StartDate = UnixTimeStampToDateTime(_wallPost.date),
-                            EndDate = DateTime.UtcNow,
-                            PhotoId = _wallPost.id,
-                            SourceId = _sourceId,
-                            Image = photo.photo_130,
-                            ImageBig = photo.photo_604
-                        });
-                    }
+                        Id = subjectId.ToString(CultureInfo.InvariantCulture),
+                        SubjectId = subjectId,
+                        StartDate = UnixTimeStampToDateTime(_wallPost.date),
+                        EndDate = DateTime.UtcNow,
+                        PhotoId = _wallPost.id,
+                        SourceId = _sourceId,
+                        Image = photo.photo_130,
+                        ImageBig = photo.photo_604
+                    });
                 }
+            }
         }
 
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)

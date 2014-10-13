@@ -127,6 +127,7 @@
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="GlobalQueue.cs" />
     <Compile Include="PhotoAnalyzer.cs" />
+    <Compile Include="WallAnalyzer.cs" />
     <Compile Include="Platform\Mvc\BaseController.cs" />
     <Compile Include="Hubs\UsersHub.cs" />
     <Compile Include="Platform\Mongo\IdGenerator.cs" />
@@ -318,10 +319,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ISeeYou.VkAPI45\VkAPIAsync.csproj">
-      <Project>{831AA7CD-7A50-4C32-A6C1-6C4371087836}</Project>
-      <Name>VkAPIAsync</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ISeeYou.Vk\ISeeYou.Vk.csproj">
       <Project>{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}</Project>
       <Name>ISeeYou.Vk</Name>

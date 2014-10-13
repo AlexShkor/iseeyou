@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ISeeYou.Domain.Aggregates.Subject.Commands;
 using ISeeYou.Vk.Api;
-using VkAPIAsync.Wrappers.Common;
-using VkAPIAsync.Wrappers.Photos;
 
 namespace ISeeYou
 {
@@ -21,19 +21,45 @@ namespace ISeeYou
 
         public void Run()
         {
-            var wallPosts = GetWall(_sourceId).ToList();
-            foreach (var wallPost in wallPosts)
+            var api = new VkApi(null);
+            var albums = api.GetAlbums(_sourceId).Select(x => x.aid.ToString(CultureInfo.InvariantCulture)).Concat(new[] { "profile", "wall" });
+            foreach (var album in albums)
             {
-                    var photoAnalyzer = new PhotoAnalyzer(_sourceId, wallPost, _subjects);
-                    photoAnalyzer.Run();
+                var photos = api.GetPhotos(_sourceId, album);
+                foreach (var photoDto in photos)
+                {
+                    var result = api.Likes(photoDto.pid, _sourceId);
+                    if (result != null && result.Any())
+                    {
+                        var intersect = result.Intersect(_subjects);
+                        foreach (var subjectId in intersect)
+                        {
+                            GlobalQueue.Send(new AddPhotoLike
+                            {
+                                Id = subjectId.ToString(CultureInfo.InvariantCulture),
+                                SubjectId = subjectId,
+                                StartDate = UnixTimeStampToDateTime(photoDto.created),
+                                EndDate = DateTime.UtcNow,
+                                PhotoId = photoDto.pid,
+                                SourceId = _sourceId,
+                                Image = photoDto.src,
+                                ImageBig = photoDto.src_big
+                            });
+                        }
+                    }
+                }
             }
         }
 
-        private IEnumerable<WallPost> GetWall(int sourceId)
-        {
-            var api = new VkApi(null);
-            return api.GetWall(sourceId).Where(x=> x.attachments != null && x.attachments.Any(a => a.photo != null));
 
+
+        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
     }
+
 }

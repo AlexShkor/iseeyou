@@ -63,10 +63,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ISeeYou.VkAPI45\VkAPIAsync.csproj">
-      <Project>{831AA7CD-7A50-4C32-A6C1-6C4371087836}</Project>
-      <Name>VkAPIAsync</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj">
       <Project>{38483746-2a8e-4364-997e-5ea17c86447c}</Project>
       <Name>ISeeYou.VkRanking</Name>

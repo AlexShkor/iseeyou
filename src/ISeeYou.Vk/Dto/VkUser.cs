@@ -6,7 +6,7 @@ namespace ISeeYou.Vk.Dto
     public class VkUser
     {
         [JsonProperty("uid")]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [JsonProperty("first_name")]
         public string FirstName { get; set; }
@@ -22,5 +22,8 @@ namespace ISeeYou.Vk.Dto
 
         [JsonProperty("photo_200")]
         public string AvatarUrl { get; set; }
+
+        [JsonProperty("sex")]
+        public string Sex { get; set; }
     }
 }

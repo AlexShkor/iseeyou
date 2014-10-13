@@ -11,15 +11,11 @@ namespace ISeeYou
 {
     public class SourceFetcher
     {
-        private readonly SubjectViewService _subjects;
         private readonly SourcesViewService _sources;
-        private readonly UsersViewService _users;
 
-        public SourceFetcher(SubjectViewService subjects, SourcesViewService sources, UsersViewService users)
+        public SourceFetcher(SourcesViewService sources)
         {
-            _subjects = subjects;
             _sources = sources;
-            _users = users;
         }
 
         public void Run()

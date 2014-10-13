@@ -19,7 +19,7 @@ namespace ISeeYou.Vk.Api
         private const string BaseApiCallurl = "https://api.vk.com/method/";
         protected string AccessToken;
 
-        public VkApi(string accessToken)
+        public VkApi(string accessToken = null)
         {
             AccessToken = accessToken;
         }
@@ -32,7 +32,7 @@ namespace ISeeYou.Vk.Api
             return Parse<List<VkUser>>(json);  
         }
 
-        public List<int> GetUserFriends(string uid, string[] fields)
+        public List<VkUser> GetUserFriends(string uid, string[] fields)
         {
             var parametrs = new NameValueCollection
             {
@@ -41,7 +41,7 @@ namespace ISeeYou.Vk.Api
             };
             var json = Call("friends.get", parametrs);
 
-            return Parse<List<int>>(json);  
+            return Parse<List<VkUser>>(json);  
         }
 
         public void Post(string ownerId, string message, string url,VkSaveWallPhotoResult photo)
@@ -218,11 +218,12 @@ namespace ISeeYou.Vk.Api
             }
         }
 
-        public List<PhotoDto> GetPhotos(int userId)
+        public List<PhotoDto> GetPhotos(int sourceId, string albumId)
         {
-            var json = Call("photos.getAll", new NameValueCollection()
+            var json = Call("photos.get", new NameValueCollection()
             {
-                { "owner_id", userId.ToString(CultureInfo.InvariantCulture) },
+                { "owner_id", sourceId.ToString(CultureInfo.InvariantCulture) },
+                { "album_id", albumId},
                 { "offset", "0"},
                 { "count", "200"},
             });
@@ -245,13 +246,22 @@ namespace ISeeYou.Vk.Api
         {
             var json = Call("likes.getList", new NameValueCollection()
             {
-                {"type", "post"},
+                {"type", "photo"},
                 {"item_id", itemId.ToString(CultureInfo.InvariantCulture)},
                 {"owner_id", ownerId.ToString(CultureInfo.InvariantCulture)},
                 {"offset", "0"},
                 {"count", "1000"},
             });
             return ParseUsers(json).ToList();
+        }
+
+        public IEnumerable<PhotoAlbum> GetAlbums(int ownerId)
+        {
+            var json = Call("photos.getAlbums", new NameValueCollection()
+            {
+                {"owner_id", ownerId.ToString(CultureInfo.InvariantCulture)},
+            });
+            return ParseListing<PhotoAlbum>(json).ToList();
         }
     }
 
@@ -274,8 +284,13 @@ namespace ISeeYou.Vk.Api
 
     public class PhotoDto
     {
-        public int id { get; set; }
-        public int date { get; set; }
+        public int pid { get; set; }
+        public string aid { get; set; }
+        public string src { get; set; }
+        public string src_big { get; set; }
+        public string text { get; set; }
+        public int created { get; set; }
+        public int post_id { get; set; }
     }
 
     public class PhotoAttachment

@@ -14,7 +14,7 @@ namespace ISeeYou.Worker
             while (true)
             {
                 var api = new VkApi(null);
-                var result = api.Likes(4459,4384228);
+                var result = api.GetPhotos(2409833,"profile");
             }
         }
     }

@@ -10,9 +10,9 @@ using ISeeYou.Platform.Mvc;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
+using ISeeYou.Vk.Dto;
 using ISeeYou.Vk.Helpers;
 using MongoDB.Driver.Builders;
-using VkAPIAsync.Wrappers.Users;
 
 namespace ISeeYou.Web.Controllers
 {
@@ -67,15 +67,15 @@ namespace ISeeYou.Web.Controllers
         public async Task<ActionResult> AddSubject(SubjectViewModel model)
         {
             var id = GetSubjectIdFromUrl(model.SubjectUrl);
-            var subject = await GetUserFromVk(id);
+            var subject = GetUserFromVk(id);
             var user = _users.GetById(UserId);
             _subjects.Save(new SubjectView
             {
-                Id = subject.Id.Value,
+                Id = subject.UserId,
                 Name = string.Format("{0} {1}", subject.FirstName, subject.LastName)
             });
-         
-            user.Subjects.Add(new SubjectData() { Id = subject.Id.Value.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
+
+            user.Subjects.Add(new SubjectData() { Id = subject.UserId.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
             _users.Save(user);
             
             return RedirectToAction("Index", "Profile");
@@ -92,9 +92,10 @@ namespace ISeeYou.Web.Controllers
             return UrlUtility.LastSegment(url);
         }
 
-        private async Task<User> GetUserFromVk(string id)
+        private VkUser GetUserFromVk(string id)
         {
-            return (await Users.Get(new List<string>() {id}, new List<string>() {"sex"}))[0];
+            var api = new VkApi(null);
+            return api.GetUsers(new[] {"sex"}, new[] {id})[0];
         }
 
         [GET("ViewSubjectEvents")]
