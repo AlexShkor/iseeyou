@@ -25,10 +25,10 @@ namespace ISeeYou
             {
                 try
                 {
+                    ResetRank(sourceDocument.Id);
                     var subjectIds = GetSubjects(sourceDocument.Id);
                     var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
                     analyzer.Run();
-                    ResetRank(sourceDocument.Id);
                 }
                 catch (Exception e)
                 {

@@ -25,15 +25,17 @@ namespace ISeeYou
             var albums = api.GetAlbums(_sourceId).Select(x => x.aid.ToString(CultureInfo.InvariantCulture)).Concat(new[] { "profile", "wall" });
             foreach (var album in albums)
             {
-                var photos = api.GetPhotos(_sourceId, album);
+                var photos = api.GetPhotos(_sourceId, album).Where(x=> x.likes.count > 0).OrderByDescending(x=> x.likes.count);
                 foreach (var photoDto in photos)
                 {
                     var result = api.Likes(photoDto.pid, _sourceId);
+                    Console.WriteLine("Likes {0} found for source {1}", result.Count, _sourceId);
                     if (result != null && result.Any())
                     {
                         var intersect = result.Intersect(_subjects);
                         foreach (var subjectId in intersect)
                         {
+                            Console.WriteLine("Found for {0}!!!",subjectId);
                             GlobalQueue.Send(new AddPhotoLike
                             {
                                 Id = subjectId.ToString(CultureInfo.InvariantCulture),

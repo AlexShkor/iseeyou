@@ -14,7 +14,9 @@ namespace ISeeYou.Worker
             while (true)
             {
                 var api = new VkApi(null);
-                var result = api.GetPhotos(2409833,"profile");
+                var fields =
+ new[] { "sex", "education", "city", "bdate", "lists", "followers_count" };
+                var result = api.GetUserFriends("2409833", fields);
             }
         }
     }

@@ -27,21 +27,25 @@ namespace ISeeYou
             return null;
         }
 
-        public List<RankedProfile> UpdateRankedProfiles(int id)
+        public void UpdateRankedProfiles(int id)
         {
             var api = new VkApi(null);
-            var profile = api.GetUsers(new[] { id.ToString() }, new[] { "sex", "relatives", "university", "schools" }).FirstOrDefault();
-            var friends = api.GetUserFriends(id.ToString(), new[] { "sex", "university", "schools" });
+            var fields = 
+            new[] {"sex", "education", "city", "bdate", "lists", "followers_count"};
+            var profile = api.GetUsers(new[] { id.ToString() }, fields).FirstOrDefault();
+            var friends = api.GetUserFriends(id.ToString(),fields);
 
             if (profile != null)
             {
-                RankBySex(profile, friends);
+                foreach (var friend in friends)
+                {
+                    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId,id), UpdateFlags.Upsert);
+                }
+                //RankBySex(profile, friends);
                 //RankByCommonFriends(profile, friends);
                 //RankByRelatives(profile);
                 //RankBySchoolAndUniversity(profile, friends);
             }
-
-            return _ranks.Select(x => new RankedProfile(x.Key.Value, x.Value, id)).ToList();
         }
 
         //private void RankByCommonFriends(VkUser subject, IEnumerable<FriendDto> friends)
@@ -120,15 +124,15 @@ namespace ISeeYou
             }
         }
 
-        private int GetRankBySex(string targetSex, string userSex)
+        private int GetRankBySex(Sex targetSex, Sex userSex)
         {
-            if (targetSex == null)
+            if (targetSex == Sex.None)
             {
                 return 0;
             }
-            if (targetSex == "male")
+            if (targetSex == Sex.Male)
             {
-                if (userSex == "Female")
+                if (userSex == Sex.Female)
                 {
                     return RANK_STEP;
                 }
@@ -136,7 +140,7 @@ namespace ISeeYou
             }
             else
             {
-                if (userSex == "male")
+                if (userSex == Sex.Male)
                 {
                     return RANK_STEP;
                 }

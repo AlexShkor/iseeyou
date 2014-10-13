@@ -103,7 +103,7 @@ namespace ISeeYou.Web.Controllers
         {
             var model = new SubjectEventsViewModel()
             {
-                Events = _events.Items.Find(Query.EQ("SubjectId", id)).Select(x => x).ToList<EventView>()
+                Events = _events.Items.Find(Query.EQ("SubjectId", id)).OrderByDescending(x=> x.StartDate).ToList()
             };
 
             return View(model);

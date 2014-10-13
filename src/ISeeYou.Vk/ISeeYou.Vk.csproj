@@ -42,6 +42,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="VkAPIAsync">
+      <HintPath>..\ISeeYou.VkAPI45\bin\Debug\VkAPIAsync.dll</HintPath>
+    </Reference>
     <Reference Include="VkSharp">
       <HintPath>..\..\packages\VkSharp.1.0.1\lib\VkSharp.dll</HintPath>
     </Reference>

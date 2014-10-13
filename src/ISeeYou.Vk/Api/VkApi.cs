@@ -224,6 +224,7 @@ namespace ISeeYou.Vk.Api
             {
                 { "owner_id", sourceId.ToString(CultureInfo.InvariantCulture) },
                 { "album_id", albumId},
+                { "extended", "1"},
                 { "offset", "0"},
                 { "count", "200"},
             });
@@ -249,8 +250,8 @@ namespace ISeeYou.Vk.Api
                 {"type", "photo"},
                 {"item_id", itemId.ToString(CultureInfo.InvariantCulture)},
                 {"owner_id", ownerId.ToString(CultureInfo.InvariantCulture)},
-                {"offset", "0"},
-                {"count", "1000"},
+                { "offset", "0"},
+                { "count", "1000"},
             });
             return ParseUsers(json).ToList();
         }

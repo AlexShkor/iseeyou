@@ -9,5 +9,12 @@
         public string text { get; set; }
         public int created { get; set; }
         public int post_id { get; set; }
+
+        public LikesInfo likes { get; set; }
+    }
+
+    public class LikesInfo
+    {
+        public int count { get; set; }
     }
 }
