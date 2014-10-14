@@ -2,6 +2,7 @@
 using ISeeYou.Documents;
 using ISeeYou.Platform.Mongo;
 using ISeeYou.Views;
+using ISeeYou.ViewServices;
 using MongoDB.Driver;
 
 namespace ISeeYou.Databases
@@ -91,6 +92,12 @@ namespace ISeeYou.Databases
         public MongoCollection<AppView> Apps
         {
             get { return GetCollection<AppView>(ViewCollections.Apps); }
+        }
+
+
+        public MongoCollection<TrackingMark> TrackingMarks
+        {
+            get { return GetCollection<TrackingMark>(ViewCollections.TrackingMarks); }
         }
 
     }

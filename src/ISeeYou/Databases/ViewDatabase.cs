@@ -15,10 +15,11 @@ namespace ISeeYou.Databases
         public const string Users = "users";
         public const string Sites = "sites";
         public const string Tables = "tables";
-        public static string Sources = "sources";
-        public static string Subjects = "subjects";
-        public static string Events = "events";
-        public static string Apps = "apps";
+        public const string Sources = "sources";
+        public const string Subjects = "subjects";
+        public const string Events = "events";
+        public const string Apps = "apps";
+        public const string TrackingMarks = "tracking_marks";
     }
 
     public class ViewDatabase

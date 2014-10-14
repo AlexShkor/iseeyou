@@ -211,6 +211,7 @@
     <Compile Include="Platform\ViewModels\ValidationError.cs" />
     <Compile Include="Fetching\SourceAnalyzer.cs" />
     <Compile Include="Fetching\SourceFetcher.cs" />
+    <Compile Include="ViewServices\AppsViewService.cs" />
     <Compile Include="ViewServices\EventsViewService.cs" />
     <Compile Include="ViewServices\SiteViewService.cs" />
     <Compile Include="Handlers\ViewHandlers\UserViewHandler.cs" />
@@ -300,6 +301,8 @@
     <Compile Include="Databases\ViewDatabase.cs" />
     <Compile Include="ViewServices\SourcesViewService.cs" />
     <Compile Include="ViewServices\SubjectViewService.cs" />
+    <Compile Include="Views\TrackingMark.cs" />
+    <Compile Include="ViewServices\TrackingMarksViewService.cs" />
     <Compile Include="ViewServices\UserViewService.cs" />
     <Compile Include="Views\AppView.cs" />
     <Compile Include="Views\EventView.cs" />
