@@ -16,17 +16,4 @@ namespace ISeeYou.ViewServices
             get { return Database.Events; }
         }
     }
-
-    public class AppsViewService : ViewService<AppView>
-    {
-        public AppsViewService(MongoViewDatabase database)
-            : base(database)
-        {
-        }
-
-        public override MongoCollection<AppView> Items
-        {
-            get { return Database.Apps; }
-        }
-    }
 }
