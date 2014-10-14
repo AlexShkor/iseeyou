@@ -83,6 +83,14 @@ namespace ISeeYou.Vk.Api
             return Parse<List<VkGroupInfo>>(json)[0];
         }
 
+        public IEnumerable<int> GetMutualFriends(string userId, string friendId)
+        {
+            var parameters = new NameValueCollection {{"target_uid", userId}, {"source_uid", friendId}};
+            var json = Call("friends.getMutual", parameters);
+
+            return Parse<List<int>>(json);
+        }
+
         private T Parse<T>(string json)
         {
             var response = JObject.Parse(json);

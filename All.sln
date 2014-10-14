@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A51EA007-FF87-4930-95E9-5E9352115508}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Fetcher", "src\ISeeYou.Fetcher\ISeeYou.Fetcher.csproj", "{59662377-BE15-4A6B-99B6-BA797B8E4968}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Worker", "ISeeYou.Worker\ISeeYou.Worker.csproj", "{8E3EAF8B-D4DE-4286-A2CF-B5423D3190E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.VkRanking", "src\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj", "{38483746-2A8E-4364-997E-5EA17C86447C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{8E3EAF8B-D4DE-4286-A2CF-B5423D3190E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E3EAF8B-D4DE-4286-A2CF-B5423D3190E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E3EAF8B-D4DE-4286-A2CF-B5423D3190E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
