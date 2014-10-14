@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ISeeYou.Documents;
-using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Driver.Builders;
 
-namespace ISeeYou
+namespace ISeeYou.Fetching
 {
     public class SourceFetcher
     {
