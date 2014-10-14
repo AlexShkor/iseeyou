@@ -236,9 +236,9 @@ namespace ISeeYou.Vk.Api
             var json = Call("wall.get", new NameValueCollection()
             {
                 { "owner_id", userId.ToString(CultureInfo.InvariantCulture) },
-                   { "offset", "0"},
+                { "offset", "0"},
                 { "count", "100"},
-                { "filter", "posted_photo"},
+                { "filter", "all"},
             });
             return ParseListing<WallPost>(json).ToList();
         }

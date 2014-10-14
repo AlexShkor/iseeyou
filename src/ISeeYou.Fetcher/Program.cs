@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ISeeYou.Documents;
+using ISeeYou.Fetching;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Bson;
