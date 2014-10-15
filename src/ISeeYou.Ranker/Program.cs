@@ -1,4 +1,5 @@
 ﻿using System;
+using ISeeYou.Ranking;
 using ISeeYou.ViewServices;
 using StructureMap;
 

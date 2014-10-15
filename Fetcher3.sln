@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A51EA007-FF87-4930-95E9-5E9352115508}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou", "src\ISeeYou\ISee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Fetcher", "src\ISeeYou.Fetcher\ISeeYou.Fetcher.csproj", "{59662377-BE15-4A6B-99B6-BA797B8E4968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkAPIAsync", "src\ISeeYou.VkAPI45\VkAPIAsync.csproj", "{831AA7CD-7A50-4C32-A6C1-6C4371087836}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Vk", "src\ISeeYou.Vk\ISeeYou.Vk.csproj", "{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +30,10 @@ Global
 		{59662377-BE15-4A6B-99B6-BA797B8E4968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59662377-BE15-4A6B-99B6-BA797B8E4968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59662377-BE15-4A6B-99B6-BA797B8E4968}.Release|Any CPU.Build.0 = Release|Any CPU
-		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{831AA7CD-7A50-4C32-A6C1-6C4371087836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
