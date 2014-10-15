@@ -14,14 +14,14 @@ namespace ISeeYou.VkRanking
     {
         private const int RANK_STEP = 10;
         private readonly SourcesViewService _sources;
-        private Dictionary<int?, int> _ranks;
+        private Dictionary<int, int> _ranks;
         private readonly VkApi _api;
 
         public VkRanker(SourcesViewService sources)
         {
-            _ranks = new Dictionary<int?, int>();
+            _ranks = new Dictionary<int, int>();
             _sources = sources;
-            var api = new VkApi(null);
+            _api = new VkApi(null);
         }
 
         public List<RankedProfile> GetRankedProfiles(string screenName)
@@ -32,20 +32,20 @@ namespace ISeeYou.VkRanking
         public void UpdateRankedProfiles(int id)
         {
             
-            var fields = new[] { "sex", "education", "city", "bdate", "lists", "followers_count" };
+            var fields = new[] { "sex", "education", "city", "bdate", "lists", "followers_count", "schools", "relatives" };
             var profile = _api.GetUsers(new[] { id.ToString() }, fields).FirstOrDefault();
             var friends = _api.GetUserFriends(id.ToString(), fields);
 
             if (profile != null)
             {
-                foreach (var friend in friends)
-                {
-                    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
-                }
+                //foreach (var friend in friends)
+                //{
+                //    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
+                //}
                 RankBySex(profile, friends);
                 RankByCommonFriends(profile, friends);
-                //RankByRelatives(profile);
-                //RankBySchoolAndUniversity(profile, friends);
+                RankByRelatives(profile);
+                RankBySchoolAndUniversity(profile, friends);
             }
         }
 
@@ -69,16 +69,16 @@ namespace ISeeYou.VkRanking
         private void RankBySchoolAndUniversity(VkUser subject, IEnumerable<VkUser> friends)
         {
             var targetUniversity = subject.education.university;
-            //var targetSchools = subject.Schools;
+            var targetSchools = subject.schools;
 
             var friendsUniversity =
                 friends.Where(x => x.education.university != null && targetUniversity != null && x.education.university == targetUniversity);
-            //var friendsSchools =
-            //    friends.Where(
-            //        x =>
-            //            x.Schools != null && targetSchools != null &&
-            //            x.Schools.Select(s => s.Id).Intersect(targetSchools.Select(ts => ts.Id)).Any());
-            var combinedEducationFriends = friendsUniversity;//.Concat(friendsSchools).Distinct();
+            var friendsSchools =
+                friends.Where(
+                    x =>
+                        x.schools != null && targetSchools != null &&
+                        x.schools.Select(s => s.id).Intersect(targetSchools.Select(ts => ts.id)).Any());
+            var combinedEducationFriends = friendsUniversity.Concat(friendsSchools).Distinct();
             foreach (var friend in combinedEducationFriends)
             {
                 _ranks[friend.UserId] += RANK_STEP;
@@ -86,27 +86,27 @@ namespace ISeeYou.VkRanking
             }
         }
 
-        //private void RankByRelatives(VkUser subject)
-        //{
-        //    var relatives = subject.Relatives;
-        //    if (relatives != null)
-        //    {
-        //        foreach (var relative in relatives)
-        //        {
-        //            if (_ranks.Keys.Contains(relative.Id))
-        //            {
-        //                _ranks[relative.Id] += RANK_STEP;
-        //                _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, relative.Id), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.Id), UpdateFlags.Upsert);
-        //            }
-        //            else
-        //            {
-        //                _ranks.Add(relative.Id, RANK_STEP);
-        //                _sources.Items.Insert(new SourceDocument() {Id = relative.Id.Value, Rank = RANK_STEP, SubjectId = subject.Id.Value});
-        //            }
+        private void RankByRelatives(VkUser subject)
+        {
+            var relatives = subject.Relatives;
+            if (relatives != null)
+            {
+                foreach (var relative in relatives)
+                {
+                    if (_ranks.Keys.Contains(relative.Id))
+                    {
+                        _ranks[relative.Id] += RANK_STEP;
+                        _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, relative.Id), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
+                    }
+                    else
+                    {
+                        _ranks.Add(relative.Id, RANK_STEP);
+                        _sources.Items.Insert(new SourceDocument() { Id = relative.Id, Rank = RANK_STEP, SubjectId = subject.UserId });
+                    }
 
-        //        }
-        //    }
-        //}
+                }
+            }
+        }
 
         private void RankBySex(VkUser subject, IEnumerable<VkUser> friends)
         {

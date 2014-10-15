@@ -24,7 +24,7 @@ namespace ISeeYou.Vk.Api
             AccessToken = accessToken;
         }
 
-        public List<VkUser> GetUsers(string[] fields, string[]uids)
+        public List<VkUser> GetUsers(string[] uids, string[] fields)
         {
             var parametrs = new NameValueCollection { { "uids", string.Join(",", uids) }, { "fields", string.Join(",", fields) } };
             var json = Call("users.get", parametrs);

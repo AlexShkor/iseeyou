@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Vk", "src\ISeeYou.V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Fetcher", "src\ISeeYou.Fetcher\ISeeYou.Fetcher.csproj", "{59662377-BE15-4A6B-99B6-BA797B8E4968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Ranker", "src\ISeeYou.Ranker\ISeeYou.Ranker.csproj", "{39876B3F-21E4-4A42-9720-C11ABCB4FC71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Worker", "ISeeYou.Worker\ISeeYou.Worker.csproj", "{8E3EAF8B-D4DE-4286-A2CF-B5423D3190E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.VkRanking", "src\ISeeYou.VkRanking\ISeeYou.VkRanking.csproj", "{38483746-2A8E-4364-997E-5EA17C86447C}"
 EndProject
@@ -58,10 +58,6 @@ Global
 		{38483746-2A8E-4364-997E-5EA17C86447C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38483746-2A8E-4364-997E-5EA17C86447C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39876B3F-21E4-4A42-9720-C11ABCB4FC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ISeeYou.Vk.Dto
 {
@@ -41,6 +42,10 @@ namespace ISeeYou.Vk.Dto
         public int hidden { get; set; }
 
         public Education education { get; set; }
+        public List<School> schools { get; set; }
+
+        public List<Relative> Relatives { get; set; }
+
     }
 
     public class Education
@@ -50,6 +55,20 @@ namespace ISeeYou.Vk.Dto
         public string faculty { get; set; }
         public string faculty_name { get; set; }
         public string graduation { get; set; }
+    }
+
+    public class School
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Relative
+    {
+        [JsonProperty("uid")]
+        public int Id { get; set; }
+
+        public string type { get; set; }
     }
 
     public enum Sex

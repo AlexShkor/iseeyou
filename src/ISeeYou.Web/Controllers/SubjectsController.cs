@@ -95,7 +95,7 @@ namespace ISeeYou.Web.Controllers
         private VkUser GetUserFromVk(string id)
         {
             var api = new VkApi(null);
-            return api.GetUsers(new[] {"sex"}, new[] {id})[0];
+            return api.GetUsers(new[] {id}, new[] {"sex"})[0];
         }
 
         [GET("ViewSubjectEvents")]
