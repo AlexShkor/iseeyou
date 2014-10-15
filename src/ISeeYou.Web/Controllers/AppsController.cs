@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
+using ISeeYou.Ranking;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Helpers;

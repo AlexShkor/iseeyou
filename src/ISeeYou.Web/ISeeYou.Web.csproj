@@ -322,7 +322,7 @@
     <Content Include="Assets\vendor\bootstrap\bootstrap.js" />
     <Content Include="Assets\vendor\bootstrap\bootstrap.min.js" />
     <Content Include="Assets\vendor\bootstrap\css\bootstrap.css" />
-    <Content Include="Assets\vendor\bootstrap\css\darkstrap.css" />
+    <Content Include="Assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\vendor\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="Assets\vendor\bootstrap\img\glyphicons-halflings.png" />
     <Content Include="Assets\vendor\bootstrap\js\bootstrap-alert.js" />
@@ -718,6 +718,9 @@
     <Content Include="font\fontawesome-webfont.woff" />
     <Content Include="font\FontAwesome.otf" />
     <Content Include="Assets\vendor\jquery-2.0.0.min.map" />
+    <Content Include="Assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Assets\vendor\jquery-2.0.2.intellisense.js" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>

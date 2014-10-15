@@ -21,11 +21,10 @@ namespace ISeeYou.Web
 
             style = new StyleBundle("~/content/css")
                 .Include("~/assets/vendor/bootstrap/css/bootstrap.css")
-                .Include("~/assets/vendor/bootstrap/css/darkstrap.css")
-                .Include("~/assets/app/css/common.css")
-                .Include("~/assets/app/css/auctionrobot.css")
+                //.Include("~/assets/app/css/common.css")
+                //.Include("~/assets/app/css/auctionrobot.css")
                 .Include("~/assets/app/css/m-buttons.css")
-                .Include("~/assets/app/css/landing.css")
+                //.Include("~/assets/app/css/landing.css")
                 .Include("~/Assets/vendor/font-awesome/css/font-awesome.css")
                 .Include("~/Assets/vendor/angular-spiner/css/rzslider.css");
 
