@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ISeeYou.Domain.Aggregates.Subject.Commands;
+using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
 using StructureMap;
 
@@ -12,7 +13,6 @@ namespace ISeeYou.Worker
 {
     class Program
     {
-        private static IEnumerable<int> _subjects;
 
         static void Main(string[] args)
         {
@@ -20,27 +20,36 @@ namespace ISeeYou.Worker
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var consumer = container.GetInstance<IConsumer>();
+            var api = new VkApi();
             while (true)
             {
-                var photo = consumer.Pull();
-                var api = new VkApi();
-                var result = api.Likes(photo.Id, photo.UserId);
-                if (result != null && result.Any())
+                var subjects = container.GetInstance<SubjectViewService>().GetAll().Select(x => x.Id).ToList();
+                for (int i = 0; i < 100; i++)
                 {
-                    var intersect = result.Intersect(_subjects);
-                    foreach (var subjectId in intersect)
+                    var photo = consumer.Pull();
+                    var result = api.Likes(photo.Id, photo.UserId);
+                    if (result != null && result.Any())
                     {
-                        Console.WriteLine("Found for {0}!!!", subjectId);
-                        GlobalQueue.Send(new AddPhotoLike
+                        var intersect = result.Intersect(subjects);
+                        PhotoDocument doc = null;
+                        foreach (var subjectId in intersect)
                         {
-                            Id = subjectId.ToString(CultureInfo.InvariantCulture),
-                            SubjectId = subjectId,
-                            StartDate = photo.Created,
-                            EndDate = DateTime.UtcNow,
-                            PhotoId = photo.Id,
-                            //Image = photoDto.src,
-                          //  ImageBig = photoDto.src_big
-                        });
+                            if (doc == null)
+                            {
+                                doc = container.GetInstance<PhotoDocumentsService>()
+                                        .GetById(photo.UserId + "_" + photo.Id);
+                            }
+                            GlobalQueue.Send(new AddPhotoLike
+                            {
+                                Id = subjectId.ToString(CultureInfo.InvariantCulture),
+                                SubjectId = subjectId,
+                                StartDate = doc.Created,
+                                EndDate = DateTime.UtcNow,
+                                PhotoId = photo.Id,
+                                Image = doc.Image,
+                                ImageBig = doc.ImageBig
+                            });
+                        }
                     }
                 }
             }
@@ -56,6 +65,5 @@ namespace ISeeYou.Worker
     {
         public int UserId { get; set; }
         public int Id { get; set; }
-        public DateTime Created { get; set; }
     }
 }

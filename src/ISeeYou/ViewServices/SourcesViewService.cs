@@ -39,5 +39,8 @@ namespace ISeeYou.ViewServices
         public DateTime NextFetching { get; set; }
 
         public int Rank { get; set; }
+        public DateTime Created { get; set; }
+        public string Image { get; set; }
+        public string ImageBig { get; set; }
     }
 }
