@@ -83,6 +83,9 @@
     <Reference Include="Quartz">
       <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="SendGridMail">
       <HintPath>..\..\packages\Sendgrid.1.0.1\lib\net40\SendGridMail.dll</HintPath>
     </Reference>
@@ -127,6 +130,11 @@
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="GlobalQueue.cs" />
     <Compile Include="Fetching\PhotoAnalyzer.cs" />
+    <Compile Include="MQ\Events\SubjectAddedEvent.cs" />
+    <Compile Include="MQ\QueueDeliveryMessage.cs" />
+    <Compile Include="MQ\RabbitEventBase.cs" />
+    <Compile Include="MQ\RabbitMqConsumer.cs" />
+    <Compile Include="MQ\RabbitMqPublisher.cs" />
     <Compile Include="Ranking\PhotoRanker.cs" />
     <Compile Include="Ranking\RankedProfile.cs" />
     <Compile Include="Ranking\SubjectRanker.cs" />

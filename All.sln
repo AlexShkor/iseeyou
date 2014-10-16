@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A51EA007-FF87-4930-95E9-5E9352115508}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,6 +25,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.PhotoRanker", "ISeeYou.PhotoRanker\ISeeYou.PhotoRanker.csproj", "{694C7AFD-C7FA-42B9-960C-231CD80719E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.Worker", "ISeeYou.Worker\ISeeYou.Worker.csproj", "{D4808191-CB2D-4E11-9554-5D9BBA521FB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.TaskScheduler", "ISeeYou.TaskScheduler\ISeeYou.TaskScheduler.csproj", "{22597F83-5690-4597-AA8E-269468F88E98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewApproach", "NewApproach", "{742CA5A6-6F13-4347-8BB6-7DD29A9EE6C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeYou.UniversalWorker", "ISeeYou.UniversalWorker\ISeeYou.UniversalWorker.csproj", "{65101F6F-0E12-4FD3-91BF-C50EB464AF5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,8 +70,20 @@ Global
 		{D4808191-CB2D-4E11-9554-5D9BBA521FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4808191-CB2D-4E11-9554-5D9BBA521FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4808191-CB2D-4E11-9554-5D9BBA521FB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22597F83-5690-4597-AA8E-269468F88E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22597F83-5690-4597-AA8E-269468F88E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22597F83-5690-4597-AA8E-269468F88E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22597F83-5690-4597-AA8E-269468F88E98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65101F6F-0E12-4FD3-91BF-C50EB464AF5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65101F6F-0E12-4FD3-91BF-C50EB464AF5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65101F6F-0E12-4FD3-91BF-C50EB464AF5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65101F6F-0E12-4FD3-91BF-C50EB464AF5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{22597F83-5690-4597-AA8E-269468F88E98} = {742CA5A6-6F13-4347-8BB6-7DD29A9EE6C2}
+		{65101F6F-0E12-4FD3-91BF-C50EB464AF5E} = {742CA5A6-6F13-4347-8BB6-7DD29A9EE6C2}
 	EndGlobalSection
 EndGlobal
