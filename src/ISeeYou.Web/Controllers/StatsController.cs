@@ -37,7 +37,7 @@ namespace ISeeYou.Web.Controllers
             var items = _fetchingStats.Items.FindAll().GroupBy(x => x.SourceId)
                 .ToDictionary(x => x.Key, v => v.Count());
 
-            var model = _sourceStats.Items.FindAll().Select(x => new StatItem
+            var model = _sourceStats.Items.FindAll().OrderByDescending(x=> x.Count).Select(x => new StatItem
             {
                 SourceId = x.SourceId,
                 Fetched = x.Fetched,
