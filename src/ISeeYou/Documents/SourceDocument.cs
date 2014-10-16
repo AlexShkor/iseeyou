@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ISeeYou.Documents
@@ -7,7 +8,7 @@ namespace ISeeYou.Documents
     public class SourceDocument
     {
         [BsonId]
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public int SourceId { get; set; }
 

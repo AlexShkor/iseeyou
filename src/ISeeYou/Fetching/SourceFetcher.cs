@@ -73,7 +73,7 @@ namespace ISeeYou.Fetching
 
         private List<int> GetSubjects(int id)
         {
-            return _sources.Items.Find(Query.EQ("SourceId", id)).SetFields("SubjectId").Select(x=> x.SubjectId).ToList();
+            return _sources.Items.Find(Query<SourceDocument>.EQ(x=>x.SourceId, id)).SetFields("SubjectId").Select(x=> x.SubjectId).ToList();
         }
 
         private void ResetRank(int sourceId)
