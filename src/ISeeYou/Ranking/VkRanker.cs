@@ -41,13 +41,12 @@ namespace ISeeYou.Ranking
 
             if (profile != null)
             {
-                Task.WaitAll(
-                    DoAsync(() => InitializeSourceStats(friends)),
-                    DoAsync(() => SetDefaulRank(profile, friends)),
-                    DoAsync(() => RankBySex(profile, friends)),
-                    DoAsync(() => RankByCommonFriends(profile, friends)),
-                    DoAsync(() => RankByRelatives(profile)),
-                    DoAsync(() => RankBySchoolAndUniversity(profile, friends)));
+                DoAsync(() =>InitializeSourceStats(friends));
+                SetDefaulRank(profile, friends);
+                RankBySex(profile, friends);
+                RankByCommonFriends(profile, friends);
+                RankByRelatives(profile);
+                RankBySchoolAndUniversity(profile, friends);
             }
         }
 
