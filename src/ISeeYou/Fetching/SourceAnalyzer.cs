@@ -38,10 +38,6 @@ namespace ISeeYou
                     {
                         try
                         {
-
-                        }
-                        catch
-                        {
                             var result = api.Likes(photoDto.pid, _sourceId);
                             Console.WriteLine("Likes {0} found for source {1}", result.Count, _sourceId);
                             if (result != null && result.Any())
@@ -63,6 +59,10 @@ namespace ISeeYou
                                     });
                                 }
                             }
+                        }
+                        catch
+                        {
+                            
                         }
                     }
                 }

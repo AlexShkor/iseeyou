@@ -45,14 +45,13 @@ namespace ISeeYou.Fetching
                         ResetRank(sourceDocument.SourceId);
                         subjectIds = GetSubjects(sourceDocument.SourceId);
                         var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
-                        
                         analyzer.Run();
                     }
                     catch (Exception e)
                     {
-                        _sourceStats.Items.Update(Query<SourceStats>.EQ(x => x.SourceId, sourceDocument.SourceId),
-                            Update<SourceStats>.Inc(x => x.Count, -1).Set(x => x.Fetched, sourceDocument.Fetched));
-                        throw;
+                        //_sourceStats.Items.Update(Query<SourceStats>.EQ(x => x.SourceId, sourceDocument.SourceId),
+                        //    Update<SourceStats>.Inc(x => x.Count, -1).Set(x => x.Fetched, sourceDocument.Fetched));
+               
                     }
                     finally
                     {
