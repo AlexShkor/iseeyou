@@ -7,7 +7,7 @@ namespace ISeeYou.Documents
     public class SourceDocument
     {
         [BsonId]
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public int SourceId { get; set; }
 

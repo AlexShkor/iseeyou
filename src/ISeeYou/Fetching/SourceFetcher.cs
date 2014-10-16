@@ -7,6 +7,7 @@ using ISeeYou.Documents;
 using ISeeYou.ViewServices;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 
 namespace ISeeYou.Fetching
 {
@@ -25,7 +26,6 @@ namespace ISeeYou.Fetching
 
         public void Run()
         {
-            var batchSize = 10;
             var now = DateTime.UtcNow;
             var minDelay = TimeSpan.FromSeconds(10);
 
@@ -50,6 +50,8 @@ namespace ISeeYou.Fetching
                     }
                     catch (Exception e)
                     {
+                        _sourceStats.Items.Update(Query<SourceStats>.EQ(x => x.SourceId, sourceDocument.SourceId),
+                            Update<SourceStats>.Inc(x => x.Count, -1).Set(x => x.Fetched, sourceDocument.Fetched));
                         throw;
                     }
                 }
@@ -71,7 +73,7 @@ namespace ISeeYou.Fetching
 
         private List<int> GetSubjects(int id)
         {
-            return _sources.Items.Find(Query.EQ("_id", id)).SetFields("SubjectId").Select(x=> x.SubjectId).ToList();
+            return _sources.Items.Find(Query.EQ("SourceId", id)).SetFields("SubjectId").Select(x=> x.SubjectId).ToList();
         }
 
         private void ResetRank(int sourceId)
