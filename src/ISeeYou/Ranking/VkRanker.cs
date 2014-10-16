@@ -43,6 +43,7 @@ namespace ISeeYou.Ranking
             {
                 Task.WaitAll(
                     DoAsync(() => InitializeSourceStats(friends)),
+                    DoAsync(() => SetDefaulRank(profile, friends)),
                     DoAsync(() => RankBySex(profile, friends)),
                     DoAsync(() => RankByCommonFriends(profile, friends)),
                     DoAsync(() => RankByRelatives(profile)),
@@ -83,11 +84,11 @@ namespace ISeeYou.Ranking
             return Task.Factory.StartNew(action);
         }
 
-        private void SetDefaulRank(IEnumerable<VkUser> friends)
+        private void SetDefaulRank(VkUser subject, IEnumerable<VkUser> friends)
         {
             foreach (var friend in friends)
             {
-                _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
+                _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, subject.UserId)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
             }
         }
 
