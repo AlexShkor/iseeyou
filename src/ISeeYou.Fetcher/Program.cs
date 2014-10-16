@@ -28,7 +28,7 @@ using StructureMap;namespace ISeeYou.Fetcher
                 }
                 catch (Exception)
                 {
-
+                    throw;
                 }
             }
         }

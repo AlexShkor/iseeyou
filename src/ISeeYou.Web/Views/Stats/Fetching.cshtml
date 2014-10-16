@@ -1,0 +1,11 @@
+﻿@model IEnumerable<ISeeYou.Web.Controllers.StatItem>
+
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>VK: @item.SourceId</td>
+            <td>@item.Count</td>
+        </tr>
+    }
+</table>

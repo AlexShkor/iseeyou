@@ -24,7 +24,7 @@ namespace ISeeYou.Ranker
                     }
                     catch (Exception)
                     {
-
+                        throw;
                     }
                 }
             }

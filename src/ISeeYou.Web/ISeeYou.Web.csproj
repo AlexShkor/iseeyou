@@ -234,6 +234,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\AppsController.cs" />
+    <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="UrlUtility.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
@@ -765,6 +766,10 @@
     <Content Include="Views\Subjects\AddSubject.cshtml" />
     <Content Include="Views\Apps\Index.cshtml" />
     <Content Include="Views\Apps\Authorize.cshtml" />
+    <Content Include="Views\Stats\Index.cshtml" />
+    <Content Include="Views\Stats\_ViewStart.cshtml" />
+    <Content Include="Views\Stats\_StatsLayout.cshtml" />
+    <Content Include="Views\Stats\Fetching.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\app\js\" />

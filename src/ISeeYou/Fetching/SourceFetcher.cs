@@ -38,7 +38,7 @@ namespace ISeeYou.Fetching
                 }
                 catch (Exception e)
                 {
-                    
+                    throw;
                 }
             }
         }
