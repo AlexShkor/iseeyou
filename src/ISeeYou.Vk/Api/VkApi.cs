@@ -124,6 +124,10 @@ namespace ISeeYou.Vk.Api
                 throw new VkResponseException(error.ToString());
             }
             var jobject = response.SelectToken("response");
+            if (!jobject.HasValues)
+            {
+                yield break;
+            }
             var totalScount = jobject[0];
             var index = 1;
             JToken jtoken = null;
