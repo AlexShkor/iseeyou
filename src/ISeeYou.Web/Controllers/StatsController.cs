@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
+using Elmah.ContentSyndication;
 using ISeeYou.Documents;
 using ISeeYou.Platform.Mvc;
 using ISeeYou.ViewServices;
@@ -40,9 +41,10 @@ namespace ISeeYou.Web.Controllers
             {
                 SourceId = x.SourceId,
                 Fetched = x.Fetched,
-                FetchedCount = items[x.SourceId],
+                FetchedCount = items.ContainsKey(x.SourceId) ? items[x.SourceId] : 0,
                 Count = x.Count
             });
+
             ViewBag.FetchedCount = model.Count(x => x.FetchedCount > 0);
             return View(model);
         }
