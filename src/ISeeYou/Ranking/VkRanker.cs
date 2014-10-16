@@ -40,7 +40,7 @@ namespace ISeeYou.Ranking
             {
                 foreach (var friend in friends)
                 {
-                    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
+                    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
                 }
                 RankBySex(profile, friends);
                 RankByCommonFriends(profile, friends);
