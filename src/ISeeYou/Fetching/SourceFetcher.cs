@@ -38,15 +38,15 @@ namespace ISeeYou.Fetching
                 if (sourceDocument != null)
                 {
                     var stopWatch = new Stopwatch();
+                    stopWatch.Start();
                     List<int> subjectIds = null;
                     try
                     {
                         ResetRank(sourceDocument.SourceId);
                         subjectIds = GetSubjects(sourceDocument.SourceId);
                         var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
-                        stopWatch.Start();
+                        
                         analyzer.Run();
-                        stopWatch.Stop();
                     }
                     catch (Exception e)
                     {
@@ -56,6 +56,7 @@ namespace ISeeYou.Fetching
                     }
                     finally
                     {
+                        stopWatch.Stop();
                         //Save also arrours occured during fetching and resource id
                         SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
                     }
