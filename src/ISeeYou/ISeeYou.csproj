@@ -213,6 +213,8 @@
     <Compile Include="Fetching\SourceFetcher.cs" />
     <Compile Include="ViewServices\AppsViewService.cs" />
     <Compile Include="ViewServices\EventsViewService.cs" />
+    <Compile Include="ViewServices\FetchingStats.cs" />
+    <Compile Include="ViewServices\FetchingStatsService.cs" />
     <Compile Include="ViewServices\SiteViewService.cs" />
     <Compile Include="Handlers\ViewHandlers\UserViewHandler.cs" />
     <Compile Include="Helpers\CryptographicHelper.cs" />

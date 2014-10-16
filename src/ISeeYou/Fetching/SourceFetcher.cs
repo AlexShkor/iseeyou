@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using ISeeYou.Databases;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
 using MongoDB.Driver.Builders;
@@ -10,10 +12,12 @@ namespace ISeeYou.Fetching
     public class SourceFetcher
     {
         private readonly SourcesViewService _sources;
+        private readonly FetchingStatsService _stats;
 
-        public SourceFetcher(SourcesViewService sources)
+        public SourceFetcher(SourcesViewService sources, FetchingStatsService stats)
         {
             _sources = sources;
+            _stats = stats;
         }
 
         public void Run()
@@ -23,16 +27,32 @@ namespace ISeeYou.Fetching
             {
                 try
                 {
-                    ResetRank(sourceDocument.Id);
-                    var subjectIds = GetSubjects(sourceDocument.Id);
-                    var analyzer = new SourceAnalyzer(sourceDocument.Id, subjectIds);
+                    ResetRank(sourceDocument.SourceId);
+                    var subjectIds = GetSubjects(sourceDocument.SourceId);
+                    var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
                     analyzer.Run();
+                    stopWatch.Stop();
+                    SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
                 }
                 catch (Exception e)
                 {
                     
                 }
             }
+        }
+
+        private void SaveStats(SourceDocument sourceDocument, List<int> subjectIds, long elapsedMilliseconds)
+        {
+            _stats.Save(new FetchingStats
+            {
+                SourceId = sourceDocument.SourceId,
+                Subjects = subjectIds,
+                Rank = sourceDocument.Rank,
+                Processed = DateTime.Now,
+                Elapsed = elapsedMilliseconds
+            });
         }
 
         private List<int> GetSubjects(int id)
@@ -42,8 +62,8 @@ namespace ISeeYou.Fetching
 
         private void ResetRank(int sourceId)
         {
-            _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, sourceId),
-                Update<SourceDocument>.Set(x => x.Rank, 0).Inc(x => x.Calls, 1));
+            _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, sourceId),
+                Update<SourceDocument>.Set(x => x.Rank, 0));
         }
 
         //private List<int> GetSubjects(int sourceId)

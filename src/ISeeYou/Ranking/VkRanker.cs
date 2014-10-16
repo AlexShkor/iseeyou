@@ -53,7 +53,7 @@ namespace ISeeYou.Ranking
                 {
                     var commonFriends = _api.GetMutualFriends(subject.UserId.ToString(), friend.UserId.ToString());
                     _ranks[friend.UserId] += commonFriends.Count();
-                    _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, commonFriends.Count()).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
+                    _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, commonFriends.Count()).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +78,7 @@ namespace ISeeYou.Ranking
             foreach (var friend in combinedEducationFriends)
             {
                 _ranks[friend.UserId] += RANK_STEP;
-                _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
+                _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
             }
         }
 
@@ -92,12 +92,12 @@ namespace ISeeYou.Ranking
                     if (_ranks.Keys.Contains(relative.Id))
                     {
                         _ranks[relative.Id] += RANK_STEP;
-                        _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, relative.Id), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
+                        _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, relative.Id), Update<SourceDocument>.Inc(x => x.Rank, RANK_STEP).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
                     }
                     else
                     {
                         _ranks.Add(relative.Id, RANK_STEP);
-                        _sources.Items.Insert(new SourceDocument() { Id = relative.Id, Rank = RANK_STEP, SubjectId = subject.UserId });
+                        _sources.Items.Insert(new SourceDocument() { SourceId = relative.Id, Rank = RANK_STEP, SubjectId = subject.UserId });
                     }
 
                 }
@@ -110,7 +110,7 @@ namespace ISeeYou.Ranking
             {
                 var rank = GetRankBySex(friend.Sex, subject.Sex);
                 _ranks.Add(friend.UserId, rank);
-                _sources.Items.Update(Query<SourceDocument>.EQ(x => x.Id, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, rank).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
+                _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Update<SourceDocument>.Inc(x => x.Rank, rank).Set(x => x.SubjectId, subject.UserId), UpdateFlags.Upsert);
             }
         }
 

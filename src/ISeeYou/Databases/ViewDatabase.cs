@@ -20,6 +20,7 @@ namespace ISeeYou.Databases
         public const string Events = "events";
         public const string Apps = "apps";
         public const string TrackingMarks = "tracking_marks";
+        public const string FetchingStats = "fetching_stats";
     }
 
     public class ViewDatabase

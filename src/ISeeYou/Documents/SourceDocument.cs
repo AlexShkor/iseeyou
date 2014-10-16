@@ -5,7 +5,9 @@ namespace ISeeYou.Documents
     public class SourceDocument
     {
         [BsonId]
-        public int Id { get; set; }
+        public string _id { get; set; }
+
+        public int SourceId { get; set; }
 
         public int Rank { get; set; }
 

@@ -94,10 +94,14 @@ namespace ISeeYou.Databases
             get { return GetCollection<AppView>(ViewCollections.Apps); }
         }
 
-
         public MongoCollection<TrackingMark> TrackingMarks
         {
             get { return GetCollection<TrackingMark>(ViewCollections.TrackingMarks); }
+        }
+
+        public MongoCollection<FetchingStats> FetchingStats
+        {
+            get { return GetCollection<FetchingStats>(ViewCollections.FetchingStats); }
         }
 
     }
