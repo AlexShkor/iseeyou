@@ -112,8 +112,8 @@ namespace ISeeYou.Web.Controllers
         [GET("DeleteSubject")]
         public ActionResult DeleteSubject(int id)
         {
-            _subjects.Items.Remove(Query.EQ("_id", id));
-            _events.Items.Remove(Query.EQ("SubjectId", id));
+            //_subjects.Items.Remove(Query.EQ("_id", id));
+            //_events.Items.Remove(Query.EQ("SubjectId", id));
             var user = _users.GetById(UserId);
 
             user.Subjects.RemoveAll(s => s.Id == id.ToString());

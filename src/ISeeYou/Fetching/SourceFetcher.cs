@@ -27,11 +27,11 @@ namespace ISeeYou.Fetching
         public void Run()
         {
             var now = DateTime.UtcNow;
-            var minDelay = TimeSpan.FromSeconds(10);
+            var minDelay = TimeSpan.FromSeconds(30);
 
             while (true)
             {
-                var sourceDocument = _sourceStats.Items.FindAndModify(Query<SourceStats>.LT(x => x.Fetched, now.Add(minDelay)),
+                var sourceDocument = _sourceStats.Items.FindAndModify(Query<SourceStats>.LT(x => x.Fetched, now.Add(-minDelay)),
                     SortBy<SourceStats>.Ascending(x => x.Fetched),
                     Update<SourceStats>.Inc(x => x.Count, 1).Set(x => x.Fetched, now))
                     .GetModifiedDocumentAs<SourceStats>();

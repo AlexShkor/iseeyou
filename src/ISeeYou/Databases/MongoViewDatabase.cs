@@ -4,6 +4,7 @@ using ISeeYou.Platform.Mongo;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace ISeeYou.Databases
 {
@@ -34,6 +35,7 @@ namespace ISeeYou.Databases
         public MongoViewDatabase EnsureIndexes()
         {
             // build indexes here
+            SourceStats.EnsureIndex("Fetched");
             return this;
         }
 
