@@ -37,22 +37,27 @@ namespace ISeeYou.Fetching
                     .GetModifiedDocumentAs<SourceStats>();
                 if (sourceDocument != null)
                 {
+                    var stopWatch = new Stopwatch();
+                    List<int> subjectIds = null;
                     try
                     {
                         ResetRank(sourceDocument.SourceId);
-                        var subjectIds = GetSubjects(sourceDocument.SourceId);
+                        subjectIds = GetSubjects(sourceDocument.SourceId);
                         var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
-                        var stopWatch = new Stopwatch();
                         stopWatch.Start();
                         analyzer.Run();
                         stopWatch.Stop();
-                        SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
                     }
                     catch (Exception e)
                     {
                         _sourceStats.Items.Update(Query<SourceStats>.EQ(x => x.SourceId, sourceDocument.SourceId),
                             Update<SourceStats>.Inc(x => x.Count, -1).Set(x => x.Fetched, sourceDocument.Fetched));
                         throw;
+                    }
+                    finally
+                    {
+                        //Save also arrours occured during fetching and resource id
+                        SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
                     }
                 }
             }

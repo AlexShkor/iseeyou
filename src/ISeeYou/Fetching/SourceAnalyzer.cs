@@ -21,34 +21,53 @@ namespace ISeeYou
 
         public void Run()
         {
-            var api = new VkApi(null);
-            var albums = api.GetAlbums(_sourceId).Select(x => x.aid.ToString(CultureInfo.InvariantCulture)).Concat(new[] { "profile", "wall" });
+            var api = new VkApi();
+            var albums =
+                api.GetAlbums(_sourceId)
+                    .Select(x => x.aid.ToString(CultureInfo.InvariantCulture))
+                    .Concat(new[] {"profile", "wall"});
             foreach (var album in albums)
             {
-                var photos = api.GetPhotos(_sourceId, album).Where(x=> x.likes.count > 0).OrderByDescending(x=> x.likes.count);
-                foreach (var photoDto in photos)
+                try
                 {
-                    var result = api.Likes(photoDto.pid, _sourceId);
-                    Console.WriteLine("Likes {0} found for source {1}", result.Count, _sourceId);
-                    if (result != null && result.Any())
+                    var photos =
+                        api.GetPhotos(_sourceId, album)
+                            .Where(x => x.likes.count > 0)
+                            .OrderByDescending(x => x.likes.count);
+                    foreach (var photoDto in photos)
                     {
-                        var intersect = result.Intersect(_subjects);
-                        foreach (var subjectId in intersect)
+                        try
                         {
-                            Console.WriteLine("Found for {0}!!!",subjectId);
-                            GlobalQueue.Send(new AddPhotoLike
+
+                        }
+                        catch
+                        {
+                            var result = api.Likes(photoDto.pid, _sourceId);
+                            Console.WriteLine("Likes {0} found for source {1}", result.Count, _sourceId);
+                            if (result != null && result.Any())
                             {
-                                Id = subjectId.ToString(CultureInfo.InvariantCulture),
-                                SubjectId = subjectId,
-                                StartDate = UnixTimeStampToDateTime(photoDto.created),
-                                EndDate = DateTime.UtcNow,
-                                PhotoId = photoDto.pid,
-                                SourceId = _sourceId,
-                                Image = photoDto.src,
-                                ImageBig = photoDto.src_big
-                            });
+                                var intersect = result.Intersect(_subjects);
+                                foreach (var subjectId in intersect)
+                                {
+                                    Console.WriteLine("Found for {0}!!!", subjectId);
+                                    GlobalQueue.Send(new AddPhotoLike
+                                    {
+                                        Id = subjectId.ToString(CultureInfo.InvariantCulture),
+                                        SubjectId = subjectId,
+                                        StartDate = UnixTimeStampToDateTime(photoDto.created),
+                                        EndDate = DateTime.UtcNow,
+                                        PhotoId = photoDto.pid,
+                                        SourceId = _sourceId,
+                                        Image = photoDto.src,
+                                        ImageBig = photoDto.src_big
+                                    });
+                                }
+                            }
                         }
                     }
+                }
+                catch
+                {
                 }
             }
         }
