@@ -282,6 +282,7 @@
     <Content Include="Assets\app\css\landing.css" />
     <Content Include="Assets\app\css\login.css" />
     <Content Include="Assets\app\css\m-buttons.css" />
+    <Content Include="Assets\app\css\masonry.css" />
     <Content Include="Assets\avatars\avatar-10.jpg" />
     <Content Include="Assets\avatars\avatar-110.jpg" />
     <Content Include="Assets\avatars\avatar-18.jpg" />
@@ -300,6 +301,7 @@
     <Content Include="Assets\chips.png" />
     <Content Include="Assets\avatars\sample_avatar.jpg" />
     <Content Include="Assets\app\css\img\like_vk.png" />
+    <Content Include="Assets\pie.png" />
     <Content Include="Assets\vendor\amplify.js" />
     <Content Include="Assets\vendor\amplify.min.js" />
     <Content Include="Assets\vendor\angular-spiner\css\rzslider.css" />
@@ -701,6 +703,7 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="Scripts\imagesloaded.pkgd.min.js" />
     <Content Include="Scripts\jasmine-2.0.0\boot.js" />
     <Content Include="Scripts\jasmine-2.0.0\console.js" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine-html.js" />
@@ -737,6 +740,7 @@
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />

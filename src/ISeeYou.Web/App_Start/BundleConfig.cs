@@ -21,7 +21,7 @@ namespace ISeeYou.Web
 
             style = new StyleBundle("~/content/css")
                 .Include("~/assets/vendor/bootstrap/css/bootstrap.css")
-                //.Include("~/assets/app/css/common.css")
+                .Include("~/assets/app/css/masonry.css")
                 //.Include("~/assets/app/css/auctionrobot.css")
                 .Include("~/assets/app/css/m-buttons.css")
                 //.Include("~/assets/app/css/landing.css")
