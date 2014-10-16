@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
@@ -14,13 +15,15 @@ namespace ISeeYou.Ranking
     {
         private const int RANK_STEP = 10;
         private readonly SourcesViewService _sources;
+        private readonly SourceStatsViewService _sourceStats;
         private Dictionary<int, int> _ranks;
         private readonly VkApi _api;
 
-        public VkRanker(SourcesViewService sources)
+        public VkRanker(SourcesViewService sources, SourceStatsViewService sourceStats)
         {
             _ranks = new Dictionary<int, int>();
             _sources = sources;
+            _sourceStats = sourceStats;
             _api = new VkApi(null);
         }
 
@@ -38,14 +41,23 @@ namespace ISeeYou.Ranking
 
             if (profile != null)
             {
-                foreach (var friend in friends)
+                Task.WaitAll(
+                    DoAsync(() => InitializeSourceStats(friends)),
+                    DoAsync(() => RankBySex(profile, friends)),
+                    DoAsync(() => RankByCommonFriends(profile, friends)),
+                    DoAsync(() => RankByRelatives(profile)),
+                    DoAsync(() => RankBySchoolAndUniversity(profile, friends)));
+            }
+        }
+
+        private void InitializeSourceStats(IEnumerable<VkUser> friends)
+        {
+            foreach (var friend in friends)
+            {
+                _sourceStats.Items.Insert(new SourceStats
                 {
-                    _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
-                }
-                RankBySex(profile, friends);
-                RankByCommonFriends(profile, friends);
-                RankByRelatives(profile);
-                RankBySchoolAndUniversity(profile, friends);
+                    SourceId = friend.UserId,
+                });
             }
         }
 
@@ -63,6 +75,19 @@ namespace ISeeYou.Ranking
                 {
                     continue;
                 }
+            }
+        }
+
+        private Task DoAsync(Action action)
+        {
+            return Task.Factory.StartNew(action);
+        }
+
+        private void SetDefaulRank(IEnumerable<VkUser> friends)
+        {
+            foreach (var friend in friends)
+            {
+                _sources.Items.Update(Query.And(Query<SourceDocument>.EQ(x => x.SourceId, friend.UserId), Query<SourceDocument>.EQ(x => x.SubjectId, id)), Update<SourceDocument>.Inc(x => x.Rank, 50).Set(x => x.SubjectId, id), UpdateFlags.Upsert);
             }
         }
 

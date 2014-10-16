@@ -5,6 +5,7 @@ using System.Linq;
 using ISeeYou.Databases;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 
 namespace ISeeYou.Fetching
@@ -13,44 +14,57 @@ namespace ISeeYou.Fetching
     {
         private readonly SourcesViewService _sources;
         private readonly FetchingStatsService _stats;
+        private readonly SourceStatsViewService _sourceStats;
 
-        public SourceFetcher(SourcesViewService sources, FetchingStatsService stats)
+        public SourceFetcher(SourcesViewService sources, FetchingStatsService stats, SourceStatsViewService sourceStats)
         {
             _sources = sources;
             _stats = stats;
+            _sourceStats = sourceStats;
         }
 
         public void Run()
         {
-            var cursor = _sources.Items.Find(Query<SourceDocument>.NE(x=> x.Rank, 0)).SetSortOrder(SortBy<SourceDocument>.Descending(x => x.Rank));
-            foreach (var sourceDocument in cursor)
+            var batchSize = 10;
+            var now = DateTime.UtcNow;
+            var minDelay = TimeSpan.FromSeconds(10);
+
+            while (true)
             {
-                try
+                var sourceDocument = _sourceStats.Items.FindAndModify(Query<SourceStats>.LT(x => x.Fetched, now.Add(minDelay)),
+                    SortBy<SourceStats>.Ascending(x => x.Fetched),
+                    Update<SourceStats>.Inc(x => x.Count, 1).Set(x => x.Fetched, now))
+                    .GetModifiedDocumentAs<SourceStats>();
+                if (sourceDocument != null)
                 {
-                    ResetRank(sourceDocument.SourceId);
-                    var subjectIds = GetSubjects(sourceDocument.SourceId);
-                    var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
-                    var stopWatch = new Stopwatch();
-                    stopWatch.Start();
-                    analyzer.Run();
-                    stopWatch.Stop();
-                    SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
-                }
-                catch (Exception e)
-                {
-                    throw;
+                    try
+                    {
+                        ResetRank(sourceDocument.SourceId);
+                        var subjectIds = GetSubjects(sourceDocument.SourceId);
+                        var analyzer = new SourceAnalyzer(sourceDocument.SourceId, subjectIds);
+                        var stopWatch = new Stopwatch();
+                        stopWatch.Start();
+                        analyzer.Run();
+                        stopWatch.Stop();
+                        SaveStats(sourceDocument, subjectIds, stopWatch.ElapsedMilliseconds);
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
                 }
             }
         }
 
-        private void SaveStats(SourceDocument sourceDocument, List<int> subjectIds, long elapsedMilliseconds)
+        private void SaveStats(SourceStats sourceDocument, List<int> subjectIds, long elapsedMilliseconds)
         {
-            _stats.Save(new FetchingStats
+            _stats.Items.Insert(new FetchingStats
             {
+                Id = ObjectId.GenerateNewId().ToString(),
                 SourceId = sourceDocument.SourceId,
                 Subjects = subjectIds,
-                Rank = sourceDocument.Rank,
-                Processed = DateTime.Now,
+              //  Rank = sourceDocument.Rank,
+                Processed = DateTime.UtcNow,
                 Elapsed = elapsedMilliseconds
             });
         }
@@ -65,11 +79,5 @@ namespace ISeeYou.Fetching
             _sources.Items.Update(Query<SourceDocument>.EQ(x => x.SourceId, sourceId),
                 Update<SourceDocument>.Set(x => x.Rank, 0));
         }
-
-        //private List<int> GetSubjects(int sourceId)
-        //{
-        //    return _subjects.Items.Find(Query<SubjectView>.ElemMatch(x => x.Sources,
-        //            builder => builder.EQ(x => x, sourceId))).SetFields("Id").Select(x => x.Id).ToList();
-        //}
     }
 }

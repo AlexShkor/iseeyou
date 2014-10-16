@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ISeeYou.Documents
 {
@@ -14,5 +16,15 @@ namespace ISeeYou.Documents
         public int SubjectId { get; set; }
 
         public int Calls { get; set; }
+    }
+
+    public class SourceStats
+    {
+        [BsonId]
+        public int SourceId { get; set; }
+
+        public DateTime Fetched { get; set; }
+
+        public int Count { get; set; }
     }
 }

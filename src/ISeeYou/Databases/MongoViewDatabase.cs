@@ -104,5 +104,10 @@ namespace ISeeYou.Databases
             get { return GetCollection<FetchingStats>(ViewCollections.FetchingStats); }
         }
 
+        public MongoCollection<SourceStats> SourceStats
+        {
+            get { return GetCollection<SourceStats>(ViewCollections.SourceStats); }
+        }
+
     }
 }
