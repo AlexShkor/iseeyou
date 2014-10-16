@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ISeeYou.Ranking;
 using ISeeYou.ViewServices;
 using StructureMap;
 
-namespace ISeeYou.Ranker
+namespace ISeeYou.PhotoRanker
 {
     class Program
     {
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
             var container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);

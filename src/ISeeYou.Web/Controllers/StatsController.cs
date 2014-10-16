@@ -33,13 +33,18 @@ namespace ISeeYou.Web.Controllers
         [GET("fetching")]
         public ActionResult Fetching()
         {
-            var items = _fetchingStats.Items.FindAll().GroupBy(x => x.SourceId).Select(x => new StatItem
+            var items = _fetchingStats.Items.FindAll().GroupBy(x => x.SourceId)
+                .ToDictionary(x => x.Key, v => v.Count());
+
+            var model = _sourceStats.Items.FindAll().Select(x => new StatItem
             {
-                SourceId = x.Key,
-                Count = x.Count()
-            }).OrderByDescending(x=> x.Count).ToList();
-            ViewBag.SourcesCount = _sourceStats.Items.FindAll().Count();
-            return View(items);
+                SourceId = x.SourceId,
+                Fetched = x.Fetched,
+                FetchedCount = items[x.SourceId],
+                Count = x.Count
+            });
+            ViewBag.FetchedCount = model.Count(x => x.FetchedCount > 0);
+            return View(model);
         }
     }
 
@@ -47,5 +52,7 @@ namespace ISeeYou.Web.Controllers
     {
         public int SourceId { get; set; }
         public int Count { get; set; }
+        public DateTime Fetched { get; set; }
+        public int FetchedCount { get; set; }
     }
 }

@@ -18,9 +18,9 @@ namespace ISeeYou.Web.Controllers
     {
         private readonly AppsViewService _apps;
         private readonly SubjectViewService _subjects;
-        private readonly VkRanker _ranker;
+        private readonly SubjectRanker _ranker;
 
-        public AppsController(AppsViewService apps, SubjectViewService subjects, VkRanker ranker)
+        public AppsController(AppsViewService apps, SubjectViewService subjects, SubjectRanker ranker)
         {
             _apps = apps;
             _subjects = subjects;

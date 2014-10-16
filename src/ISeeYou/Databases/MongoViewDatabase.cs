@@ -109,5 +109,10 @@ namespace ISeeYou.Databases
             get { return GetCollection<SourceStats>(ViewCollections.SourceStats); }
         }
 
+        public MongoCollection<PhotoDocument> PhotoDocuments
+        {
+            get { return GetCollection<PhotoDocument>(ViewCollections.PhotoDocuments); }
+        }
+
     }
 }

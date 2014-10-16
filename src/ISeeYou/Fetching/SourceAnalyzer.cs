@@ -33,7 +33,7 @@ namespace ISeeYou
                     var photos =
                         api.GetPhotos(_sourceId, album)
                             .Where(x => x.likes.count > 0)
-                            .OrderByDescending(x => x.likes.count);
+                            .OrderByDescending(x => x.created);
                     foreach (var photoDto in photos)
                     {
                         try

@@ -1,13 +1,16 @@
-﻿@model IEnumerable<ISeeYou.Web.Controllers.StatItem>
+﻿@using System.Globalization
+@model IEnumerable<ISeeYou.Web.Controllers.StatItem>
 
 <table class="table">
     @foreach (var item in Model)
     {
         <tr>
-            <td>VK: @item.SourceId</td>
+            <td> <a href="https://vk.com/id@(item.SourceId)">VK:</a> @item.SourceId</td>
             <td>@item.Count</td>
+            <td>@item.FetchedCount</td>
+            <td>@item.Fetched.ToString(CultureInfo.InvariantCulture)</td>
         </tr>
     }
 </table>
 
-<h3>@Model.Count() precessed of @ViewBag.SourcesCount Sources</h3>
+<h3>@ViewBag.FetchedCount  precessed of @Model.Count() Sources</h3>

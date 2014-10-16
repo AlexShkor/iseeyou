@@ -22,6 +22,7 @@ namespace ISeeYou.Databases
         public const string TrackingMarks = "tracking_marks";
         public const string FetchingStats = "fetching_stats";
         public const string SourceStats = "source_stats";
+        public const string PhotoDocuments = "photo_documents";
     }
 
     public class ViewDatabase

@@ -11,7 +11,7 @@ using MongoDB.Driver.Builders;
 
 namespace ISeeYou.Ranking
 {
-    public class VkRanker
+    public class SubjectRanker
     {
         private const int RANK_STEP = 10;
         private readonly SourcesViewService _sources;
@@ -19,7 +19,7 @@ namespace ISeeYou.Ranking
         private Dictionary<int, int> _ranks;
         private readonly VkApi _api;
 
-        public VkRanker(SourcesViewService sources, SourceStatsViewService sourceStats)
+        public SubjectRanker(SourcesViewService sources, SourceStatsViewService sourceStats)
         {
             _ranks = new Dictionary<int, int>();
             _sources = sources;

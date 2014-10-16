@@ -1,6 +1,8 @@
-﻿using ISeeYou.Databases;
+﻿using System;
+using ISeeYou.Databases;
 using ISeeYou.Documents;
 using ISeeYou.Platform.ViewServices;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace ISeeYou.ViewServices
@@ -15,5 +17,27 @@ namespace ISeeYou.ViewServices
         {
             get { return Database.Sources; }
         }
+    }
+    public class PhotoDocumentsService: ViewService<PhotoDocument>
+    {
+        public PhotoDocumentsService(MongoViewDatabase database)
+            : base(database)
+        {
+        }
+
+        public override MongoCollection<PhotoDocument> Items
+        {
+            get { return Database.PhotoDocuments; }
+        }
+    }
+
+    public class PhotoDocument
+    {
+        [BsonId]
+        public string Id { get; set; }
+
+        public DateTime NextFetching { get; set; }
+
+        public int Rank { get; set; }
     }
 }

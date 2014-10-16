@@ -127,8 +127,9 @@
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="GlobalQueue.cs" />
     <Compile Include="Fetching\PhotoAnalyzer.cs" />
+    <Compile Include="Ranking\PhotoRanker.cs" />
     <Compile Include="Ranking\RankedProfile.cs" />
-    <Compile Include="Ranking\VkRanker.cs" />
+    <Compile Include="Ranking\SubjectRanker.cs" />
     <Compile Include="Fetching\WallAnalyzer.cs" />
     <Compile Include="Platform\Mvc\BaseController.cs" />
     <Compile Include="Hubs\UsersHub.cs" />
