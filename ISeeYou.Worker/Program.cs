@@ -74,7 +74,7 @@ namespace ISeeYou.Worker
                             {
                                 likedDate = doc.Created;
                             }
-                            events.Items.Insert(new EventView
+                            events.Insert(new EventView
                             {
                                 DocId = id,
                                 PhotoId = photo.Id,
@@ -90,7 +90,9 @@ namespace ISeeYou.Worker
                     }
                     photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
                         Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
+                    //TODO: set next fetching date
                 }
+                //TODO: log pgoto fetching stats
             };
             subjectAddedConsumer.Start();
         }
