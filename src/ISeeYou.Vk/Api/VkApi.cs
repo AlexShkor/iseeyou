@@ -115,10 +115,11 @@ namespace ISeeYou.Vk.Api
             return JsonConvert.DeserializeObject<List<int>>(json);
         }
 
-        private IEnumerable<T> ParseListing<T>(string json)
+        private ListingResult<T> ParseListing<T>(string json)
         {
             var response = JObject.Parse(json);
             var error = response.SelectToken("error");
+            var result = new ListingResult<T>();
             if (error != null)
             {
                 throw new VkResponseException(error.ToString());
@@ -126,12 +127,18 @@ namespace ISeeYou.Vk.Api
             var jobject = response.SelectToken("response");
             if (!jobject.HasValues)
             {
-                yield break;
+                return null;
             }
             var totalScount = jobject[0];
+            result.TotalCount = totalScount.Value<int>();
+            result.Items = ParseItems<T>(jobject);
+            return result;
+        }
+
+        private IEnumerable<T> ParseItems<T>(JToken jobject)
+        {
             var index = 1;
             JToken jtoken = null;
-            
             while (true)
             {
                 try
@@ -145,8 +152,8 @@ namespace ISeeYou.Vk.Api
                 if (jtoken != null)
                 {
                     var str = jtoken.ToString();
-                yield return jobject[index].ToObject<T>();
-                index++;
+                    yield return jobject[index].ToObject<T>();
+                    index++;
                 }
                 else
                 {
@@ -238,7 +245,7 @@ namespace ISeeYou.Vk.Api
                 { "album_id", albumId},
                 { "extended", "1"},
                 { "offset", "0"},
-                { "count", "200"},
+                { "count", "1000"},
             });
             return Parse<List<PhotoDto>>(json);
         }
@@ -252,7 +259,7 @@ namespace ISeeYou.Vk.Api
                 { "count", "100"},
                 { "filter", "all"},
             });
-            return ParseListing<WallPost>(json).ToList();
+            return ParseListing<WallPost>(json).Items.ToList();
         }
 
         public List<int> Likes(long itemId, long ownerId)
@@ -274,7 +281,14 @@ namespace ISeeYou.Vk.Api
             {
                 {"owner_id", ownerId.ToString(CultureInfo.InvariantCulture)},
             });
-            return ParseListing<PhotoAlbum>(json).ToList();
+            return Parse<List<PhotoAlbum>>(json);
         }
+    }
+
+    public class ListingResult<T>
+    {
+        public IEnumerable<T> Items { get; set; }
+
+        public int TotalCount { get; set; }
     }
 }
