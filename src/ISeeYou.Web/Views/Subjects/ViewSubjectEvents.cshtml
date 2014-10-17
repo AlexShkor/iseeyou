@@ -21,7 +21,7 @@
                             <a href="@string.Format("http://www.vk.com/id{0}", evt.SourceId)" target="_blank">@string.Format("vk.com/id{0}", evt.SourceId)</a>
                         </td>
                         <td>
-                            <a href="https://vk.com/photo@(evt.SourceId)_@(evt.Id)">@(evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "")</a>
+                            <a href="https://vk.com/photo@(evt.SourceId)_@(evt.PhotoId)">@(evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "")</a>
                             
                         </td>
                         <td style="vertical-align: middle">

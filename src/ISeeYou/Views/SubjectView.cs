@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ISeeYou.Views
@@ -8,5 +9,6 @@ namespace ISeeYou.Views
         [BsonId]
         public int Id { get; set; }
         public string Name { get; set; }
+        public DateTime TrackingStarted { get; set; }
     }
 }

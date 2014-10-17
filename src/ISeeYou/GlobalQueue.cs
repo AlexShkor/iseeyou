@@ -19,10 +19,10 @@ namespace ISeeYou
                 var tracked = trakingMarks.GetById(id);
                 events.Items.Save(new EventView
                 {
-                    Id = c.PhotoId,
+                    DocId = id,
+                    PhotoId = c.PhotoId,
                     Image = c.Image,
                     ImageBig = c.ImageBig,
-                    AlbumId = c.AlbumId,
                     SubjectId = c.SubjectId,
                     EndDate = c.EndDate,
                     SourceId = c.SourceId,

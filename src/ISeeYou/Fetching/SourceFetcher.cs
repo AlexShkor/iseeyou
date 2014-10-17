@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ISeeYou.Databases;
 using ISeeYou.Documents;
 using ISeeYou.ViewServices;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver.Linq;
 
 namespace ISeeYou.Fetching
 {

@@ -6,7 +6,8 @@ namespace ISeeYou.Views
     public class EventView
     {
         [BsonId]
-        public long Id { get; set; }
+        public string DocId { get; set; }
+        public int PhotoId { get; set; }
         public string Type { get; set; }
         public int SubjectId { get; set; }
         public DateTime? StartDate { get; set; }
@@ -14,6 +15,5 @@ namespace ISeeYou.Views
         public int SourceId { get; set; }
         public string Image { get; set; }
         public string ImageBig { get; set; }
-        public int AlbumId { get; set; }
     }
 }

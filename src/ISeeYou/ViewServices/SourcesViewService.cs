@@ -42,5 +42,6 @@ namespace ISeeYou.ViewServices
         public DateTime Created { get; set; }
         public string Image { get; set; }
         public string ImageBig { get; set; }
+        public DateTime? FetchingEnd { get; set; }
     }
 }

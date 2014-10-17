@@ -16,8 +16,6 @@ namespace ISeeYou.MQ
         private IModel _channel;
         private IConnection _connection;
         private bool _started;
-        private int _messagesCount;
-        private Action _periodicalAction;
 
         private readonly ConcurrentDictionary<string, QueueingBasicConsumer> _underlyingConsumers
             = new ConcurrentDictionary<string, QueueingBasicConsumer>();
@@ -62,7 +60,6 @@ namespace ISeeYou.MQ
 
             BindQueue();
 
-            var counter = 0;
             while (true)
             {
                 QueueDeliveryMessage<TRabbitEvent> message;
@@ -70,19 +67,6 @@ namespace ISeeYou.MQ
                 {
                     BasicAck(message.DeliveryTag, true);
                     On(message.Event);
-
-                    if (_messagesCount > 0)
-                    {
-                        counter++;
-                        if (counter >= _messagesCount)
-                        {
-                            counter = 0;
-                            if (_periodicalAction != null)
-                            {
-                                _periodicalAction();
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -198,12 +182,6 @@ namespace ISeeYou.MQ
         private string FormatQueueName(string queueName)
         {
             return string.Format("[{0}]", queueName);
-        }
-
-        public void SetPeriodicalAction(int messagesCount, Action periodicalAction)
-        {
-            _messagesCount = messagesCount;
-            _periodicalAction = periodicalAction;
         }
     }
 }
