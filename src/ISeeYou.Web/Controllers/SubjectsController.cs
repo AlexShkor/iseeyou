@@ -72,7 +72,8 @@ namespace ISeeYou.Web.Controllers
             _subjects.Save(new SubjectView
             {
                 Id = subject.UserId,
-                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName)
+                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
+                TrackingStarted = DateTime.UtcNow
             });
 
             user.Subjects.Add(new SubjectData() { Id = subject.UserId.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });

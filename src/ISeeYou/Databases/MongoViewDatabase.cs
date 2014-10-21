@@ -36,6 +36,9 @@ namespace ISeeYou.Databases
         {
             // build indexes here
             SourceStats.EnsureIndex("Fetched");
+            SourceStats.EnsureIndex("NextFetching");
+            PhotoDocuments.EnsureIndex("NextFetching");
+            Subjects.EnsureIndex("NextFetching");
             return this;
         }
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{22597F83-5690-4597-AA8E-269468F88E98}</ProjectGuid>
+    <ProjectGuid>{49D07935-CABB-4582-8AFE-41E9E3E87168}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ISeeYou.TaskScheduler</RootNamespace>
-    <AssemblyName>ISeeYou.TaskScheduler</AssemblyName>
+    <RootNamespace>ISeeYou.PhotosScheduler</RootNamespace>
+    <AssemblyName>ISeeYou.PhotosScheduler</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -34,16 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MongoDB.Driver">
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="RabbitMQ.Client">
-      <HintPath>..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -65,12 +60,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ISeeYou.Vk\ISeeYou.Vk.csproj">
-      <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
-      <Name>ISeeYou.Vk</Name>
-    </ProjectReference>
     <ProjectReference Include="..\src\ISeeYou\ISeeYou.csproj">
-      <Project>{56caf3fe-51ac-419b-82d2-82ca4a8242f2}</Project>
+      <Project>{56CAF3FE-51AC-419B-82D2-82CA4A8242F2}</Project>
       <Name>ISeeYou</Name>
     </ProjectReference>
   </ItemGroup>

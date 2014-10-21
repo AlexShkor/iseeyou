@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ISeeYou.Databases;
 using ISeeYou.Platform.Mongo;
 using ISeeYou.Views;
@@ -30,6 +31,24 @@ namespace ISeeYou.Platform.ViewServices
         public void Save(T user)
         {
             Items.Save(user);
+        }
+
+
+        public void InsertAsync(T doc)
+        {
+            try
+            {
+
+                Items.Insert(doc,
+                    new WriteConcern()
+                    {
+                        FSync = false,
+                        Journal = false,
+                    });
+            }
+            catch (WriteConcernException  e)
+            {
+            }
         }
     }
 }

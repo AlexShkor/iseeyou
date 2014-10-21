@@ -130,6 +130,10 @@
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
     <Compile Include="GlobalQueue.cs" />
     <Compile Include="Fetching\PhotoAnalyzer.cs" />
+    <Compile Include="MQ\Events\PhotoFetchEvent.cs" />
+    <Compile Include="MQ\Events\PhotoFetchPayload.cs" />
+    <Compile Include="MQ\Events\SourceFetchEvent.cs" />
+    <Compile Include="MQ\Events\SourceFetchPayload.cs" />
     <Compile Include="MQ\Events\SubjectAddedEvent.cs" />
     <Compile Include="MQ\QueueDeliveryMessage.cs" />
     <Compile Include="MQ\RabbitEventBase.cs" />

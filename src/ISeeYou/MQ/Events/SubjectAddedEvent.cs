@@ -25,6 +25,4 @@ namespace ISeeYou.MQ.Events
             Id = msg.id;
         }
     }
-
-    
 }

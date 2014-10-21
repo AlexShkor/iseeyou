@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ISeeYou.MQ;
+using ISeeYou.MQ.Events;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
@@ -41,8 +42,8 @@ namespace ISeeYou.Worker
                     subjectsLoaded = DateTime.UtcNow;
                 }
                 var photo = photoEvent.Payload;
-                var photoId = type + photo.UserId + "_" + photo.Id;
-                var result = api.Likes(photo.Id, photo.UserId);
+                var photoId = photo.DocId;
+                var result = api.Likes(photo.PhotoId, photo.UserId);
                 if (result != null && result.Any())
                 {
                     var intersect = result.Intersect(subjects);
@@ -53,9 +54,9 @@ namespace ISeeYou.Worker
                         {
                             doc = photosService.GetById(photoId);
                         }
+                        var eventId = subjectId + "_" + type + photo.UserId + "_" + photo.PhotoId;
                         if (events.Items.FindOneById(photoId) == null)
                         {
-                            var id = subjectId + "_" + photo.UserId + "_" + type + photo.Id;
                             var subject = subjectsService.Items.FindOneById(subjectId);
                             var likedDate = doc.FetchingEnd;
                             //new added photo or previously was not liked
@@ -76,8 +77,8 @@ namespace ISeeYou.Worker
                             }
                             events.Insert(new EventView
                             {
-                                DocId = id,
-                                PhotoId = photo.Id,
+                                DocId = eventId,
+                                PhotoId = photo.PhotoId,
                                 Image = doc.Image,
                                 ImageBig = doc.ImageBig,
                                 SubjectId = subjectId,
@@ -88,39 +89,12 @@ namespace ISeeYou.Worker
                             });
                         }
                     }
-                    photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
-                        Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
-                    //TODO: set next fetching date
                 }
+                photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
+                    Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
                 //TODO: log pgoto fetching stats
             };
             subjectAddedConsumer.Start();
         }
-    }
-
-    public class PhotoFetchEvent : RabbitEventBase
-    {
-        public PhotoFetchPayload Payload { get; set; }
-
-        public override string RoutingKey
-        {
-            get { return "photo_fetch"; }
-        }
-
-        public override string Serialize()
-        {
-            return JsonConvert.SerializeObject(Payload);
-        }
-
-        public override void Deserialize(string message)
-        {
-            Payload = JsonConvert.DeserializeObject<PhotoFetchPayload>(message);
-        }
-    }
-
-    public class PhotoFetchPayload
-    {
-        public int UserId { get; set; }
-        public int Id { get; set; }
     }
 }

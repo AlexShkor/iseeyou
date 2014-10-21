@@ -22,7 +22,7 @@ namespace ISeeYou.UniversalWorker
             new Bootstrapper().ConfigureSettings(container);
             //new Bootstrapper().ConfigureMongoDb(container);
 
-            var subjectAddedConsumer = new RabbitMqConsumer<SubjectAddedEvent>(host, user, pwd, fromWebEx);
+            var subjectAddedConsumer = new RabbitMqConsumer<SourceFetchEvent>(host, user, pwd, fromWebEx);
 
             subjectAddedConsumer.On += subject =>
             {

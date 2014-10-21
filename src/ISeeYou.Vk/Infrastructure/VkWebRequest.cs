@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ISeeYou.Vk.Infrastructure
 {
@@ -74,6 +75,30 @@ namespace ISeeYou.Vk.Infrastructure
 
             // Read the content fully up to the end.
             string responseFromServer = reader.ReadToEnd();
+
+            // Clean up the streams.
+            reader.Close();
+            _dataStream.Close();
+            response.Close();
+
+            return responseFromServer;
+        }
+
+        public async Task<string> GetResponseAsync()
+        {
+            // Get the original response.
+            var response = await _request.GetResponseAsync();
+
+            Status = ((HttpWebResponse)response).StatusDescription;
+
+            // Get the stream containing all content returned by the requested server.
+            _dataStream = response.GetResponseStream();
+
+            // Open the stream using a StreamReader for easy access.
+            var reader = new StreamReader(_dataStream);
+
+            // Read the content fully up to the end.
+            string responseFromServer = await reader.ReadToEndAsync();
 
             // Clean up the streams.
             reader.Close();
