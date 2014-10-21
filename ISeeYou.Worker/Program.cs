@@ -40,6 +40,7 @@ namespace ISeeYou.Worker
                 {
                     subjects = subjectsService.GetAllIds();
                     subjectsLoaded = DateTime.UtcNow;
+                    counter = 0;
                 }
                 var photo = photoEvent.Payload;
                 var photoId = photo.DocId;
