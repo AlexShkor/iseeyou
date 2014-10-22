@@ -17,17 +17,15 @@ namespace ISeeYou.Workers
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var api = new VkApi();
-            const string host = "dubina.by";
-            const string user = "spypie";
-            const string pwd = "GM9SGQoLngSaJYZ";
-            const string fetchingExchange = "spypie_sources";
 
+            var settings = container.GetInstance<SiteSettings>();
             const string type = "photo";
-            var subjectAddedConsumer = new RabbitMqConsumer<SourceFetchEvent>(host, user, pwd, fetchingExchange);
+            var consumer = new RabbitMqConsumer<SourceFetchEvent>(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.SourcesQueue);
             var photosService = container.GetInstance<PhotoDocumentsService>();
-            subjectAddedConsumer.On += sourceFetchEvent =>
+            consumer.On += sourceFetchEvent =>
             {
                 var source = sourceFetchEvent.Payload;
+                Console.WriteLine("Source processing started. User ID: {0}", source.UserId);
                 try
                 {
                     var albums =
@@ -36,7 +34,6 @@ namespace ISeeYou.Workers
                             .Concat(new[] { "profile", "wall" });
                     foreach (var album in albums)
                     {
-
                         var photos =
                             api.GetPhotos(source.UserId, album)
                                 .Where(x => x.likes.count > 0);
@@ -64,7 +61,7 @@ namespace ISeeYou.Workers
 
                 }
             };
-            subjectAddedConsumer.Start();
+            consumer.Start();
         }
 
 

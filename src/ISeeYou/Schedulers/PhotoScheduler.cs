@@ -16,14 +16,10 @@ namespace ISeeYou.Schedulers
         private TimeSpan _delay = TimeSpan.FromMinutes(10);
         const int AvarageLikesForSource = 20;
 
-        public PhotoScheduler(PhotoDocumentsService photosService)
+        public PhotoScheduler(PhotoDocumentsService photosService, SiteSettings settings)
         {
-            this._photosService = photosService;
-            const string host = "dubina.by";
-            const string user = "spypie";
-            const string pwd = "GM9SGQoLngSaJYZ";
-            const string exchangeName = "spypie_photos";
-            _publisher = new RabbitMqPublisher(host, user, pwd, exchangeName);
+            _photosService = photosService;
+            _publisher = new RabbitMqPublisher(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.PhotosQueue);
         }
 
         private void Start()

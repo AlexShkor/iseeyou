@@ -18,15 +18,11 @@ namespace ISeeYou.Schedulers
         private TimeSpan _delay;
         const int AvarageNewPhotos = 10;
 
-        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService)
+        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService, SiteSettings settings)
         {
             _photosService = photosService;
             _sourceStatsService = sourceStatsService;
-            const string host = "dubina.by";
-            const string user = "spypie";
-            const string pwd = "GM9SGQoLngSaJYZ";
-            const string exchangeName = "spypie_sources";
-            _publisher = new RabbitMqPublisher(host, user, pwd, exchangeName);
+            _publisher = new RabbitMqPublisher(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.SourcesQueue);
             _delay = TimeSpan.FromMinutes(20);
         }
 

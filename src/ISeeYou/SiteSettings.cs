@@ -9,8 +9,11 @@ namespace ISeeYou
         //[SettingsProperty("mongo.events_connection_string")]
         //public string MongoEventsConnectionString { get; set; }
 
-        [SettingsProperty("mongo.views_connection_string")]
-        public string MongoViewConnectionString { get; set; }
+        //[SettingsProperty("mongo.views_connection_string")]
+        public string MongoViewConnectionString
+        {
+            get { return "mongodb://super_admin:pSS5HXsjt231izA@178.62.181.53:27017/spypie_prod"; }
+        }
 
         [SettingsProperty("fetcher.token")]
         public string FetcherToken { get; set; }
@@ -41,5 +44,30 @@ namespace ISeeYou
 
         [SettingsProperty("a71fb65f318cab58b627be8b952dffd0")]
         public string FacebookSecretKey { get; set; }
+
+        public string RabbitHost
+        {
+            get { return "dubina.by"; }
+        }
+
+        public string RabbitUser
+        {
+            get { return "spypie"; }
+        }
+
+        public string RabbitPwd
+        {
+            get { return "GM9SGQoLngSaJYZ"; }
+        }
+
+        public string PhotosQueue
+        {
+            get { return "spypie_photos"; }
+        }
+
+        public string SourcesQueue
+        {
+            get { return "spypie_sources"; }
+        }
     }
 }

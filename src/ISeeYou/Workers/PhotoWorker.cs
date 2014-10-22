@@ -18,13 +18,11 @@ namespace ISeeYou.Workers
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var api = new VkApi();
-            const string host = "dubina.by";
-            const string user = "spypie";
-            const string pwd = "GM9SGQoLngSaJYZ";
-            const string fetchingExchange = "spypie_photos";
+     
 
             const string type = "photo";
-            var subjectAddedConsumer = new RabbitMqConsumer<PhotoFetchEvent>(host, user, pwd, fetchingExchange);
+            var settings = container.GetInstance<SiteSettings>();
+            var consumer = new RabbitMqConsumer<PhotoFetchEvent>(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.PhotosQueue);
             var subjectsService = container.GetInstance<SubjectViewService>();
             var photosService = container.GetInstance<PhotoDocumentsService>();
             var events = ObjectFactory.Container.GetInstance<EventsViewService>();
@@ -32,7 +30,7 @@ namespace ISeeYou.Workers
             var subjects = subjectsService.GetAllIds();
             var subjectsLoaded = DateTime.UtcNow;
             var counter = 0;
-            subjectAddedConsumer.On += photoEvent =>
+            consumer.On += photoEvent =>
             {
                 counter++;
               
@@ -97,7 +95,7 @@ namespace ISeeYou.Workers
                     Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
                 //TODO: log pgoto fetching stats
             };
-            subjectAddedConsumer.Start();
+            consumer.Start();
         }
     }
 }
