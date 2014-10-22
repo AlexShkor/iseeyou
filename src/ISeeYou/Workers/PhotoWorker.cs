@@ -35,13 +35,16 @@ namespace ISeeYou.Workers
             subjectAddedConsumer.On += photoEvent =>
             {
                 counter++;
+              
                 if (counter > 100)
                 {
                     subjects = subjectsService.GetAllIds();
                     subjectsLoaded = DateTime.UtcNow;
                     counter = 0;
+                    Console.WriteLine("Subjects list updated");
                 }
                 var photo = photoEvent.Payload;
+                Console.WriteLine("Photo processing started: {0}. id: {1}", counter, photo.DocId);
                 var photoId = photo.DocId;
                 var result = api.Likes(photo.PhotoId, photo.UserId);
                 if (result != null && result.Any())
