@@ -8,29 +8,16 @@ using ISeeYou.Documents;
 using ISeeYou.Fetching;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
+using ISeeYou.Workers;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using StructureMap;namespace ISeeYou.Fetcher
 {
     class Program
     {
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
-            IContainer container = ObjectFactory.Container;
-            new Bootstrapper().ConfigureSettings(container);
-            new Bootstrapper().ConfigureMongoDb(container);
-
-            while (true)
-            {
-                try
-                {
-                    container.GetInstance<SourceFetcher>().Run();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
+            PhotoWorker.Start();
         }
     }
 }

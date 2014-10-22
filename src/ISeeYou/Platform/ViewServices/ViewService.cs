@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using ISeeYou.Databases;
 using ISeeYou.Platform.Mongo;
 using ISeeYou.Views;
+using ISeeYou.ViewServices;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace ISeeYou.Platform.ViewServices
 {
@@ -33,6 +37,11 @@ namespace ISeeYou.Platform.ViewServices
             Items.Save(user);
         }
 
+        public void Set<TProperty>(object id, Expression<Func<T, TProperty>> expr, TProperty value)
+        {
+            Items.Update(Query.EQ("_id", BsonValue.Create(id)),
+                       Update<T>.Set(expr, value));
+        }
 
         public void InsertAsync(T doc)
         {

@@ -14,6 +14,9 @@ namespace ISeeYou
 
         [SettingsProperty("fetcher.token")]
         public string FetcherToken { get; set; }
+
+        [SettingsProperty("threads")]
+        public string Threads { get; set; }
             
         //[SettingsProperty("mongo.logs_connection_string")]
         //public string MongoLogsConnectionString { get; set; }

@@ -139,6 +139,7 @@
     <Compile Include="MQ\RabbitEventBase.cs" />
     <Compile Include="MQ\RabbitMqConsumer.cs" />
     <Compile Include="MQ\RabbitMqPublisher.cs" />
+    <Compile Include="Platform\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Ranking\PhotoRanker.cs" />
     <Compile Include="Ranking\RankedProfile.cs" />
     <Compile Include="Ranking\SubjectRanker.cs" />
@@ -224,6 +225,9 @@
     <Compile Include="Platform\ViewModels\ValidationError.cs" />
     <Compile Include="Fetching\SourceAnalyzer.cs" />
     <Compile Include="Fetching\SourceFetcher.cs" />
+    <Compile Include="Schedulers\PhotoScheduler.cs" />
+    <Compile Include="Schedulers\SourcesScheduler.cs" />
+    <Compile Include="Schedulers\SubjectScheduler.cs" />
     <Compile Include="ViewServices\AppsViewService.cs" />
     <Compile Include="ViewServices\EventsViewService.cs" />
     <Compile Include="ViewServices\FetchingStats.cs" />
@@ -325,6 +329,8 @@
     <Compile Include="Views\Site\SiteView.cs" />
     <Compile Include="Views\SubjectView.cs" />
     <Compile Include="Views\UserView.cs" />
+    <Compile Include="Workers\PhotoWorker.cs" />
+    <Compile Include="Workers\SourceWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Handlers\IndexHandlers\" />

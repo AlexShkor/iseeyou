@@ -15,13 +15,5 @@ namespace ISeeYou.ViewServices
         {
             get { return Database.Events; }
         }
-
-        public void Insert(EventView eventView)
-        {
-            Items.Insert(eventView, new WriteConcern()
-            {
-                FSync = false,
-            });
-        }
     }
 }
