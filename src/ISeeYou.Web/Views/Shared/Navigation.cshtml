@@ -1,21 +1,23 @@
-﻿<div class="navbar" style="position: static;" ng-controller="HeaderCtrl">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand light" href="/"><span style="color: red">i</span>See<span style="color: red">You</span></a>
+﻿<div class="navbar navbar-default navbar-static-top" ng-controller="HeaderCtrl">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img src="~/Assets/pie.png" width="30" height="30"/> SpyPie</a>
+        </div>
+        <div class="navbar-collapse collapse">
             <div>
-                <ul class="nav  pull-right">
+                <ul class="nav navbar-nav navbar-right">
                     @if (Request.IsAuthenticated)
                     {
                         <text>
-                            <li><a href="/profile/index" style="color: red">@User.Identity.Name</a></li>
+                            <li><a href="/profile/index">@User.Identity.Name</a></li>
                             <li><a href="/account/logoff">Выйти </a></li>
                         </text>
                     }
                     else
                     {
                         <text>
-                        <li><a href="/account/login">Войти</a></li>
-                        <li><a href="/account/register">Регистрация</a></li>
+                            <li><a href="/account/login">Войти</a></li>
+                            <li><a href="/account/register">Регистрация</a></li>
                         </text>
                     }
                 </ul>

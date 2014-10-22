@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -22,6 +23,7 @@ namespace ISeeYou.Web.Controllers
         private readonly UsersViewService _users;
         private readonly SubjectViewService _subjects;
         private readonly EventsViewService _events;
+        private const int PAGE_SIZE = 20;
 
         public SubjectsController(UsersViewService users, SubjectViewService subjects, EventsViewService events)
         {
@@ -102,12 +104,38 @@ namespace ISeeYou.Web.Controllers
         [GET("ViewSubjectEvents")]
         public ActionResult ViewSubjectEvents(int id)
         {
+            ViewBag.UserId = id;
             var model = new SubjectEventsViewModel()
             {
-                Events = _events.Items.Find(Query.EQ("SubjectId", id)).OrderByDescending(x=> x.StartDate).ToList()
+                Events = _events.Items.Find(Query.EQ("SubjectId", id)).OrderByDescending(x=> x.StartDate).Take(PAGE_SIZE).ToList()
             };
 
             return View(model);
+        }
+
+        [GET("GetItems")]
+        public JsonResult GetItems(int id, int page = 2)
+        {
+            var events =
+                _events.Items.Find(Query.EQ("SubjectId", id))
+                    .OrderByDescending(x => x.StartDate)
+                    .Skip((page - 1)*PAGE_SIZE)
+                    .Take(PAGE_SIZE)
+                    .ToList();
+            return Json(events, JsonRequestBehavior.AllowGet);
+        }
+
+        [GET("GetMasonryItems")]
+        public JsonResult GetMasonryItems(int id, int page = 2)
+        {
+            var events =
+                _events.Items.Find(Query.EQ("SubjectId", id))
+                    .OrderByDescending(x => x.StartDate)
+                    .Skip((page - 1) * PAGE_SIZE)
+                    .Take(PAGE_SIZE)
+                    .Select(ConvertToMasonryItem)
+                    .ToList();
+            return Json(events, JsonRequestBehavior.AllowGet);
         }
 
         [GET("DeleteSubject")]
@@ -122,6 +150,20 @@ namespace ISeeYou.Web.Controllers
 
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        private string ConvertToMasonryItem(EventView evt)
+        {
+            var str = new StringBuilder();
+            str.Append("<div class=\"masonry-item\">");
+            str.Append(String.Format("<div class=\"image\"><img src=\"{0}\"/></div>", evt.ImageBig));
+            str.Append("<div class=\"source\"><a href=\"http://www.vk.com/id" + evt.SourceId +
+                       "\" target=\"_blank\">vk.com/id" + evt.SourceId + "</a></div>");
+            str.Append("<a href=\"https://vk.com/photo@" + evt.SourceId + "_@" + evt.PhotoId + "\">" + (evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "") + "</a>");
+            str.Append("<div class=\"like\"><span class=\"glyphicon glyphicon-heart\"></span></div>");
+            str.Append("</div>");
+
+            return str.ToString();
         }
 
     }

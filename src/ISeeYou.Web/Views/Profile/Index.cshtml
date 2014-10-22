@@ -1,44 +1,51 @@
 ﻿@model ISeeYou.Web.Controllers.ProfileViewModel
 
-<div class="container">
-    <div class="well">
-        <h4 class="text-center"><span class="highlight">@Model.User.UserName</span></h4>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <a class="btn btn-large btn-warning col-md-12" href="@Url.Action("AddSubject", "Subjects")">
+            <span class="glyphicon glyphicon-plus"></span>
+            Добавить обозреваемого пользователя
+        </a>
     </div>
-    
-    @if (Model.User.Subjects.Count > 0)
-    {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Имя</th>
-                    <th>Айдишка</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var subject in Model.User.Subjects)
-                {
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-12">
+        @if (Model.User.Subjects.Count > 0)
+        {
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td><a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a></td>
-                        <td>@subject.Id</td>
-                        <td><a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="btn btn-danger pull-right">Удалить</a></td>
+                        <th>Id</th>
+                        <th>Имя</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h3 class="text-center">Вы пока ни за кем не шпионите</h3>
-    }
-    
+                </thead>
+                <tbody>
 
-    <div>
-        <div style="margin-top: 30px;">
-            <a class="btn btn-large btn-info span11" href="@Url.Action("AddSubject", "Subjects")">Добавить обозреваемого юзера !</a>
-        </div>
+                    @foreach (var subject in Model.User.Subjects)
+                    {
+                        <tr>
+                            <td>
+                                @subject.Id
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="pull-right"><span class="text-danger glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3 class="text-center">Вы пока ни за кем не шпионите</h3>
+        }
     </div>
-
+    
 </div>
 
 

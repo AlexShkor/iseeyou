@@ -1,0 +1,19 @@
+﻿.masonry-item {
+    max-width: 220px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: none;
+    -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.masonry-item img
+{
+    max-width: 200px;
+    height: auto;
+}
+
+.masonry-item .like {
+    float: right;
+}
