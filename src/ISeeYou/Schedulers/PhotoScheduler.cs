@@ -52,12 +52,14 @@ namespace ISeeYou.Schedulers
                         }
                     });
                     var likesForSource = 20;
+                    var additionalDellay = TimeSpan.Zero;
                     if (!photo.FetchedFirstTime.HasValue)
                     {
                         _photosService.Set(photo.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
+                        additionalDellay = TimeSpan.FromMinutes(20);
                     }
                     //use also multiplier from source likes found data
-                    var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * GetFetchingMultiplyer(photo.Created));
+                    var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * GetFetchingMultiplyer(photo.Created)) + additionalDellay;
                     _photosService.Set(photo.Id, x => x.NextFetching, nextFetchingDate);
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
