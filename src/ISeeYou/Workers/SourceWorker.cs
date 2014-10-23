@@ -38,21 +38,31 @@ namespace ISeeYou.Workers
                             api.GetPhotos(source.UserId, album)
                                 .Where(x => x.likes.count > 0);
                         var exist = photosService.GetPhotoIdsFor(source.UserId).ToList();
-                        var newPhotos = photos.Where(x => !exist.Contains(x.pid));
-                        foreach (var newPhoto in newPhotos)
+                        try
                         {
-                            var id = source.UserId + "_" + type + newPhoto.pid;
-                            photosService.InsertAsync(new PhotoDocument
+                            var newPhotos = photos.Where(x => !exist.Contains(x.pid)).OrderByDescending(x=> x.created);
+                            var counter = 0;
+                            foreach (var newPhoto in newPhotos)
                             {
-                                Added = DateTime.UtcNow,
-                                New = source.New,
-                                Id = id,
-                                Created = UnixTimeStampToDateTime(newPhoto.created),
-                                PhotoId = newPhoto.pid,
-                                SourceId = source.UserId,
-                                Image = newPhoto.src,
-                                ImageBig = newPhoto.src_big
-                            });
+                                var id = source.UserId + "_" + type + newPhoto.pid;
+                                photosService.InsertAsync(new PhotoDocument
+                                {
+                                    Added = DateTime.UtcNow,
+                                    New = source.New,
+                                    Id = id,
+                                    Created = UnixTimeStampToDateTime(newPhoto.created),
+                                    PhotoId = newPhoto.pid,
+                                    SourceId = source.UserId,
+                                    Image = newPhoto.src,
+                                    ImageBig = newPhoto.src_big,
+                                    NextFetching = DateTime.UtcNow + TimeSpan.FromSeconds((counter > 100 ? counter : 0)*2)
+                                });
+                                counter++;
+                            }
+                        }
+                        catch
+                        {
+                            
                         }
                     }
                 }

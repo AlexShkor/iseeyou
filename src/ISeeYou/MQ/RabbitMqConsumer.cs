@@ -65,7 +65,6 @@ namespace ISeeYou.MQ
                 QueueDeliveryMessage<TRabbitEvent> message;
                 if (Consume(out message))
                 {
-                    BasicAck(message.DeliveryTag, true);
                     On(message.Event);
                 }
             }
@@ -110,7 +109,7 @@ namespace ISeeYou.MQ
             //Log.InfoFormat("Exchange declared: ({0}.{1})...", Host, FormatExchangeName(exchangeName));
             //Log.InfoFormat("Declaring queue ({0}.{1})...", Host, FormatQueueName(queueName));
 
-            _channel.QueueDeclare(QueueName, true, false, false, null);
+            _channel.QueueDeclare(QueueName, false, false, false, null);
 
             //Log.InfoFormat("Queue declared: ({0}.{1})...", Host, FormatQueueName(queueName));
 
@@ -166,7 +165,7 @@ namespace ISeeYou.MQ
             var consumer = _underlyingConsumers.GetOrAdd(queueName, q =>
             {
                 var c = new QueueingBasicConsumer(_channel);
-                _channel.BasicConsume(q, false, c);
+                _channel.BasicConsume(q, true, c);
 
                 return c;
             });

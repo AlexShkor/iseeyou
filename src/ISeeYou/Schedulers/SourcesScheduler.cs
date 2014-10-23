@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using ISeeYou.Documents;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
@@ -67,6 +69,10 @@ namespace ISeeYou.Schedulers
                     _sourceStatsService.Set(source.SourceId, view => view.NextFetching, nextFetchingDate);
                 }
                 Console.WriteLine("{0} sources analyzed", counter);
+                //if (counter == 0) test
+                {
+                    Thread.Sleep(2000);
+                }
             }
         }
 
