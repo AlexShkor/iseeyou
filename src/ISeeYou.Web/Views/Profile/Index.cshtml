@@ -40,10 +40,10 @@
                                 }
                             </td>
                             <td>
-                                <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="pull-right"><span class="text-danger glyphicon glyphicon-remove"></span></a>&nbsp;
+                                <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="btn btn-sm pull-right">Удалить<span class="text-danger glyphicon glyphicon-remove"></span></a>
                                 @if (!subject.Paid)
                                 {
-                                    <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="pull-right" title="Oплатить"><span class="text-danger glyphicon glyphicon-usd"></span></a>
+                                <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="btn btn-sm pull-right" title="Oплатить">Не оплачен<span class="text-success glyphicon glyphicon-usd"></span></a>
                                 }
                             </td>
                         </tr>

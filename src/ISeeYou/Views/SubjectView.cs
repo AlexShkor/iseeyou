@@ -14,5 +14,6 @@ namespace ISeeYou.Views
         public DateTime? FetchingStarted { get; set; }
         public DateTime? FetchingEnded { get; set; }
         public DateTime? FetchedFirstTime { get; set; }
+        public int Likes { get; set; }
     }
 }

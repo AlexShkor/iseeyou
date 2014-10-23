@@ -33,6 +33,7 @@ namespace ISeeYou.Views
         public string Id { get; set; }
         public string Name { get; set; }
         public string SubscriptionId { get; set; }
+        public DateTime? NextPayment { get; set; }
         public bool Paid { get; set; }
     }
 }

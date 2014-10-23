@@ -86,13 +86,12 @@ namespace ISeeYou.Web.Controllers
 
         private string GetSubjectIdFromUrl(string url)
         {
-            string id;
-            id = UrlUtility.ExtractVkUserId(url);
-           
-            if (id.Length > 0 && char.IsDigit(id, 0))
-                return id;
-
-            return UrlUtility.LastSegment(url);
+            var segment = UrlUtility.LastSegment(url);
+            if (segment.StartsWith("id"))
+            {
+                segment = segment.Substring(2);
+            }
+            return segment;
         }
 
         private VkUser GetUserFromVk(string id)

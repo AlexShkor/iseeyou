@@ -43,6 +43,14 @@ namespace ISeeYou.Platform.ViewServices
                        Update<T>.Set(expr, value));
         }
 
+
+
+        public void Inc(object id, Expression<Func<T, long>> expr, long value)
+        {
+            Items.Update(Query.EQ("_id", BsonValue.Create(id)),
+                Update<T>.Inc(expr, value));
+        }
+
         public void InsertAsync(T doc)
         {
             try

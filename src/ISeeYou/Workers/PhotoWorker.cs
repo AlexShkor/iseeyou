@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISeeYou.MQ;
@@ -7,7 +6,6 @@ using ISeeYou.MQ.Events;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
-using MongoDB.Driver.Builders;
 using StructureMap;
 
 namespace ISeeYou.Workers
@@ -29,6 +27,7 @@ namespace ISeeYou.Workers
             var consumer = new RabbitMqConsumer<PhotoFetchEvent>(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.PhotosQueue);
             var subjectsService = container.GetInstance<SubjectViewService>();
             var photosService = container.GetInstance<PhotoDocumentsService>();
+            var sources = container.GetInstance<SourceStatsViewService>();
             var events = ObjectFactory.Container.GetInstance<EventsViewService>();
             var trakingMarks = ObjectFactory.Container.GetInstance<TrackingMarksViewService>();
             IEnumerable<int> subjectIds = null;
@@ -100,6 +99,9 @@ namespace ISeeYou.Workers
                                 Type = type
                             });
                         }
+                        subjectsService.Inc(subjectId, x => x.Likes, 1);
+                        sources.Inc(photo.UserId, x => x.Likes, 1);
+                        photosService.Inc(photo.DocId, x => x.Likes, 1);
                     }
                 }
                 //photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),

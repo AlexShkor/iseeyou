@@ -21,6 +21,8 @@ namespace ISeeYou.Documents
         public DateTime Added { get; set; }
 
         public bool New { get; set; }
+
+        public int Likes { get; set; }
     }
 
     public class SourceStats
@@ -36,5 +38,6 @@ namespace ISeeYou.Documents
         public DateTime? FetchingStarted { get; set; }
         public DateTime? FetchedFirstTime { get; set; }
         public DateTime? FetchingEnded { get; set; }
+        public int Likes { get; set; }
     }
 }

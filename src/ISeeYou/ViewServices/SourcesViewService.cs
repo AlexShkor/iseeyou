@@ -78,5 +78,6 @@ namespace ISeeYou.ViewServices
         public DateTime Added { get; set; }
         public DateTime? FetchingStarted { get; set; }
         public DateTime? FetchedFirstTime { get; set; }
+        public int Likes { get; set; }
     }
 }
