@@ -304,6 +304,7 @@
     <Content Include="Assets\chips.png" />
     <Content Include="Assets\avatars\sample_avatar.jpg" />
     <Content Include="Assets\app\css\img\like_vk.png" />
+    <Content Include="Assets\loading.GIF" />
     <Content Include="Assets\pie.png" />
     <Content Include="Assets\vendor\amplify.js" />
     <Content Include="Assets\vendor\amplify.min.js" />

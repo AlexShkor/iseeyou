@@ -1,10 +1,14 @@
 ﻿@using System.Web.UI.WebControls
 @model ISeeYou.Web.Controllers.SubjectEventsViewModel
 
+<div id="loading" class="center-block">
+    <img id="loading-image" src="~/Assets/loading.gif" alt="Загружаю..."/>
+</div>
+
 @if (Model.Events.Count > 0)
 {
     <div id="masonry-container">
-       @foreach (var evt in Model.Events)
+        @foreach (var evt in Model.Events)
         {
             <div class="masonry-item">
                 <div class="image"><img src="@evt.ImageBig" /></div>
@@ -35,39 +39,40 @@ else
     $(document).ready(function () {
         var page = 2;
         var msnry = null;
+        var $loading = $('#loading').hide();
 
+        $loading.show();
         var container = $("#masonry-container");
-        container.imagesLoaded(function() {
+        container.imagesLoaded(function () {
             msnry = new Masonry(container[0], {
                 gutter: 10,
                 itemSelector: '.masonry-item'
             });
+            $loading.hide();
         });
-        
-        
+       
         $("#load_more").click(function (e) {
+            $loading.show();
             e.preventDefault();
             jQuery.get("/Subjects/GetMasonryItems", { page: page, id: '@ViewBag.UserId' }, function (data) {
+
                 var elems = [];
                 for (var i = 0; i < data.length; i++) {
-                    //var vkLink = "vk.com/id" + data[i].SourceId;
-                    //var photoLink = data[i].SourceId;
-                    //var photoLinkText = data[i].StartTime != null ? data[i].StartTime.getDay() + "/" + data[i].StartTime.getMonth() + 1 + "/" + data[i].StartTime.getYear(): "";
-                    //var elem = $('<div class="masonry-item"><div class="image"><img src="' + data[i].ImageBig + '" /></div><div class="source"><a href="http://www.'+ vkLink +'" target="_blank">' + vkLink +'</a></div><a href="'+ photoLink +'">'+ photoLinkText + '</a><div class="like"><span class="glyphicon glyphicon-heart"></span></div></div>');
-                    //elems.push(elem);
                     elems.push(data[i]);
                 }
-                container.append(elems);
                 page++;
 
-                container.imagesLoaded(function() {
+                container.append(elems);
+
+                container.imagesLoaded(function () {
                     msnry = new Masonry(container[0], {
                         gutter: 10,
                         itemSelector: '.masonry-item'
                     });
+                    $loading.hide();
                 });
             });
         });
     })
-    
+
 </script>
