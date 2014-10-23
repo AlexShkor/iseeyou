@@ -78,6 +78,7 @@ namespace ISeeYou.Domain.ApplicationServices.Payments
                 CreditCard = new TransactionCreditCardRequest()
                 {
                     Number = creditCard.Number,
+                    CardholderName = creditCard.CardholderName,
                     ExpirationMonth = creditCard.Month,
                     ExpirationYear = creditCard.Year,
                     CVV = creditCard.Cvv

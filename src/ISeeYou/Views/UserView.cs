@@ -40,5 +40,11 @@ namespace ISeeYou.Views
         {
             get { return NextPayment.HasValue && NextPayment > DateTime.UtcNow; }
         }
+
+        public void SetPayment()
+        {
+            NextPayment = DateTime.UtcNow.AddMonths(1);
+            Stopped = null;
+        }
     }
 }

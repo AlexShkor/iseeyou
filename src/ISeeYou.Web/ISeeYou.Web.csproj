@@ -231,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingConfig.cs" />
+    <Compile Include="App_Start\CouponsInitializer.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\AppsController.cs" />
