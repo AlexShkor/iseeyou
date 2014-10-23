@@ -34,6 +34,7 @@ namespace ISeeYou.Views
         public string Name { get; set; }
         public string SubscriptionId { get; set; }
         public DateTime? NextPayment { get; set; }
+        public DateTime? Stopped { get; set; }
         public bool Paid { get; set; }
     }
 }

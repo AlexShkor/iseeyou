@@ -66,19 +66,32 @@ namespace ISeeYou.Web.Controllers
         }
 
         [POST("AddSubject")]
-        public async Task<ActionResult> AddSubject(SubjectViewModel model)
+        public ActionResult AddSubject(SubjectViewModel model)
         {
             var id = GetSubjectIdFromUrl(model.SubjectUrl);
             var subject = GetUserFromVk(id);
             var user = _users.GetById(UserId);
-            _subjects.Save(new SubjectView
+            var subjectView = _subjects.GetById(id);
+            if (subjectView == null)
             {
-                Id = subject.UserId,
-                Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
-                TrackingStarted = DateTime.UtcNow,
+                _subjects.Save(new SubjectView
+                {
+                    Id = subject.UserId,
+                    Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
+                    TrackingStarted = DateTime.UtcNow,
+                    Active = true
+                });
+            }else if (subjectView.Active == false)
+            {
+                subjectView.Active = true;
+                _subjects.Save(subjectView);
+            }
+            user.Subjects.Add(new SubjectData()
+            {
+                Id = subject.UserId.ToString(), 
+                Name = string.Format("{0} {1}", 
+                subject.FirstName, subject.LastName)
             });
-
-            user.Subjects.Add(new SubjectData() { Id = subject.UserId.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
             _users.Save(user);
             
             return RedirectToAction("Create", "Payments", new {id = subject.UserId});
