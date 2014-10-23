@@ -66,10 +66,22 @@ namespace ISeeYou.Schedulers
                     if (!subjectView.FetchedFirstTime.HasValue)
                     {
                         _subjectsService.Set(subjectView.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
+                        _sourceStats.InsertAsync(new SourceStats
+                        {
+                            SourceId = subjectView.Id,
+                            NextFetching = DateTime.UtcNow
+                        });
+                        _sources.InsertAsync(new SourceDocument()
+                        {
+                            SourceId = subjectView.Id,
+                            SubjectId = subjectView.Id,
+                            Added = DateTime.UtcNow,
+                            New = subjectView.FetchedFirstTime.HasValue
+                        });
                     }
                     else
                     {
-                        newSourcesCount = _sources.GetSourcesCount(subjectView.Id, DateTime.UtcNow.AddHours(-48));
+                      //  newSourcesCount = _sources.GetSourcesCount(subjectView.Id, DateTime.UtcNow.AddHours(-48));
                     }
                     var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * ((double)AverageNewSources / (newSourcesCount + 1)));
                     _subjectsService.Set(subjectView.Id, view => view.NextFetching, nextFetchingDate);
