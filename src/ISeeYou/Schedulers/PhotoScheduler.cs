@@ -36,7 +36,8 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
-                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).OrderBy(x => x.NextFetching);
+                var chunkSize = 1024;
+                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).OrderBy(x => x.NextFetching).Take(1024).ToList();
                 var counter = 0;
                 foreach (var photo in items)
                 {
@@ -71,7 +72,7 @@ namespace ISeeYou.Schedulers
                             .Set(x => x.FetchingEnd, photo.NextFetching));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
-                if (counter == 0)
+                if (items.Count() < chunkSize)
                 {
                     Thread.Sleep(1000);
                 }
