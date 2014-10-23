@@ -29,6 +29,7 @@ namespace ISeeYou.Schedulers
 
         private void Start()
         {
+            Console.WriteLine("Started");
             while (true)
             {
                 var chunkSize = 500;
