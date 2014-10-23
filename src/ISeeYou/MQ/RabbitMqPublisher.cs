@@ -39,6 +39,7 @@ namespace ISeeYou.MQ
             {
                 var props = _channel.CreateBasicProperties();
                 props.SetPersistent(true);
+
                 _channel.BasicPublish(ExchangeName, e.RoutingKey, props, e.ToMessage());
             }
             catch

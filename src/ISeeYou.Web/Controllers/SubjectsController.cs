@@ -159,7 +159,7 @@ namespace ISeeYou.Web.Controllers
             str.Append(String.Format("<div class=\"image\"><img src=\"{0}\"/></div>", evt.ImageBig));
             str.Append("<div class=\"source\"><a href=\"http://www.vk.com/id" + evt.SourceId +
                        "\" target=\"_blank\">vk.com/id" + evt.SourceId + "</a></div>");
-            str.Append("<a href=\"https://vk.com/photo@" + evt.SourceId + "_@" + evt.PhotoId + "\">" + (evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "") + "</a>");
+            str.Append("<a href=\"https://vk.com/photo" + evt.SourceId + "_" + evt.PhotoId + "\">" + (evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "") + "</a>");
             str.Append("<div class=\"like\"><span class=\"glyphicon glyphicon-heart\"></span></div>");
             str.Append("</div>");
 

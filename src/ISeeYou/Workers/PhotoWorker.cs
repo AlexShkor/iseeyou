@@ -22,7 +22,7 @@ namespace ISeeYou.Workers
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
             var api = new VkApi();
-     
+
 
             const string type = "photo";
             var settings = container.GetInstance<SiteSettings>();
@@ -34,12 +34,12 @@ namespace ISeeYou.Workers
             IEnumerable<int> subjectIds = null;
             ILookup<int, DateTime> subjectTrackingDateLookup = null;
             var lastSubjectsUpdate = DateTime.MinValue;
-            
+
             Action updateSubjects = () =>
             {
                 if (DateTime.UtcNow > lastSubjectsUpdate + updateSubjectsInterval)
                 {
-                    var subjects = subjectsService.GetAll().Select(x => new {x.Id, x.TrackingStarted}).ToList();
+                    var subjects = subjectsService.GetAll().Select(x => new { x.Id, x.TrackingStarted }).ToList();
                     subjectIds = subjects.Select(x => x.Id);
                     subjectTrackingDateLookup = subjects.ToLookup(x => x.Id, x => x.TrackingStarted);
                     lastSubjectsUpdate = DateTime.UtcNow;

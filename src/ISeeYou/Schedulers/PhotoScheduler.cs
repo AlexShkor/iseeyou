@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
+using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using StructureMap;
 
@@ -15,11 +18,16 @@ namespace ISeeYou.Schedulers
     {
         private readonly PhotoDocumentsService _photosService;
         private readonly RabbitMqPublisher _publisher;
-        private TimeSpan _delay = TimeSpan.FromMinutes(10);
+        private readonly SitesViewService _siteService;
         const int AvarageLikesForSource = 20;
 
-        public PhotoScheduler(PhotoDocumentsService photosService, SiteSettings settings)
+        private DateTime _lastFetchSettingsUpdate;
+        private TimeSpan _fetchSettingsUpdateInterval = TimeSpan.FromMinutes(1);
+        private PhotoFetchSettings _fetchSettings;
+
+        public PhotoScheduler(PhotoDocumentsService photosService, SiteSettings settings, SitesViewService siteService)
         {
+            _siteService = siteService;
             _photosService = photosService;
             _publisher = new RabbitMqPublisher(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.PhotosQueue);
         }
@@ -57,13 +65,13 @@ namespace ISeeYou.Schedulers
                         additionalDellay = TimeSpan.FromMinutes(20);
                     }
                     //use also multiplier from source likes found data
-                    var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * GetFetchingMultiplyer(photo.Created)) + additionalDellay;
+                    var nextFetchingDate = DateTime.UtcNow + GetFetchInterval(photo) + additionalDellay;
                     _photosService.Items.Update(Query.EQ("_id", BsonValue.Create(photo.Id)),
                         Update<PhotoDocument>.Set(x => x.NextFetching, nextFetchingDate)
                             .Set(x => x.FetchingEnd, photo.NextFetching));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
-                //if (counter == 0) for test
+                if (counter == 0)
                 {
                     Thread.Sleep(1000);
                 }
@@ -76,26 +84,61 @@ namespace ISeeYou.Schedulers
             obj.Start();
         }
 
-        private static int GetFetchingMultiplyer(DateTime created)
+        private PhotoFetchSettings GetFetchSettings()
         {
-            var now = DateTime.UtcNow;
-            if (created > now.AddDays(-2))
+            if (DateTime.UtcNow < _lastFetchSettingsUpdate + _fetchSettingsUpdateInterval)
+                return _fetchSettings;
+
+            _lastFetchSettingsUpdate = DateTime.UtcNow;
+            
+            var siteSettings = _siteService.GetSite();
+            if (siteSettings == null)
             {
-                return 1;
+                siteSettings = new SiteView
+                {
+                    Id = SiteSettings.SiteId,
+                    PhotoFetchSettings = DefaultFetchSettings()
+                };
+                _siteService.InsertAsync(siteSettings);
             }
-            if (created > now.AddDays(-4))
+
+            if (siteSettings.PhotoFetchSettings == null)
             {
-                return 2;
+                siteSettings.PhotoFetchSettings = DefaultFetchSettings();
+                _siteService.Save(siteSettings);
             }
-            if (created > now.AddDays(-10))
+
+            return _fetchSettings = siteSettings.PhotoFetchSettings;
+        }
+
+        private TimeSpan GetFetchInterval(PhotoDocument photo)
+        {
+            var settings = GetFetchSettings();
+
+            var photoAge = (DateTime.UtcNow - photo.Created).TotalDays;
+
+            var category = settings.Categories.OrderBy(x => x.Age).Where(x => x.Age > photoAge).FirstOrDefault();
+
+            var ratio = category == null ? 1.0 : category.Ratio;
+            return TimeSpan.FromSeconds(settings.DelayBase*ratio);
+        }
+
+
+        private static PhotoFetchSettings DefaultFetchSettings()
+        {
+            return new PhotoFetchSettings
             {
-                return 5;
-            }
-            if (created > now.AddDays(-30))
-            {
-                return 7;
-            }
-            return 10;
+                DelayBase = 10*60,
+                Disabled = false,
+                Categories = new List<PhotoCategory>
+                {
+                    new PhotoCategory {Age = 2, Ratio = 1},
+                    new PhotoCategory {Age = 4, Ratio = 2},
+                    new PhotoCategory {Age = 10, Ratio = 5},
+                    new PhotoCategory {Age = 30, Ratio = 7},
+                    new PhotoCategory {Age = int.MaxValue, Ratio = 10},
+                }
+            };
         }
     }
 }
