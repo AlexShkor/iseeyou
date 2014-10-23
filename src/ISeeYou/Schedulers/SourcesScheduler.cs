@@ -15,15 +15,16 @@ namespace ISeeYou.Schedulers
     {
         private readonly PhotoDocumentsService _photosService;
         private readonly SourceStatsViewService _sourceStatsService;
-        private readonly RabbitMqPublisher _publisher;
+        private readonly SourcePublisher _publisher;
         private TimeSpan _delay;
         const int AverageNewPhotos = 10;
 
-        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService, SiteSettings settings)
+        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService, SourcePublisher publisher)
         {
             _photosService = photosService;
             _sourceStatsService = sourceStatsService;
-            _publisher = new RabbitMqPublisher(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.SourcesQueue);
+            _publisher = publisher;
+
             _delay = TimeSpan.FromMinutes(10);
         }
 
@@ -38,15 +39,7 @@ namespace ISeeYou.Schedulers
                 foreach (var source in items)
                 {
                     counter++;
-                    _publisher.Publish(new SourceFetchEvent
-                    {
-                        Payload = new SourceFetchPayload()
-                        {
-                            UserId = source.SourceId,
-                            New = source.FetchedFirstTime.HasValue,
-                            Published = DateTime.UtcNow
-                        }
-                    });
+                    _publisher.Publish(source.SourceId);
                     long newPhotosCount = AverageNewPhotos - 1;
                     var photosAddedStartDate = DateTime.UtcNow.AddHours(-48);
                     if (!source.FetchedFirstTime.HasValue)

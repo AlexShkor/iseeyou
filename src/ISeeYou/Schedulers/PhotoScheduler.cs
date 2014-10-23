@@ -17,7 +17,7 @@ namespace ISeeYou.Schedulers
     public class PhotoScheduler
     {
         private readonly PhotoDocumentsService _photosService;
-        private readonly RabbitMqPublisher _publisher;
+        private readonly PhotoPublisher _publisher;
         private readonly SitesViewService _siteService;
         const int AvarageLikesForSource = 20;
 
@@ -25,11 +25,10 @@ namespace ISeeYou.Schedulers
         private TimeSpan _fetchSettingsUpdateInterval = TimeSpan.FromMinutes(1);
         private PhotoFetchSettings _fetchSettings;
 
-        public PhotoScheduler(PhotoDocumentsService photosService, SiteSettings settings, SitesViewService siteService)
+        public PhotoScheduler(PhotoDocumentsService photosService, SitesViewService siteService)
         {
             _siteService = siteService;
             _photosService = photosService;
-            _publisher = new RabbitMqPublisher(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.PhotosQueue);
         }
 
         private void Start()
@@ -47,17 +46,7 @@ namespace ISeeYou.Schedulers
                     //}
                     //_photosService.Set(photo.Id, x => x.FetchingStarted, DateTime.UtcNow);
                     counter++;
-                    _publisher.Publish(new PhotoFetchEvent
-                    {
-                        Payload = new PhotoFetchPayload
-                        {
-                            UserId = photo.SourceId,
-                            PhotoId = photo.PhotoId,
-                            DocId = photo.Id,
-                            New = photo.FetchedFirstTime,
-                            Published = DateTime.UtcNow
-                        }
-                    });
+                    _publisher.Publish(photo.PhotoId, photo.SourceId, photo.Id);
                     var likesForSource = 20;
                     var additionalDellay = TimeSpan.Zero;
                     if (!photo.FetchedFirstTime.HasValue)

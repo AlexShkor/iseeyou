@@ -16,6 +16,7 @@ namespace ISeeYou.Schedulers
     public class SubjectScheduler
     {
         private readonly SubjectViewService _subjectsService;
+        private readonly SourcePublisher _publisher;
         private readonly SourcesViewService _sources;
         private readonly SourceStatsViewService _sourceStats;
         private readonly VkApi _api;
@@ -24,11 +25,16 @@ namespace ISeeYou.Schedulers
         private readonly TimeSpan _delay = TimeSpan.FromMinutes(10);
         private const int AverageNewSources = 3;
 
-        public SubjectScheduler(SourceStatsViewService sourceStats, SourcesViewService sources, SubjectViewService subjectsService)
+        public SubjectScheduler(
+            SourceStatsViewService sourceStats, 
+            SourcesViewService sources,
+            SubjectViewService subjectsService,
+            SourcePublisher publisher)
         {
             _sourceStats = sourceStats;
             _sources = sources;
             _subjectsService = subjectsService;
+            _publisher = publisher;
             _api = new VkApi();
         }
 
@@ -48,24 +54,13 @@ namespace ISeeYou.Schedulers
                     var newSources = friends.Where(x => !sourceIds.Contains(x.UserId));
                     foreach (var newSource in newSources)
                     {
-                        _sourceStats.InsertAsync(new SourceStats
-                        {
-                            SourceId = newSource.UserId,
-                            NextFetching = DateTime.UtcNow
-                        });
-                        _sources.InsertAsync(new SourceDocument()
-                        {
-                            SourceId = newSource.UserId,
-                            SubjectId = subjectView.Id,
-                            Added = DateTime.UtcNow,
-                            New = subjectView.FetchedFirstTime.HasValue
-                        });
+                        AddSource(newSource.UserId,subjectView.Id,subjectView.FetchedFirstTime.HasValue);
                     }
                     long newSourcesCount = AverageNewSources - 1;
                     if (!subjectView.FetchedFirstTime.HasValue)
                     {
                         _subjectsService.Set(subjectView.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
-                       
+                        AddSource(subjectView.Id, subjectView.Id, false);
                     }
                     else
                     {
@@ -84,7 +79,7 @@ namespace ISeeYou.Schedulers
             }
         }
 
-        private void AddSource(int sourceId, int subjectId, bool isNew)
+        private void AddSource(int sourceId, int subjectId, bool newlyFoundSource)
         {
             _sourceStats.InsertAsync(new SourceStats
             {
@@ -96,11 +91,11 @@ namespace ISeeYou.Schedulers
                 SourceId = sourceId,
                 SubjectId = subjectId,
                 Added = DateTime.UtcNow,
-                New = isNew
+                New = newlyFoundSource
             });
-            if (isNew)
+            if (!newlyFoundSource)
             {
-                
+                _publisher.Publish(sourceId,subjectId);
             }
         }
 

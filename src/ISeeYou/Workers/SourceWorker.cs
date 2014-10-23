@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
+using ISeeYou.Schedulers;
 using ISeeYou.ViewServices;
 using ISeeYou.Vk.Api;
 using StructureMap;
@@ -19,6 +20,7 @@ namespace ISeeYou.Workers
             var api = new VkApi();
 
             var settings = container.GetInstance<SiteSettings>();
+            var photoPublisher = container.GetInstance<PhotoPublisher>();
             const string type = "photo";
             var consumer = new RabbitMqConsumer<SourceFetchEvent>(settings.RabbitHost, settings.RabbitUser, settings.RabbitPwd, settings.SourcesQueue);
             var photosService = container.GetInstance<PhotoDocumentsService>();
@@ -45,7 +47,8 @@ namespace ISeeYou.Workers
                             photosService.InsertAsync(new PhotoDocument
                             {
                                 Added = DateTime.UtcNow,
-                                New = source.New,
+                                //photo was added not on first source processing
+                                New = !source.SubjectId.HasValue,
                                 Id = id,
                                 Created = UnixTimeStampToDateTime(newPhoto.created),
                                 PhotoId = newPhoto.pid,
@@ -53,6 +56,7 @@ namespace ISeeYou.Workers
                                 Image = newPhoto.src,
                                 ImageBig = newPhoto.src_big
                             });
+                            
                         }
                     }
                 }

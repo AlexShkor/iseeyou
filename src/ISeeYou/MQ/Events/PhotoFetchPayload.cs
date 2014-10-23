@@ -7,7 +7,8 @@ namespace ISeeYou.MQ.Events
         public int UserId { get; set; }
         public int PhotoId { get; set; }
         public DateTime Published { get; set; }
-        public DateTime? New { get; set; }
         public string DocId { get; set; }
+        public bool NewSource { get; set; }
+        public int? SubjectId { get; set; }
     }
 }
