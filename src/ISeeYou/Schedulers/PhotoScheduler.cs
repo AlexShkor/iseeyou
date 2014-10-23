@@ -74,7 +74,7 @@ namespace ISeeYou.Schedulers
                 Console.WriteLine("{0} photos analyzed", counter);
                 if (items.Count() < chunkSize)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using ISeeYou.Documents;
 using ISeeYou.MQ;
 using ISeeYou.Views;
@@ -21,8 +22,8 @@ namespace ISeeYou.Schedulers
         private readonly VkApi _api;
 
         private readonly string[] _fields = new[] { "sex" };
-        private readonly TimeSpan _delay = TimeSpan.FromMinutes(20);
-        private const int AvarageNewSources = 3;
+        private readonly TimeSpan _delay = TimeSpan.FromMinutes(10);
+        private const int AverageNewSources = 3;
 
         public SubjectScheduler(SourceStatsViewService sourceStats, SourcesViewService sources, SubjectViewService subjectsService)
         {
@@ -36,17 +37,13 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
-                var items = _subjectsService.Items.Find(Query<SubjectView>.LT(x => x.NextFetching, DateTime.UtcNow));
+                var chunkSize = 500;
+                var items = _subjectsService.Items.Find(Query<SubjectView>.LT(x => x.NextFetching, DateTime.UtcNow)).SetLimit(chunkSize).ToList();
                 var counter = 0;
                 foreach (var subjectView in items)
                 {
                     var id = subjectView.Id.ToString(CultureInfo.InvariantCulture);
-                    if (subjectView.FetchingStarted > DateTime.UtcNow)
-                    {
-                        continue;
-                    }
                     counter++;
-                    _subjectsService.Set(subjectView.Id, x => x.FetchingStarted, DateTime.UtcNow);
                     var friends = _api.GetUserFriends(id, _fields);
                     var sourceIds = _sources.GetSourceIdsFor(subjectView.Id).ToList();
                     var newSources = friends.Where(x => !sourceIds.Contains(x.UserId));
@@ -65,7 +62,7 @@ namespace ISeeYou.Schedulers
                             New = subjectView.FetchedFirstTime.HasValue
                         });
                     }
-                    long newSourcesCount = AvarageNewSources - 1;
+                    long newSourcesCount = AverageNewSources - 1;
                     if (!subjectView.FetchedFirstTime.HasValue)
                     {
                         _subjectsService.Set(subjectView.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
@@ -74,11 +71,16 @@ namespace ISeeYou.Schedulers
                     {
                         newSourcesCount = _sources.GetSourcesCount(subjectView.Id, DateTime.UtcNow.AddHours(-48));
                     }
-                    var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * ((double)AvarageNewSources / (newSourcesCount + 1)));
+                    var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * ((double)AverageNewSources / (newSourcesCount + 1)));
                     _subjectsService.Set(subjectView.Id, view => view.NextFetching, nextFetchingDate);
                     _subjectsService.Set(subjectView.Id, x => x.FetchingEnded, DateTime.UtcNow);
                 }
                 Console.WriteLine("{0} subjects analyzed", counter);
+
+                if (items.Count() < chunkSize)
+                {
+                    Thread.Sleep(1000);
+                }
             }
         }
 
