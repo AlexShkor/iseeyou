@@ -58,11 +58,11 @@ namespace ISeeYou.Schedulers
                     }
                     else
                     {
-                        newPhotosCount = _photosService.GetPhotosCount(source.SourceId, photosAddedStartDate);
-                        if (newPhotosCount < AvarageNewPhotos && source.FetchedFirstTime < photosAddedStartDate)
-                        {
-                            newPhotosCount = AvarageNewPhotos;
-                        }
+                        //newPhotosCount = _photosService.GetPhotosCount(source.SourceId, photosAddedStartDate);
+                        //if (newPhotosCount < AvarageNewPhotos && source.FetchedFirstTime < photosAddedStartDate)
+                        //{
+                        //    newPhotosCount = AvarageNewPhotos;
+                        //}
                     }
                     var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * ((double)AvarageNewPhotos / (newPhotosCount + 1)));
                     _sourceStatsService.Set(source.SourceId, view => view.NextFetching, nextFetchingDate);
