@@ -1,4 +1,5 @@
-﻿using ISeeYou.Domain.Aggregates.Site.Data;
+﻿using System.Collections.Generic;
+using ISeeYou.Domain.Aggregates.Site.Data;
 using MongoDB.Bson.Serialization.Attributes;
 using Uniform;
 
@@ -15,6 +16,8 @@ namespace ISeeYou.Views
 
         public bool SchedulerRestartNeeded { get; set; }
 
+        public PhotoFetchSettings PhotoFetchSettings { get; set; }
+
         public SiteView()
         {
             SmtpSettings = new SmtpSettingsData();
@@ -23,6 +26,19 @@ namespace ISeeYou.Views
 
 
 
+    }
+
+    public class PhotoFetchSettings
+    {
+        public bool Disabled { get; set; }
+        public int DelayBase { get; set; }
+        public List<PhotoCategory> Categories { get; set; }
+    }
+
+    public class PhotoCategory
+    {
+        public int Age { get; set; }
+        public double Ratio { get; set; }
     }
 
     public class ChainItem
