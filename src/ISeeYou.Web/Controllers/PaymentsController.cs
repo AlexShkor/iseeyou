@@ -16,11 +16,13 @@ namespace ISeeYou.Web.Controllers
     public class PaymentsController : BaseController
     {
         private readonly UsersViewService _users;
+        private readonly SubjectViewService _subjects;
         private readonly SiteSettings _settings;
 
-        public PaymentsController(UsersViewService users,  SiteSettings settings)
+        public PaymentsController(UsersViewService users, SubjectViewService subjects, SiteSettings settings)
         {
             _users = users;
+            _subjects = subjects;
             _settings = settings;
         }
 
@@ -59,8 +61,6 @@ namespace ISeeYou.Web.Controllers
                 return RedirectToAction("Index", "Subjects");
             }
             var paymentService = new PaymentApplicationService(_settings);
-            
-            
             var creditCard = new CreditCard()
             {
                 Cvv = model.Cvv,
@@ -79,8 +79,10 @@ namespace ISeeYou.Web.Controllers
                 }
                 user.BraintreeCustomerId = processResult.CustomerId;
                 subject.SubscriptionId = processResult.SubscriptionId;
-                subject.Paid = true;
+                subject.NextPayment = DateTime.UtcNow.AddMonths(1);
+                subject.Stopped = null;
                 _users.Save(user);
+                _subjects.Set(int.Parse(subject.Id), x => x.Active, true);
             }
             catch (Exception ex)
             {

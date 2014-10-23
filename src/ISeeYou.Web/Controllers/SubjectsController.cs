@@ -78,19 +78,17 @@ namespace ISeeYou.Web.Controllers
                 {
                     Id = subject.UserId,
                     Name = string.Format("{0} {1}", subject.FirstName, subject.LastName),
-                    TrackingStarted = DateTime.UtcNow,
-                    Active = true
+                    TrackingStarted = DateTime.UtcNow, //TODO: move to payment success
+                    Active = false,
                 });
-            }else if (subjectView.Active == false)
-            {
-                subjectView.Active = true;
-                _subjects.Save(subjectView);
             }
             user.Subjects.Add(new SubjectData()
             {
                 Id = subject.UserId.ToString(), 
                 Name = string.Format("{0} {1}", 
-                subject.FirstName, subject.LastName)
+                subject.FirstName, subject.LastName),
+                NextPayment = null,
+                Stopped = null
             });
             _users.Save(user);
             

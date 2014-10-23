@@ -35,6 +35,10 @@ namespace ISeeYou.Views
         public string SubscriptionId { get; set; }
         public DateTime? NextPayment { get; set; }
         public DateTime? Stopped { get; set; }
-        public bool Paid { get; set; }
+
+        public bool Paid
+        {
+            get { return !NextPayment.HasValue && NextPayment > DateTime.UtcNow; }
+        }
     }
 }
