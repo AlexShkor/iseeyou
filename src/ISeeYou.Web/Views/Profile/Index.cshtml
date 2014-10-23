@@ -43,6 +43,7 @@
                                 <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="btn btn-danger btn-sm pull-right" style="margin-left: 10px;">Удалить <span class=" glyphicon glyphicon-remove"></span></a>
                                 @if (!subject.Paid)
                                 {
+                                    <a href="@Url.Action("ViewSubjectEvents", "Subjects", new {id = subject.Id})">НИХАЧУ ПЛАТИТЬ!</a>
                                 <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="btn btn-success btn-sm pull-right" title="Oплатить">Оплатить <span class="glyphicon glyphicon-usd"></span></a>
                                 }
                             </td>
