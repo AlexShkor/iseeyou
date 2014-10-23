@@ -69,7 +69,7 @@ namespace ISeeYou.Schedulers
                     _sourceStatsService.Set(source.SourceId, view => view.NextFetching, nextFetchingDate);
                 }
                 Console.WriteLine("{0} sources analyzed", counter);
-                if (counter == 0)
+                //if (counter == 0) test
                 {
                     Thread.Sleep(2000);
                 }

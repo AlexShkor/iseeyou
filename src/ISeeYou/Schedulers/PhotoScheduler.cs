@@ -5,6 +5,7 @@ using System.Threading;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
 using ISeeYou.ViewServices;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using StructureMap;
 
@@ -31,12 +32,12 @@ namespace ISeeYou.Schedulers
                 var counter = 0;
                 foreach (var photo in items)
                 {
-                    if (photo.FetchingStarted > DateTime.UtcNow)
-                    {
-                        continue;
-                    }
+                    //if (photo.FetchingStarted > DateTime.UtcNow)
+                    //{
+                    //    continue;
+                    //}
+                    //_photosService.Set(photo.Id, x => x.FetchingStarted, DateTime.UtcNow);
                     counter++;
-                    _photosService.Set(photo.Id, x => x.FetchingStarted, DateTime.UtcNow);
                     _publisher.Publish(new PhotoFetchEvent
                     {
                         Payload = new PhotoFetchPayload
@@ -57,10 +58,12 @@ namespace ISeeYou.Schedulers
                     }
                     //use also multiplier from source likes found data
                     var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * GetFetchingMultiplyer(photo.Created)) + additionalDellay;
-                    _photosService.Set(photo.Id, x => x.NextFetching, nextFetchingDate);
+                    _photosService.Items.Update(Query.EQ("_id", BsonValue.Create(photo.Id)),
+                        Update<PhotoDocument>.Set(x => x.NextFetching, nextFetchingDate)
+                            .Set(x => x.FetchingEnd, photo.NextFetching));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
-                if (counter == 0)
+                //if (counter == 0) for test
                 {
                     Thread.Sleep(1000);
                 }

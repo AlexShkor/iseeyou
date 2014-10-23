@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
@@ -14,6 +16,8 @@ namespace ISeeYou.Workers
     {
         public static void Start()
         {
+            var updateSubjectsInterval = TimeSpan.FromMinutes(1);
+
             var container = ObjectFactory.Container;
             new Bootstrapper().ConfigureSettings(container);
             new Bootstrapper().ConfigureMongoDb(container);
@@ -27,27 +31,34 @@ namespace ISeeYou.Workers
             var photosService = container.GetInstance<PhotoDocumentsService>();
             var events = ObjectFactory.Container.GetInstance<EventsViewService>();
             var trakingMarks = ObjectFactory.Container.GetInstance<TrackingMarksViewService>();
-            var subjects = subjectsService.GetAllIds();
+            IEnumerable<int> subjectIds = null;
+            ILookup<int, DateTime> subjectTrackingDateLookup = null;
+            var lastSubjectsUpdate = DateTime.MinValue;
+            
+            Action updateSubjects = () =>
+            {
+                if (DateTime.UtcNow > lastSubjectsUpdate + updateSubjectsInterval)
+                {
+                    var subjects = subjectsService.GetAll().Select(x => new {x.Id, x.TrackingStarted}).ToList();
+                    subjectIds = subjects.Select(x => x.Id);
+                    subjectTrackingDateLookup = subjects.ToLookup(x => x.Id, x => x.TrackingStarted);
+                    lastSubjectsUpdate = DateTime.UtcNow;
+                    Console.WriteLine("Subjects list updated");
+                }
+            };
+
             var subjectsLoaded = DateTime.UtcNow;
             var counter = 0;
             consumer.On += photoEvent =>
             {
-                counter++;
-              
-                if (counter > 100)
-                {
-                    subjects = subjectsService.GetAllIds();
-                    subjectsLoaded = DateTime.UtcNow;
-                    counter = 0;
-                    Console.WriteLine("Subjects list updated");
-                }
+                updateSubjects();
                 var photo = photoEvent.Payload;
                 Console.WriteLine("Photo processing started: {0}. id: {1}", counter, photo.DocId);
                 var photoId = photo.DocId;
                 var result = api.Likes(photo.PhotoId, photo.UserId);
                 if (result != null && result.Any())
                 {
-                    var intersect = result.Intersect(subjects);
+                    var intersect = result.Intersect(subjectIds);
                     PhotoDocument doc = null;
                     foreach (var subjectId in intersect)
                     {
@@ -58,7 +69,6 @@ namespace ISeeYou.Workers
                         var eventId = subjectId + "_" + type + photo.UserId + "_" + photo.PhotoId;
                         if (events.Items.FindOneById(photoId) == null)
                         {
-                            var subject = subjectsService.Items.FindOneById(subjectId);
                             var likedDate = doc.FetchingEnd;
                             //new added photo or previously was not liked
                             if (likedDate == null)
@@ -71,8 +81,9 @@ namespace ISeeYou.Workers
                                     likedDate = doc.Created;
                                 }
                             }
+                            var trackingDate = subjectTrackingDateLookup[subjectId].FirstOrDefault();
                             //subject was not traked
-                            if (subject.TrackingStarted > doc.FetchingEnd)
+                            if (trackingDate > doc.FetchingEnd)
                             {
                                 likedDate = doc.Created;
                             }
@@ -91,8 +102,8 @@ namespace ISeeYou.Workers
                         }
                     }
                 }
-                photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
-                    Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
+                //photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
+                //    Update<PhotoDocument>.Set(x => x.FetchingEnd, DateTime.UtcNow));
                 //TODO: log pgoto fetching stats
             };
             consumer.Start();
