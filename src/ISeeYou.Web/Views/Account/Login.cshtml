@@ -4,28 +4,42 @@
 @{
     Layout = "_LoginLayout.cshtml";
 }
-<div id="login" class="animate form">
-    <form  action="@Url.Action("Login")" class="form-signin well" method="POST" autocomplete="on">
-        <h1>Log in</h1>
-        @Html.ValidationSummary()
-        @Html.HiddenFor(x => x.ReturnUrl)
-        <p>
-            <label for="email" class="youmail">Your email</label>
-            <input id="email" name="email" required="required" type="text" placeholder="mymail@mail.com" />
-        </p>
-        <p>
-            <label for="password" class="youpasswd">Your password </label>
-            <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" />
-        </p>
-        <p class="keeplogin">
-            @Html.CheckBoxFor(x => x.RememberMe)
-            <label for="RememberMe">Keep me logged in</label>
-        </p>
-        <p class="login button">
-            <input type="submit" class="btn btn-large" value="Login" />
-        </p>
-        <p class="change_link">
-            <a id="forgotPasswordLink" href="/account/forgot">Forgot password?</a>
-        </p>
-    </form>
+
+<div class="col-md-6 col-md-offset-3 well">
+    <div id="login" class="animate form-horizontal" role="form">
+        <form action="@Url.Action("Login")" class="form-signin" method="POST" autocomplete="on">
+            <fieldset>
+                <legend>Вход</legend>
+
+                <div class="form-group">
+                    <label for="email" class="col-md-2 control-label">Email</label>
+                    <div class="col-md-10">
+                        <input id="email" class="form-control" name="email" required="required" type="email" placeholder="Введите email" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-md-2 control-label">Пароль</label>
+                    <div class="col-md-10">
+                        <input id="password" class="form-control" name="password" required="required" type="password" placeholder="Введите пароль" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.RememberMe) Запомнить меня
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <input type="submit" class="btn btn-large btn-primary" value="Войти" />
+                        <a id="forgotPasswordLink" class="text-right" href="/account/forgot">Забыли пароль?</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </div>
+

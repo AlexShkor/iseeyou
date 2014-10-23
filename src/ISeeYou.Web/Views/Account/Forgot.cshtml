@@ -1,16 +1,24 @@
 ﻿@model string
-<h3>Reset password</h3>
-@using (Html.BeginForm("Reset", "Account"))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-    <div class="control-group">
-        <label class="control-label">Enter your email</label>
-        <div class="controls">
-            <input type="text" name="email" value="@Model"/>
-        </div>
+
+<div class="col-md-6 col-md-offset-3 well">
+    <div id="forgot" class="animate form-horizontal" role="form">
+        <form action="@Url.Action("Reset", "Account")" method="POST" autocomplete="on">
+            <fieldset>
+                <legend>Восстановление пароля</legend>
+                <div class="form-group">
+                    <label for="email" class="col-md-2 control-label">Email</label>
+                    <div class="col-md-10">
+                        <input id="email" class="form-control" name="email" required="required" type="email" placeholder="Введите email" value="@Model" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <input type="submit" class="btn btn-large btn-primary" value="Восстановить" />
+                    </div>
+                </div>
+            </fieldset>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+        </form>
     </div>
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Reset password" />
-    </div>
-}
+</div>
