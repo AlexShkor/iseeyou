@@ -32,7 +32,7 @@ namespace ISeeYou.Schedulers
             while (true)
             {
                 var chunkSize = 500;
-                var items = _sourceStatsService.Items.Find(Query<SourceStats>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<SourceStats>.Ascending(x => x.NextFetching)).SetLimit(chunkSize);
+                var items = _sourceStatsService.Items.Find(Query<SourceStats>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<SourceStats>.Ascending(x => x.NextFetching)).SetLimit(chunkSize).ToList();
                 var counter = 0;
                 foreach (var source in items)
                 {
