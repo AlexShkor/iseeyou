@@ -15,7 +15,6 @@ namespace ISeeYou.Schedulers
 {
     public class SubjectScheduler
     {
-
         private readonly SubjectViewService _subjectsService;
         private readonly SourcesViewService _sources;
         private readonly SourceStatsViewService _sourceStats;
@@ -37,8 +36,8 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
-                var chunkSize = 500;
-                var items = _subjectsService.Items.Find(Query<SubjectView>.LT(x => x.NextFetching, DateTime.UtcNow)).SetLimit(chunkSize).ToList();
+                const int chunkSize = 500;
+                var items = _subjectsService.Items.Find(Query.And(Query<SubjectView>.EQ(x=> x.Active, true), Query<SubjectView>.LT(x => x.NextFetching, DateTime.UtcNow))).SetLimit(chunkSize).ToList();
                 var counter = 0;
                 foreach (var subjectView in items)
                 {
@@ -66,10 +65,11 @@ namespace ISeeYou.Schedulers
                     if (!subjectView.FetchedFirstTime.HasValue)
                     {
                         _subjectsService.Set(subjectView.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
+                       
                     }
                     else
                     {
-                        newSourcesCount = _sources.GetSourcesCount(subjectView.Id, DateTime.UtcNow.AddHours(-48));
+                      //  newSourcesCount = _sources.GetSourcesCount(subjectView.Id, DateTime.UtcNow.AddHours(-48));
                     }
                     var nextFetchingDate = DateTime.UtcNow + TimeSpan.FromSeconds(_delay.TotalSeconds * ((double)AverageNewSources / (newSourcesCount + 1)));
                     _subjectsService.Set(subjectView.Id, view => view.NextFetching, nextFetchingDate);
@@ -81,6 +81,26 @@ namespace ISeeYou.Schedulers
                 {
                     Thread.Sleep(1000);
                 }
+            }
+        }
+
+        private void AddSource(int sourceId, int subjectId, bool isNew)
+        {
+            _sourceStats.InsertAsync(new SourceStats
+            {
+                SourceId = sourceId,
+                NextFetching = DateTime.UtcNow
+            });
+            _sources.InsertAsync(new SourceDocument()
+            {
+                SourceId = sourceId,
+                SubjectId = subjectId,
+                Added = DateTime.UtcNow,
+                New = isNew
+            });
+            if (isNew)
+            {
+                
             }
         }
 
