@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -42,6 +43,24 @@ namespace ISeeYou.Helpers
                 return result;
             }
         }
+
+        public static List<SelectListItem> Years
+        {
+            get
+            {
+                var years = new List<SelectListItem>();
+                var currentYear = DateTime.Now.Year;
+                for (var year = currentYear; year < currentYear + 20; year++)
+                {
+                    years.Add(new SelectListItem
+                    {
+                        Text = year.ToString(CultureInfo.InvariantCulture),
+                        Value = year.ToString(CultureInfo.InvariantCulture)
+                    });
+                }
+                return years;
+            }
+        } 
 
         private static string DayWithPostfix(int i)
         {

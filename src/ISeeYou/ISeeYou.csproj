@@ -36,6 +36,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Braintree-2.36.0">
+      <HintPath>..\..\packages\Braintree.2.36.0\lib\Braintree-2.36.0.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation, Version=4.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentValidation.4.0.0.1\lib\Net40\FluentValidation.dll</HintPath>
@@ -128,6 +131,10 @@
     <Compile Include="Domain\Aggregates\Subject\SubjectState.cs" />
     <Compile Include="Domain\Aggregates\User\Commands\SetProfileAvatar.cs" />
     <Compile Include="Domain\Aggregates\User\Events\ProfileAvatarSet.cs" />
+    <Compile Include="Domain\ApplicationServices\Payments\CreditCard.cs" />
+    <Compile Include="Domain\ApplicationServices\Payments\IPaymentApplicationService.cs" />
+    <Compile Include="Domain\ApplicationServices\Payments\PaymentResult.cs" />
+    <Compile Include="Domain\ApplicationServices\Payments\PaymentApplicationService.cs" />
     <Compile Include="GlobalQueue.cs" />
     <Compile Include="Fetching\PhotoAnalyzer.cs" />
     <Compile Include="MQ\Events\PhotoFetchEvent.cs" />

@@ -69,5 +69,35 @@ namespace ISeeYou
         {
             get { return "spypie_sources"; }
         }
+
+        public string BraintreeMerchantId
+        {
+            get { return "tp9ryz3qsdpww86c"; }
+        }
+
+        public string BraintreePublicKey
+        {
+            get { return "k98xvzds49wbv2z9"; }
+        }
+
+        public string BraintreePrivateKey
+        {
+            get { return "e7b73893964c0e1ba464946f22c7646a"; }
+        }
+
+        public decimal BraintreeTransactionAmount
+        {
+            get { return 40m; }
+        }
+
+        public string BraintreeSubscribtionPlanId
+        {
+            get { return @"dsbm"; }
+        }
+
+        public Braintree.Environment BraintreeEnvironment
+        {
+            get { return Braintree.Environment.SANDBOX; }
+        }
     }
 }

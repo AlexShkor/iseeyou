@@ -20,6 +20,8 @@ namespace ISeeYou.Views
         public string Token { get; set; }
         public List<SubjectData> Subjects { get; set; }
 
+        public string BraintreeCustomerId { get; set; }
+
         public UserView()
         {
             Subjects = new List<SubjectData>();
@@ -30,5 +32,7 @@ namespace ISeeYou.Views
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string SubscriptionId { get; set; }
+        public bool Paid { get; set; }
     }
 }

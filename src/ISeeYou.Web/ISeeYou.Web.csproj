@@ -234,6 +234,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\AppsController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="UrlUtility.cs" />
     <Compile Include="Controllers\ChatController.cs" />
@@ -777,6 +778,7 @@
     <Content Include="Views\Stats\_ViewStart.cshtml" />
     <Content Include="Views\Stats\_StatsLayout.cshtml" />
     <Content Include="Views\Stats\Fetching.cshtml" />
+    <Content Include="Views\Payments\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\app\js\" />

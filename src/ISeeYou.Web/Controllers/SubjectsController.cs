@@ -81,7 +81,7 @@ namespace ISeeYou.Web.Controllers
             user.Subjects.Add(new SubjectData() { Id = subject.UserId.ToString(), Name = string.Format("{0} {1}", subject.FirstName, subject.LastName) });
             _users.Save(user);
             
-            return RedirectToAction("Index", "Profile");
+            return RedirectToAction("Create", "Payments", new {id = subject.UserId});
         }
 
         private string GetSubjectIdFromUrl(string url)

@@ -30,10 +30,21 @@
                                 @subject.Id
                             </td>
                             <td>
-                                <a href="@Url.Action("ViewSubjectEvents", "Subjects", new { id = subject.Id })">@subject.Name</a>
+                                @if (subject.Paid)
+                                {
+                                    <a href="@Url.Action("ViewSubjectEvents", "Subjects", new {id = subject.Id})">@subject.Name</a>
+                                }
+                                else
+                                {
+                                    <span>@subject.Name</span>
+                                }
                             </td>
                             <td>
-                                <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="pull-right"><span class="text-danger glyphicon glyphicon-remove"></span></a>
+                                <a href="@Url.Action("DeleteSubject", "Subjects", new { id = subject.Id })" class="pull-right"><span class="text-danger glyphicon glyphicon-remove"></span></a>&nbsp;
+                                @if (!subject.Paid)
+                                {
+                                    <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="pull-right" title="Oплатить"><span class="text-danger glyphicon glyphicon-usd"></span></a>
+                                }
                             </td>
                         </tr>
                     }

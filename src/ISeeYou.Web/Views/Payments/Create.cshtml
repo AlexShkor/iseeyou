@@ -1,0 +1,38 @@
+﻿@model ISeeYou.Web.Controllers.PaymentViewModel
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form action="@Url.Action("Create")" class="form-signin" method="POST" autocomplete="on">
+            <h4>Введите данные банковской карты </h4>
+            @Html.ValidationSummary()
+            @Html.HiddenFor(x => x.SubjectId)
+            <div class="col-md-6">
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group card'>
+                        <label class='control-label'>Номер карты</label>
+                        <input autocomplete='off' class='form-control' name="CardNumber" size='20' type='text' required="required" value="@Model.CardNumber">
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-4 form-group'>
+                        <label class='control-label'>CVV</label>
+                        <input autocomplete='off' class='form-control' name="Cvv" placeholder='ex. 311' size='4' type='text' required="required" value="@Model.Cvv">
+                    </div>
+                    <div class='col-xs-4 form-group'>
+                        <label class='control-label'>Срок действия</label>
+                        <input class='form-control' placeholder='MM' name="ExpirationMounth" size='2' type='text' required="required" value="@Model.ExpirationMounth">
+                    </div>
+                    <div class='col-xs-4 form-group'>
+                        <label class='control-label'> </label>
+                        <input class='form-control' placeholder='YYYY' name="ExpirationYear" size='4' type='text' required="required" value="@Model.ExpirationYear">
+                    </div>
+                </div>
+                <div class='form-row '>
+                    <button class='form-control btn btn-large btn-warning' type='submit'>Оплатить</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
