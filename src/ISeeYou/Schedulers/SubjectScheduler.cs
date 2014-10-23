@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using ISeeYou.Documents;
 using ISeeYou.MQ;
 using ISeeYou.Views;
@@ -79,6 +80,10 @@ namespace ISeeYou.Schedulers
                     _subjectsService.Set(subjectView.Id, x => x.FetchingEnded, DateTime.UtcNow);
                 }
                 Console.WriteLine("{0} subjects analyzed", counter);
+                if (counter == 0)
+                {
+                    Thread.Sleep(5000);
+                }
             }
         }
 

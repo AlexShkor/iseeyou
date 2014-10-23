@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
 using ISeeYou.ViewServices;
@@ -59,6 +60,10 @@ namespace ISeeYou.Schedulers
                     _photosService.Set(photo.Id, x => x.NextFetching, nextFetchingDate);
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
+                if (counter == 0)
+                {
+                    Thread.Sleep(1000);
+                }
             }
         }
 
