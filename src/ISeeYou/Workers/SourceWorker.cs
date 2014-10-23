@@ -54,9 +54,11 @@ namespace ISeeYou.Workers
                                 PhotoId = newPhoto.pid,
                                 SourceId = source.UserId,
                                 Image = newPhoto.src,
-                                ImageBig = newPhoto.src_big
+                                ImageBig = newPhoto.src_big,
+                                //replace with algoruthm from photo scheduler
+                                NextFetching = DateTime.UtcNow.AddMinutes(30)
                             });
-                            
+                            photoPublisher.Publish(newPhoto.pid,source.UserId,id, source.SubjectId.HasValue, source.SubjectId);
                         }
                     }
                 }
