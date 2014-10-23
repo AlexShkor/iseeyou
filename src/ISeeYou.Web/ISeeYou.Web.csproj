@@ -280,6 +280,7 @@
     <Content Include="Assets\app\css\img\card-back.png" />
     <Content Include="Assets\app\css\img\favicon.ico" />
     <Content Include="Assets\app\css\img\grey.png" />
+    <Content Include="Assets\app\css\img\pie.ico" />
     <Content Include="Assets\app\css\landing.css" />
     <Content Include="Assets\app\css\login.css" />
     <Content Include="Assets\app\css\m-buttons.css" />
