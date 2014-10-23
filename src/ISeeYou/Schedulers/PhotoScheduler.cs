@@ -36,8 +36,8 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
-                var chunkSize = 200;
-                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).OrderBy(x => x.NextFetching).Take(chunkSize).ToList();
+                var chunkSize = 500;
+                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching)).SetLimit(chunkSize).ToList();
                 var counter = 0;
                 foreach (var photo in items)
                 {
