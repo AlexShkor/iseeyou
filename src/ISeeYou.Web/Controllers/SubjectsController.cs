@@ -104,10 +104,10 @@ namespace ISeeYou.Web.Controllers
         public ActionResult ViewSubjectEvents(int id)
         {
             ViewBag.UserId = id;
-            var model = new SubjectEventsViewModel()
-            {
-                Events = _events.Items.Find(Query.EQ("SubjectId", id)).OrderByDescending(x=> x.StartDate).Take(PAGE_SIZE).ToList()
-            };
+            var model = new SubjectEventsViewModel();
+            //{
+            //    Events = _events.Items.Find(Query.EQ("SubjectId", id)).OrderByDescending(x=> x.StartDate).Take(PAGE_SIZE).ToList()
+            //};
 
             return View(model);
         }
