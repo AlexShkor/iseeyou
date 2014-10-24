@@ -18,6 +18,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Имя</th>
+                        <th>Следующая оплата</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -37,6 +38,16 @@
                                 else
                                 {
                                     <span>@subject.Name</span>
+                                }
+                            </td>
+                            <td>
+                                @if (subject.NextPayment.HasValue)
+                                {
+                                    <span>@subject.NextPayment.Value.ToString("d") - </span><span>$20</span>
+                                }
+                                else
+                                {
+                                    <span>Не оплачен</span>
                                 }
                             </td>
                             <td>

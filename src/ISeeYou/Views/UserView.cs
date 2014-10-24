@@ -38,7 +38,7 @@ namespace ISeeYou.Views
 
         public bool Paid
         {
-            get { return !NextPayment.HasValue && NextPayment > DateTime.UtcNow; }
+            get { return NextPayment.HasValue && NextPayment > DateTime.UtcNow; }
         }
     }
 }
