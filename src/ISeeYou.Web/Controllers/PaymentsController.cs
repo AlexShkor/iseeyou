@@ -72,7 +72,8 @@ namespace ISeeYou.Web.Controllers
                 Cvv = model.Cvv,
                 Month = model.ExpirationMounth,
                 Year = model.ExpirationYear,
-                Number = model.CardNumber
+                Number = model.CardNumber,
+                CardholderName = model.CardholderName
             };
 
             try
@@ -130,6 +131,8 @@ namespace ISeeYou.Web.Controllers
     public class PaymentViewModel
     {
         [Required]
+        public string CardholderName { get; set; }
+        [Required]
         public string CardNumber { get; set; }
         [Required]
         public string Cvv { get; set; }
@@ -144,6 +147,7 @@ namespace ISeeYou.Web.Controllers
 
     public class CouponViewModel
     {
+         [Required]
         public string SubjectId { get; set; }
 
         [Required]
