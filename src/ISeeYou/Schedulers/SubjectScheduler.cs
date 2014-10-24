@@ -54,13 +54,13 @@ namespace ISeeYou.Schedulers
                     var newSources = friends.Where(x => !sourceIds.Contains(x.UserId));
                     foreach (var newSource in newSources)
                     {
-                        AddSource(newSource.UserId,subjectView.Id,subjectView.FetchedFirstTime.HasValue);
+                        AddSource(newSource.UserId,subjectView.Id);
                     }
                     long newSourcesCount = AverageNewSources - 1;
                     if (!subjectView.FetchedFirstTime.HasValue)
                     {
                         _subjectsService.Set(subjectView.Id, x => x.FetchedFirstTime, DateTime.UtcNow);
-                        AddSource(subjectView.Id, subjectView.Id, false);
+                        AddSource(subjectView.Id, subjectView.Id);
                     }
                     else
                     {
@@ -79,7 +79,7 @@ namespace ISeeYou.Schedulers
             }
         }
 
-        private void AddSource(int sourceId, int subjectId, bool newlyFoundSource)
+        private void AddSource(int sourceId, int subjectId)
         {
             _sourceStats.InsertAsync(new SourceStats
             {
@@ -91,12 +91,9 @@ namespace ISeeYou.Schedulers
                 SourceId = sourceId,
                 SubjectId = subjectId,
                 Added = DateTime.UtcNow,
-                New = newlyFoundSource
+                New = false
             });
-            if (!newlyFoundSource)
-            {
-                _publisher.Publish(sourceId,subjectId);
-            }
+            _publisher.Publish(sourceId, subjectId);
         }
 
         public static void StartNew(IContainer container)
