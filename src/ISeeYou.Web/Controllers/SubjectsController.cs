@@ -194,7 +194,7 @@ namespace ISeeYou.Web.Controllers
         private string ConvertToMasonryItem(EventView evt)
         {
             var str = new StringBuilder();
-            str.Append("<div class=\"masonry-item\">");
+            str.Append("<div class=\"masonry-item\" display=\"hidden\">");
             str.Append(String.Format("<div class=\"image\"><img src=\"{0}\"/></div>", evt.ImageBig));
             str.Append("<div class=\"like\"><a href=\"" + Url.Action("SourceEvents", new {id = evt.SourceId})+ "\"><span class=\"glyphicon glyphicon-th-large\"></span></a></div>");
             str.Append("<div class=\"source\"><a href=\"http://www.vk.com/id" + evt.SourceId +

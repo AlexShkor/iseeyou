@@ -30,7 +30,7 @@
                 for (var i = 0; i < data.length; i++) {
                     elems.push(data[i]);
                 }
-
+                
                 if (page === 1) {
                     if (elems.length > 0) {
                         $("#masonry-container").after('<a id="load_more" href="#" class="btn btn-large btn-success center-block" style="margin-bottom: 50px">Загрузить еще</a>');
@@ -51,6 +51,7 @@
                         itemSelector: '.masonry-item',
                         columnsWidth: 320
                     });
+                    $(".masonry-item").show();
                     $loading.hide();
                 });
                 page++;
