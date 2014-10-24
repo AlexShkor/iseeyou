@@ -25,9 +25,10 @@ namespace ISeeYou.Schedulers
         private TimeSpan _fetchSettingsUpdateInterval = TimeSpan.FromMinutes(1);
         private PhotoFetchSettings _fetchSettings;
 
-        public PhotoScheduler(PhotoDocumentsService photosService, SitesViewService siteService)
+        public PhotoScheduler(PhotoDocumentsService photosService, SitesViewService siteService, PhotoPublisher publisher)
         {
             _siteService = siteService;
+            _publisher = publisher;
             _photosService = photosService;
         }
 
@@ -38,6 +39,7 @@ namespace ISeeYou.Schedulers
                 var chunkSize = 500;
                 var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching)).SetLimit(chunkSize).ToList();
                 var counter = 0;
+                var delaySum = TimeSpan.Zero;
                 foreach (var photo in items)
                 {
                     //if (photo.FetchingStarted > DateTime.UtcNow)
@@ -55,12 +57,19 @@ namespace ISeeYou.Schedulers
                         additionalDellay = TimeSpan.FromMinutes(20);
                     }
                     //use also multiplier from source likes found data
-                    var nextFetchingDate = DateTime.UtcNow + GetFetchInterval(photo) + additionalDellay;
+                    var delay = GetFetchInterval(photo);
+                    delaySum += delay;
+                    var nextFetchingDate = DateTime.UtcNow + delay + additionalDellay;
                     _photosService.Items.Update(Query.EQ("_id", BsonValue.Create(photo.Id)),
                         Update<PhotoDocument>.Set(x => x.NextFetching, nextFetchingDate)
                             .Set(x => x.FetchingEnd, DateTime.UtcNow));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
+
+                if (counter > 0)
+                {
+                    Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / counter);
+                }
                 if (items.Count() < chunkSize)
                 {
                     Thread.Sleep(1000);
@@ -110,7 +119,8 @@ namespace ISeeYou.Schedulers
             var category = settings.Categories.OrderBy(x => x.Age).Where(x => x.Age > photoAge).FirstOrDefault();
 
             var ratio = category == null ? 1.0 : category.Ratio;
-            return TimeSpan.FromSeconds(settings.DelayBase*ratio);
+            var seconds = settings.DelayBase*ratio;
+            return TimeSpan.FromSeconds(seconds);
         }
 
 
