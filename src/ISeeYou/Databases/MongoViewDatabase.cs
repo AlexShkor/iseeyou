@@ -35,7 +35,6 @@ namespace ISeeYou.Databases
         public MongoViewDatabase EnsureIndexes()
         {
             // build indexes here
-            SourceStats.EnsureIndex("Fetched");
             SourceStats.EnsureIndex("NextFetching");
             PhotoDocuments.EnsureIndex("NextFetching");
             Subjects.EnsureIndex("NextFetching");

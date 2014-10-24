@@ -65,7 +65,6 @@ namespace ISeeYou.Schedulers
                             .Set(x => x.FetchingEnd, DateTime.UtcNow));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
-
                 if (counter > 0)
                 {
                     Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / counter);
@@ -128,14 +127,14 @@ namespace ISeeYou.Schedulers
         {
             return new PhotoFetchSettings
             {
-                DelayBase = 10*60,
+                DelayBase = 50,
                 Disabled = false,
                 Categories = new List<PhotoCategory>
                 {
-                    new PhotoCategory {Age = 2, Ratio = 1},
-                    new PhotoCategory {Age = 4, Ratio = 2},
-                    new PhotoCategory {Age = 10, Ratio = 5},
-                    new PhotoCategory {Age = 30, Ratio = 7},
+                    new PhotoCategory {Age = 2, Ratio = 5},
+                    new PhotoCategory {Age = 4, Ratio = 6},
+                    new PhotoCategory {Age = 10, Ratio = 7},
+                    new PhotoCategory {Age = 30, Ratio = 8},
                     new PhotoCategory {Age = int.MaxValue, Ratio = 10},
                 }
             };
