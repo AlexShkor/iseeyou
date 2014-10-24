@@ -133,9 +133,9 @@ namespace ISeeYou.Schedulers
                 {
                     new PhotoCategory {Age = 2, Ratio = 5},
                     new PhotoCategory {Age = 4, Ratio = 6},
-                    new PhotoCategory {Age = 10, Ratio = 7},
-                    new PhotoCategory {Age = 30, Ratio = 8},
-                    new PhotoCategory {Age = int.MaxValue, Ratio = 10},
+                    new PhotoCategory {Age = 10, Ratio = 10},
+                    new PhotoCategory {Age = 30, Ratio = 15},
+                    new PhotoCategory {Age = int.MaxValue, Ratio = 20},
                 }
             };
         }
