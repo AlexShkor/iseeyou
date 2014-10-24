@@ -8,6 +8,7 @@ namespace ISeeYou.Views
         [BsonId]
         public string Id { get; set; }
         public long Amount { get; set; }
+        public string Token { get; set; }
         public DateTime StartOn { get; set; }
         public DateTime? FinishOn { get; set; }
     }

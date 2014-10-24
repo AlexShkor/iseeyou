@@ -32,7 +32,24 @@
                     </div>
                 </div>
                 <div class='form-row '>
-                    <button class='form-control btn btn-large btn-warning' type='submit'>Оплатить</button>
+                    <button class='form-control btn btn-large btn-warning' type='submit'>Отправить</button>
+                </div>
+            </fieldset>
+        </form>
+        <hr/>
+        <form action="@Url.Action("Coupon")" class="form-signin animate form-horizontal" method="POST" autocomplete="on">
+            <fieldset>
+                <legend>
+                    Введите кодовое слово купона
+                </legend>
+                <div class="form-row">
+                    <div class='form-group card col-md-12'>
+                        <label class='control-label'>Кодовое слово</label>
+                        <input autocomplete='off' class='form-control' name="Token" size='20' type='text' required="required" value="@Model.CuponToken">
+                    </div>
+                </div>
+                <div class='form-row '>
+                    <button class='form-control btn btn-large btn-warning' type='submit'>Отправить</button>
                 </div>
             </fieldset>
 
@@ -41,3 +58,5 @@
 
     </div>
 </div>
+
+

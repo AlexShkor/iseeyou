@@ -17,6 +17,7 @@ namespace ISeeYou.Web
             var coupon = new CouponView()
             {
                 Id = id,
+                Token = "paralect",
                 Amount = settings.CouponsAmount,
                 StartOn = DateTime.UtcNow
             };
