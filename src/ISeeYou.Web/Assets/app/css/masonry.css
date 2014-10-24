@@ -1,5 +1,5 @@
 ﻿.masonry-item {
-    max-width: 220px;
+    max-width: 380px;
     margin-right: 0px;
     margin-bottom: 10px;
     padding: 5px;
@@ -9,7 +9,7 @@
 }
 
     .masonry-item img {
-        max-width: 200px;
+        max-width: 360px;
         height: auto;
     }
 
@@ -25,7 +25,7 @@
     position: fixed;
     display: block;
     opacity: 0.7;
-    background-color: #F0F0F0 ;
+    background-color: #F0F0F0;
     z-index: 99;
     text-align: center;
 }
@@ -34,4 +34,33 @@
     /*position: absolute;*/
     margin: 350px auto;
     z-index: 100;
+}
+
+.event {
+    float: left;
+    width: 45%;
+    display: inline-block;
+    margin: 0 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: none;
+    -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.event hr {
+    margin-bottom: 10px;
+}
+
+.event img {
+    width: 100%;
+}
+
+.event .like_date {
+    line-height: 30px;
+}
+
+.event .glyphicon {
+    font-size: 30px;
+    float: right;
 }

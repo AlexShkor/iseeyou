@@ -1,0 +1,46 @@
+﻿@model ISeeYou.Web.Controllers.SubjectEventsViewModel
+
+@{
+    ViewBag.Title = "SpyPie";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+<div id="loading" class="center-block">
+    <img id="loading-image" src="~/Assets/loading.gif" alt="Загружаю..." />
+</div>
+
+<div id="events">
+    @if (Model.Events.Any())
+    {
+        foreach (var evt in Model.Events)
+        {
+            <div class="event">
+                <a href="@String.Format("https://vk.com/photo{0}_{1}", evt.SourceId, evt.PhotoId)" target="_blank"><img src="@evt.ImageBig" /></a>
+                
+                <hr />
+                <span class="like_date">@(evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : string.Empty)</span>
+                <span class="glyphicon glyphicon-heart"></span>
+            </div>
+        }
+    }
+</div>
+
+<script src="/Scripts/jquery-2.0.3.min.js" type="text/javascript"></script>
+<script src="/Scripts/masonry.pkgd.min.js" type="text/javascript"></script>
+<script src="/Scripts/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+        var $loading = $('#loading').hide();
+
+        $loading.show();
+        $(".event").imagesLoaded(function () {
+            $('div.event').sort(function (a, b) {
+                    return $(a).height() > $(b).height() ? 1 : -1;
+                }).appendTo('#events');
+            $loading.hide();
+        });
+
+    
+
+    
+</script>

@@ -10,8 +10,9 @@ namespace ISeeYou.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-               "Default", "{*path}",
-                defaults: new { controller = "Subjects", action = "Index" }
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Subjects", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

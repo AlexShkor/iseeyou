@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using ISeeYou.Platform.Mvc;
@@ -162,11 +163,21 @@ namespace ISeeYou.Web.Controllers
             return RedirectToAction("Index", "Profile");
         }
 
+        [GET("SourceEvents")]
+        public ActionResult SourceEvents(int id)
+        {
+            var model = new SubjectEventsViewModel()
+            {
+                Events = _events.Items.Find(Query.EQ("SourceId", id)).OrderByDescending(x=> x.StartDate).Take(PAGE_SIZE).ToList()
+            }; 
+            return View(model);
+        }
         private string ConvertToMasonryItem(EventView evt)
         {
             var str = new StringBuilder();
             str.Append("<div class=\"masonry-item\">");
             str.Append(String.Format("<div class=\"image\"><img src=\"{0}\"/></div>", evt.ImageBig));
+            str.Append("<div class=\"like\"><a href=\"" + Url.Action("SourceEvents", new {id = evt.SourceId})+ "\"><span class=\"glyphicon glyphicon-th-large\"></span></a></div>");
             str.Append("<div class=\"source\"><a href=\"http://www.vk.com/id" + evt.SourceId +
                        "\" target=\"_blank\">vk.com/id" + evt.SourceId + "</a></div>");
             str.Append("<a href=\"https://vk.com/photo" + evt.SourceId + "_" + evt.PhotoId + "\">" + (evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "") + "</a>");

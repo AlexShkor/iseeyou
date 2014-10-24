@@ -10,7 +10,10 @@
         <form action="@Url.Action("Login")" class="form-signin" method="POST" autocomplete="on">
             <fieldset>
                 <legend>Вход</legend>
-
+                <span class="text-danger">
+                    @Html.ValidationSummary()
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                </span>
                 <div class="form-group">
                     <label for="email" class="col-md-2 control-label">Email</label>
                     <div class="col-md-10">
