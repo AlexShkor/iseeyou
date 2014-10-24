@@ -30,7 +30,7 @@ namespace ISeeYou.Workers
             var sources = container.GetInstance<SourceStatsViewService>();
             var events = ObjectFactory.Container.GetInstance<EventsViewService>();
             var trakingMarks = ObjectFactory.Container.GetInstance<TrackingMarksViewService>();
-            IEnumerable<int> subjectIds = null;
+            List<int> subjectIds = null;
             ILookup<int, DateTime> subjectTrackingDateLookup = null;
             var lastSubjectsUpdate = DateTime.MinValue;
 
@@ -39,7 +39,7 @@ namespace ISeeYou.Workers
                 if (DateTime.UtcNow > lastSubjectsUpdate + updateSubjectsInterval)
                 {
                     var subjects = subjectsService.GetAll().Select(x => new { x.Id, x.TrackingStarted }).ToList();
-                    subjectIds = subjects.Select(x => x.Id);
+                    subjectIds = subjects.Select(x => x.Id).ToList();
                     subjectTrackingDateLookup = subjects.ToLookup(x => x.Id, x => x.TrackingStarted);
                     lastSubjectsUpdate = DateTime.UtcNow;
                     Console.WriteLine("Subjects list updated");
