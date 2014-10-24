@@ -135,10 +135,11 @@ namespace ISeeYou.Web.Controllers
                     UserId = x.Key,
                     Count = x.Count()
                 }).ToDictionary(x=> x.UserId, x=> x);
-            var users = new VkApi().GetUsers(items.Keys.Select(x=> x.ToString()).ToArray(),new string[0]);
+            var users = new VkApi().GetUsers(items.Keys.Select(x => x.ToString()).ToArray(), new[] { "photo_100" });
             foreach (var vkUser in users)
             {
                 items[vkUser.UserId].Name = string.Format("{0} {1}", vkUser.FirstName, vkUser.LastName);
+                items[vkUser.UserId].Avatar = vkUser.Avatar100px;
             }
             return View(items.Values.OrderByDescending(x=> x.Count));
         }
@@ -213,6 +214,7 @@ namespace ISeeYou.Web.Controllers
         public int UserId { get; set; }
         public int Count { get; set; }
         public string Name { get; set; }
+        public string Avatar { get; set; }
     }
 
 

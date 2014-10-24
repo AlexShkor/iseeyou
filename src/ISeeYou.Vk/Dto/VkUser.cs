@@ -24,6 +24,9 @@ namespace ISeeYou.Vk.Dto
         [JsonProperty("photo_200")]
         public string AvatarUrl { get; set; }
 
+        [JsonProperty("photo_100")]
+        public string Avatar100px{ get; set; }
+
         [JsonProperty("sex")]
         public Sex Sex { get; set; }
 
