@@ -52,6 +52,7 @@ namespace ISeeYou.Workers
             {
                 updateSubjects();
                 var photo = photoEvent.Payload;
+                counter ++;
                 Console.WriteLine("Photo processing started: {0}. id: {1}", counter, photo.DocId);
                 var photoId = photo.DocId;
                 var result = api.Likes(photo.PhotoId, photo.UserId);
