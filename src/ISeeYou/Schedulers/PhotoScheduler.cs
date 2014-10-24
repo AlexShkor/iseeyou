@@ -58,7 +58,7 @@ namespace ISeeYou.Schedulers
                     var nextFetchingDate = DateTime.UtcNow + GetFetchInterval(photo) + additionalDellay;
                     _photosService.Items.Update(Query.EQ("_id", BsonValue.Create(photo.Id)),
                         Update<PhotoDocument>.Set(x => x.NextFetching, nextFetchingDate)
-                            .Set(x => x.FetchingEnd, photo.NextFetching));
+                            .Set(x => x.FetchingEnd, DateTime.UtcNow));
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
                 if (items.Count() < chunkSize)
