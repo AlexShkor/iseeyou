@@ -56,9 +56,13 @@ namespace ISeeYou.Workers
                                 Image = newPhoto.src,
                                 ImageBig = newPhoto.src_big,
                                 //replace with algoruthm from photo scheduler
-                                NextFetching = DateTime.UtcNow.AddMinutes(15)
+                                NextFetching = source.SubjectId.HasValue ? DateTime.UtcNow.AddMinutes(15) : DateTime.UtcNow
                             });
-                            photoPublisher.Publish(newPhoto.pid,source.UserId,id, source.SubjectId.HasValue, source.SubjectId);
+                            if (source.SubjectId.HasValue)
+                            {
+                                photoPublisher.Publish(newPhoto.pid, source.UserId, id, source.SubjectId.HasValue,
+                                    source.SubjectId);
+                            }
                         }
                     }
                 }
