@@ -29,8 +29,11 @@
                         <tr>
                             <td>
                                 <a href="http://vk.com/id@(subject.Id)"><i class="icon-info"></i></a>
+                                &nbsp;
                                 <a href="@Url.Action("Stats","Subjects", new{id = subject.Id})"><i class="icon-table"></i></a>
                                 &nbsp;
+                            </td>
+                            <td>
                                 @if (subject.Paid)
                                 {
                                     <a href="@Url.Action("ViewSubjectEvents", "Subjects", new {id = subject.Id})">@subject.Name</a>
@@ -55,7 +58,7 @@
                                 @if (!subject.Paid)
                                 {
                                     <a href="@Url.Action("ViewSubjectEvents", "Subjects", new {id = subject.Id})">НИХАЧУ ПЛАТИТЬ!</a>
-                                <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="btn btn-success btn-sm pull-right" title="Oплатить">Оплатить <span class="glyphicon glyphicon-usd"></span></a>
+                                    <a href="@Url.Action("Create", "Payments", new {id = subject.Id})" class="btn btn-success btn-sm pull-right" title="Oплатить">Оплатить <span class="glyphicon glyphicon-usd"></span></a>
                                 }
                             </td>
                         </tr>
@@ -68,7 +71,7 @@
             <h3 class="text-center">Вы пока ни за кем не шпионите</h3>
         }
     </div>
-    
+
 </div>
 
 
