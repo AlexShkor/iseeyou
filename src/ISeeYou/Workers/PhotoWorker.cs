@@ -69,6 +69,7 @@ namespace ISeeYou.Workers
                         var eventId = subjectId + "_" + type + photo.UserId + "_" + photo.PhotoId;
                         if (events.Items.FindOneById(photoId) == null)
                         {
+                            Console.WriteLine("New like found! PhotoID: {0} , SourceID: {1}, SubjectPublisher: {2}", photo.PhotoId, photo.UserId, photo.SubjectId);
                             var likedDate = doc.Created;
                             //var likedDate = doc.FetchingEnd;
                             ////new added photo or previously was not liked
@@ -102,10 +103,10 @@ namespace ISeeYou.Workers
                                 StartDate = likedDate,
                                 Type = type
                             });
+                            subjectsService.Inc(subjectId, x => x.Likes, 1);
+                            sources.Inc(photo.UserId, x => x.Likes, 1);
+                            photosService.Inc(photo.DocId, x => x.Likes, 1);
                         }
-                        subjectsService.Inc(subjectId, x => x.Likes, 1);
-                        sources.Inc(photo.UserId, x => x.Likes, 1);
-                        photosService.Inc(photo.DocId, x => x.Likes, 1);
                     }
                 }
                 //photosService.Items.Update(Query<PhotoDocument>.EQ(x => x.Id, photoId),
