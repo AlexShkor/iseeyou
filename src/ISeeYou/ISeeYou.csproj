@@ -238,6 +238,7 @@
     <Compile Include="Schedulers\SourcesScheduler.cs" />
     <Compile Include="Schedulers\SubjectScheduler.cs" />
     <Compile Include="ViewServices\AppsViewService.cs" />
+    <Compile Include="ViewServices\CouponsViewService.cs" />
     <Compile Include="ViewServices\EventsViewService.cs" />
     <Compile Include="ViewServices\FetchingStats.cs" />
     <Compile Include="ViewServices\FetchingStatsService.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="ViewServices\SourceStatsViewService.cs" />
     <Compile Include="ViewServices\SourcesViewService.cs" />
     <Compile Include="ViewServices\SubjectViewService.cs" />
+    <Compile Include="Views\CouponView.cs" />
     <Compile Include="Views\TrackingMark.cs" />
     <Compile Include="ViewServices\TrackingMarksViewService.cs" />
     <Compile Include="ViewServices\UserViewService.cs" />

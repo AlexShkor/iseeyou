@@ -18,12 +18,14 @@ namespace ISeeYou.Web.Controllers
         private readonly UsersViewService _users;
         private readonly SubjectViewService _subjects;
         private readonly SiteSettings _settings;
+        private readonly CouponsViewService _coupons;
 
-        public PaymentsController(UsersViewService users, SubjectViewService subjects, SiteSettings settings)
+        public PaymentsController(UsersViewService users, SubjectViewService subjects, SiteSettings settings, CouponsViewService coupons)
         {
             _users = users;
             _subjects = subjects;
             _settings = settings;
+            _coupons = coupons;
         }
 
         [GET("Create")]
@@ -40,6 +42,16 @@ namespace ISeeYou.Web.Controllers
             if (subject == null || subject.Paid)
             {
                 return RedirectToAction("Index", "Subjects");
+            }
+
+            var coupon = _coupons.GetCoupon();
+            if (coupon != null && coupon.Amount > 0)
+            {
+                _coupons.Inc(coupon.Id, x => x.Amount, -1);
+                subject.SetPayment();
+                _users.Save(user);
+                _subjects.Set(int.Parse(subject.Id), x => x.Active, true);
+                return RedirectToAction("Index", "Profile"); 
             }
 
             var model = new PaymentViewModel()
@@ -79,8 +91,7 @@ namespace ISeeYou.Web.Controllers
                 }
                 user.BraintreeCustomerId = processResult.CustomerId;
                 subject.SubscriptionId = processResult.SubscriptionId;
-                subject.NextPayment = DateTime.UtcNow.AddMonths(1);
-                subject.Stopped = null;
+                subject.SetPayment();
                 _users.Save(user);
                 _subjects.Set(int.Parse(subject.Id), x => x.Active, true);
             }

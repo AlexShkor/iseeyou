@@ -119,5 +119,10 @@ namespace ISeeYou.Databases
             get { return GetCollection<PhotoDocument>(ViewCollections.PhotoDocuments); }
         }
 
+        public MongoCollection<CouponView> Coupons
+        {
+            get { return GetCollection<CouponView>(ViewCollections.Coupons); }
+        }
+
     }
 }

@@ -11,6 +11,7 @@ namespace ISeeYou.Web
         public void Configuration(IAppBuilder app)
         {
             ContainerConfig.Configure(app);
+            CouponsInitializer.Setup();
         }
     }
 }

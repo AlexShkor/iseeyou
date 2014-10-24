@@ -1,4 +1,5 @@
-﻿using ISeeYou.Platform.Settings;
+﻿using System.Drawing;
+using ISeeYou.Platform.Settings;
 
 namespace ISeeYou
 {
@@ -98,6 +99,11 @@ namespace ISeeYou
         public Braintree.Environment BraintreeEnvironment
         {
             get { return Braintree.Environment.SANDBOX; }
+        }
+
+        public long CouponsAmount
+        {
+            get { return 1000; }
         }
     }
 }
