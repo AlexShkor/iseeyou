@@ -168,7 +168,7 @@ namespace ISeeYou.Web.Controllers
         {
             var model = new SubjectEventsViewModel()
             {
-                Events = _events.Items.Find(Query.EQ("SourceId", id)).OrderByDescending(x=> x.StartDate).Take(PAGE_SIZE).ToList()
+                Events = _events.Items.Find(Query.EQ("SourceId", id)).OrderByDescending(x=> x.StartDate).ToList()
             }; 
             return View(model);
         }
