@@ -10,6 +10,10 @@
         <form action="@Url.Action("Register")" class="form-signin" method="POST" autocomplete="on">
             <fieldset>
                 <legend>Регистрация</legend>
+                <span class="text-danger">
+                    @Html.ValidationSummary()
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                </span>
                 <div class="form-group">
                     <label for="usernamesignup" class="col-md-2 control-label">Логин</label>
                     <div class="col-md-10">
@@ -42,8 +46,6 @@
                     </div>
                 </div>
             </fieldset>
-            @Html.ValidationSummary()
-            @Html.HiddenFor(x => x.ReturnUrl)
         </form>
     </div>
 </div>
