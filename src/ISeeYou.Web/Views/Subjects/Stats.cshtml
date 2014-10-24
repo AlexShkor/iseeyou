@@ -1,0 +1,19 @@
+﻿@model System.Collections.Generic.IEnumerable<ISeeYou.Web.Controllers.SourceItem>
+
+<table class="table">
+    <tr>
+        <th>
+            Источник
+        </th>
+        <th>
+            Количество лайков
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><a href="http://vk.com/id@(item.UserId)">@item.Name</a></td>
+            <td>@item.Count</td>
+        </tr>
+    }
+</table>

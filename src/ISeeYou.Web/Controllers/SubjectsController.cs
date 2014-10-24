@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
+using Elmah.ContentSyndication;
 using ISeeYou.Platform.Mvc;
 using ISeeYou.Views;
 using ISeeYou.ViewServices;
@@ -15,6 +16,7 @@ using ISeeYou.Vk.Api;
 using ISeeYou.Vk.Dto;
 using ISeeYou.Vk.Helpers;
 using MongoDB.Driver.Builders;
+using RestSharp.Extensions;
 
 namespace ISeeYou.Web.Controllers
 {
@@ -124,6 +126,23 @@ namespace ISeeYou.Web.Controllers
             return View(model);
         }
 
+        [GET("stats")]
+        public ActionResult Stats(int id)
+        {
+            var items =
+                _events.Items.Find(Query.EQ("SubjectId", id)).GroupBy(x => x.SourceId).Select(x => new SourceItem
+                {
+                    UserId = x.Key,
+                    Count = x.Count()
+                }).ToDictionary(x=> x.UserId, x=> x);
+            var users = new VkApi().GetUsers(items.Keys.Select(x=> x.ToString()).ToArray(),new string[0]);
+            foreach (var vkUser in users)
+            {
+                items[vkUser.UserId].Name = string.Format("{0} {1}", vkUser.FirstName, vkUser.LastName);
+            }
+            return View(items.Values.OrderByDescending(x=> x.Count));
+        }
+
         [GET("GetItems")]
         public JsonResult GetItems(int id, int page = 2)
         {
@@ -187,6 +206,13 @@ namespace ISeeYou.Web.Controllers
             return str.ToString();
         }
 
+    }
+
+    public class SourceItem
+    {
+        public int UserId { get; set; }
+        public int Count { get; set; }
+        public string Name { get; set; }
     }
 
 

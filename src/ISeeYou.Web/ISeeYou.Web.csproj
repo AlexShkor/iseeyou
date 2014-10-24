@@ -783,6 +783,7 @@
     <Content Include="Views\Stats\Fetching.cshtml" />
     <Content Include="Views\Payments\Create.cshtml" />
     <Content Include="Views\Subjects\SourceEvents.cshtml" />
+    <Content Include="Views\Subjects\Stats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\app\js\" />
