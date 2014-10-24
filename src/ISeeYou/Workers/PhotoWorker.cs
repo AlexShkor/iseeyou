@@ -68,24 +68,27 @@ namespace ISeeYou.Workers
                         var eventId = subjectId + "_" + type + photo.UserId + "_" + photo.PhotoId;
                         if (events.Items.FindOneById(photoId) == null)
                         {
-                            var likedDate = doc.FetchingEnd;
-                            //new added photo or previously was not liked
-                            if (likedDate == null)
-                            {
-                                //was not liked
-                                likedDate = trakingMarks.GetSourceMark(photo.UserId);
-                                //newly created
-                                if (likedDate == null)
-                                {
-                                    likedDate = doc.Created;
-                                }
-                            }
-                            var trackingDate = subjectTrackingDateLookup[subjectId].FirstOrDefault();
-                            //subject was not traked
-                            if (trackingDate > doc.FetchingEnd)
-                            {
-                                likedDate = doc.Created;
-                            }
+                            var likedDate = doc.Created;
+                            //var likedDate = doc.FetchingEnd;
+                            ////new added photo or previously was not liked
+                            //if (likedDate == null)
+                            //{
+                            //    //was not liked
+                            //    likedDate = trakingMarks.GetSourceMark(photo.UserId);
+                            //    //newly created
+                            //    if (likedDate == null)
+                            //    {
+                            //        likedDate = doc.Created;
+                            //    }
+                            //}
+                            //var trackingDate = subjectTrackingDateLookup[subjectId].FirstOrDefault();
+                            ////subject was not traked
+                            //if (trackingDate > doc.FetchingEnd)
+                            //{
+                            //    likedDate = doc.Created;
+                            //}
+
+
                             events.InsertAsync(new EventView
                             {
                                 DocId = eventId,
