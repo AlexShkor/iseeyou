@@ -38,7 +38,7 @@ namespace ISeeYou.Schedulers
             while (true)
             {
                 var chunkSize = 500;
-                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching));
+                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching)).SetLimit(chunkSize);
                 var counter = 0;
                 var delaySum = TimeSpan.Zero;
                 var stopwatch = new Stopwatch();
