@@ -75,7 +75,7 @@ namespace ISeeYou.Schedulers
                 if (counter > 0)
                 {
                     stopwatch.Stop();
-                    Console.WriteLine("Elapsed time: {0} seconds", stopwatch.ElapsedMilliseconds);
+                    Console.WriteLine("Elapsed time: {0} mls", stopwatch.ElapsedMilliseconds);
                     Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / counter);
                 }
                 if (counter < chunkSize)
