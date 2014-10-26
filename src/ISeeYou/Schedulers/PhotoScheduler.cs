@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -37,11 +38,17 @@ namespace ISeeYou.Schedulers
             while (true)
             {
                 var chunkSize = 500;
-                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching)).SetLimit(chunkSize).ToList();
+                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching));
                 var counter = 0;
                 var delaySum = TimeSpan.Zero;
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
                 foreach (var photo in items)
                 {
+                    if (photo.NextFetching > DateTime.UtcNow)
+                    {
+                        continue;
+                    }
                     //if (photo.FetchingStarted > DateTime.UtcNow)
                     //{
                     //    continue;
@@ -67,9 +74,11 @@ namespace ISeeYou.Schedulers
                 Console.WriteLine("{0} photos analyzed", counter);
                 if (counter > 0)
                 {
+                    stopwatch.Stop();
+                    Console.WriteLine("Elapsed time: {0} seconds", stopwatch.ElapsedMilliseconds);
                     Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / counter);
                 }
-                if (items.Count() < chunkSize)
+                if (counter < chunkSize)
                 {
                     Thread.Sleep(1000);
                 }

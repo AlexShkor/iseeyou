@@ -16,7 +16,7 @@
             <td><img src="@item.Avatar"/></td>
             <td><a href="http://vk.com/id@(item.UserId)">@item.Name</a></td>
             <td>@item.Count</td>
-            <td><a href="@Url.Action("SourceEvents",new{id = item.UserId})">Фотки</a></td>
+            <td><a href="@Url.Action("SourceEvents",new{subjectId = ViewBag.subjectId, id = item.UserId})">Фотки</a></td>
         </tr>
     }
 </table>

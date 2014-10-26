@@ -114,7 +114,7 @@ namespace ISeeYou.Web.Controllers
             return api.GetUsers(new[] {id}, new[] {"sex"})[0];
         }
 
-        [GET("ViewSubjectEvents")]
+        [GET("view/{id}")]
         public ActionResult ViewSubjectEvents(int id)
         {
             ViewBag.UserId = id;
@@ -129,8 +129,9 @@ namespace ISeeYou.Web.Controllers
         [GET("stats")]
         public ActionResult Stats(int id)
         {
+            ViewBag.subjectId = id;
             var items =
-                _events.Items.Find(Query.EQ("SubjectId", id)).GroupBy(x => x.SourceId).Select(x => new SourceItem
+                _events.Items.Find(Query<EventView>.EQ(x=> x.SubjectId, id)).GroupBy(x => x.SourceId).Select(x => new SourceItem
                 {
                     UserId = x.Key,
                     Count = x.Count()
@@ -164,7 +165,7 @@ namespace ISeeYou.Web.Controllers
                     .OrderByDescending(x => x.StartDate)
                     .Skip((page - 1) * PAGE_SIZE)
                     .Take(PAGE_SIZE)
-                    .Select(ConvertToMasonryItem)
+                    .Select(x=> ConvertToMasonryItem(x,id))
                     .ToList();
             return Json(events, JsonRequestBehavior.AllowGet);
         }
@@ -183,21 +184,21 @@ namespace ISeeYou.Web.Controllers
             return RedirectToAction("Index", "Profile");
         }
 
-        [GET("SourceEvents")]
-        public ActionResult SourceEvents(int id)
+        [GET("{subjectId}/events/{id}")]
+        public ActionResult SourceEvents(int subjectId, int id)
         {
             var model = new SubjectEventsViewModel()
             {
-                Events = _events.Items.Find(Query.EQ("SourceId", id)).OrderByDescending(x=> x.StartDate).ToList()
+                Events = _events.Items.Find(Query.And(Query<EventView>.EQ(x=> x.SubjectId, subjectId), Query.EQ("SourceId", id))).OrderByDescending(x=> x.StartDate).ToList()
             }; 
             return View(model);
         }
-        private string ConvertToMasonryItem(EventView evt)
+        private string ConvertToMasonryItem(EventView evt, int id)
         {
             var str = new StringBuilder();
             str.Append("<div class=\"masonry-item\" display=\"hidden\">");
             str.Append(String.Format("<div class=\"image\"><img src=\"{0}\"/></div>", evt.ImageBig));
-            str.Append("<div class=\"like\"><a href=\"" + Url.Action("SourceEvents", new {id = evt.SourceId})+ "\"><span class=\"glyphicon glyphicon-th-large\"></span></a></div>");
+            str.Append("<div class=\"like\"><a href=\"" + Url.Action("SourceEvents", new {subjectId = id, id = evt.SourceId})+ "\"><span class=\"glyphicon glyphicon-th-large\"></span></a></div>");
             str.Append("<div class=\"source\"><a href=\"http://www.vk.com/id" + evt.SourceId +
                        "\" target=\"_blank\">vk.com/id" + evt.SourceId + "</a></div>");
             str.Append("<a href=\"https://vk.com/photo" + evt.SourceId + "_" + evt.PhotoId + "\">" + (evt.StartDate.HasValue ? evt.StartDate.Value.ToString("dd/MM/yyyy") : "") + "</a>");
