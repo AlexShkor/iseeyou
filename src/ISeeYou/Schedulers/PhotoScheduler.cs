@@ -38,10 +38,13 @@ namespace ISeeYou.Schedulers
             while (true)
             {
                 var chunkSize = 500;
-                var items = _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching)).SetLimit(chunkSize);
+                var items =
+                    _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow))
+                        .SetSortOrder(SortBy<PhotoDocument>.Ascending(x => x.NextFetching));
                 var counter = 0;
                 var delaySum = TimeSpan.Zero;
                 var stopwatch = new Stopwatch();
+                var photosPerSecond = 0;
                 stopwatch.Start();
                 foreach (var photo in items)
                 {
@@ -54,6 +57,7 @@ namespace ISeeYou.Schedulers
                     //    continue;
                     //}
                     //_photosService.Set(photo.Id, x => x.FetchingStarted, DateTime.UtcNow);
+                 
                     counter++;
                     _publisher.Publish(photo.PhotoId, photo.SourceId, photo.Id);
                     var likesForSource = 20;
@@ -70,14 +74,22 @@ namespace ISeeYou.Schedulers
                     _photosService.Items.Update(Query.EQ("_id", BsonValue.Create(photo.Id)),
                         Update<PhotoDocument>.Set(x => x.NextFetching, nextFetchingDate)
                             .Set(x => x.FetchingEnd, DateTime.UtcNow));
+
+                    photosPerSecond++;
+                    if (stopwatch.ElapsedMilliseconds >= 1000)
+                    {
+                        Console.WriteLine("Photos: {0}; Elapsed time: {1} mls", photosPerSecond, stopwatch.ElapsedMilliseconds);
+                        if (photosPerSecond > 0)
+                        {
+                            Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / photosPerSecond);
+                        }
+                        stopwatch.Reset();
+                        stopwatch.Start();
+                        photosPerSecond = 0;
+                        delaySum = TimeSpan.Zero;
+                    }
                 }
                 Console.WriteLine("{0} photos analyzed", counter);
-                if (counter > 0)
-                {
-                    stopwatch.Stop();
-                    Console.WriteLine("Elapsed time: {0} mls", stopwatch.ElapsedMilliseconds);
-                    Console.WriteLine("Avarage Delay: {0} seconds", delaySum.TotalSeconds / counter);
-                }
                 if (counter < chunkSize)
                 {
                     Thread.Sleep(1000);
