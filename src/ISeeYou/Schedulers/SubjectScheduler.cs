@@ -16,6 +16,7 @@ namespace ISeeYou.Schedulers
     public class SubjectScheduler
     {
         private readonly SubjectViewService _subjectsService;
+        private readonly FetchSettings _fetchSettings;
         private readonly SourcePublisher _publisher;
         private readonly SourcesViewService _sources;
         private readonly SourceStatsViewService _sourceStats;
@@ -29,11 +30,13 @@ namespace ISeeYou.Schedulers
             SourceStatsViewService sourceStats, 
             SourcesViewService sources,
             SubjectViewService subjectsService,
+            FetchSettings fetchSettings,
             SourcePublisher publisher)
         {
             _sourceStats = sourceStats;
             _sources = sources;
             _subjectsService = subjectsService;
+            _fetchSettings = fetchSettings;
             _publisher = publisher;
             _api = new VkApi();
         }
@@ -42,6 +45,10 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
+                if (_fetchSettings.IsAppDisabled())
+                {
+                    continue;
+                }
                 const int chunkSize = 500;
                 var items = _subjectsService.Items.Find(Query.And(Query<SubjectView>.EQ(x=> x.Active, true), Query<SubjectView>.LT(x => x.NextFetching, DateTime.UtcNow))).SetLimit(chunkSize).ToList();
                 var counter = 0;

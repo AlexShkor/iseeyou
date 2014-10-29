@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
-using ISeeYou.MQ;
-using ISeeYou.MQ.Events;
-using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using StructureMap;
 
@@ -19,17 +13,14 @@ namespace ISeeYou.Schedulers
     {
         private readonly PhotoDocumentsService _photosService;
         private readonly PhotoPublisher _publisher;
-        private readonly SitesViewService _siteService;
+        private readonly FetchSettings _fetchSettings;
         const int AvarageLikesForSource = 20;
 
-        private DateTime _lastFetchSettingsUpdate;
-        private TimeSpan _fetchSettingsUpdateInterval = TimeSpan.FromMinutes(1);
-        private PhotoFetchSettings _fetchSettings;
 
-        public PhotoScheduler(PhotoDocumentsService photosService, SitesViewService siteService, PhotoPublisher publisher)
+        public PhotoScheduler(PhotoDocumentsService photosService, PhotoPublisher publisher, FetchSettings fetchSettings)
         {
-            _siteService = siteService;
             _publisher = publisher;
+            _fetchSettings = fetchSettings;
             _photosService = photosService;
         }
 
@@ -37,6 +28,10 @@ namespace ISeeYou.Schedulers
         {
             while (true)
             {
+                if (_fetchSettings.IsAppDisabled())
+                {
+                    continue;
+                }
                 var chunkSize = 500;
                 var items =
                     _photosService.Items.Find(Query<PhotoDocument>.LT(x => x.NextFetching, DateTime.UtcNow))
@@ -48,6 +43,10 @@ namespace ISeeYou.Schedulers
                 stopwatch.Start();
                 foreach (var photo in items)
                 {
+                    if (_fetchSettings.IsAppDisabled())
+                    {
+                        break;
+                    }
                     if (photo.NextFetching > DateTime.UtcNow)
                     {
                         continue;
@@ -103,62 +102,16 @@ namespace ISeeYou.Schedulers
             obj.Start();
         }
 
-        private PhotoFetchSettings GetFetchSettings()
-        {
-            if (DateTime.UtcNow < _lastFetchSettingsUpdate + _fetchSettingsUpdateInterval)
-                return _fetchSettings;
 
-            _lastFetchSettingsUpdate = DateTime.UtcNow;
-            
-            var siteSettings = _siteService.GetSite();
-            if (siteSettings == null)
-            {
-                siteSettings = new SiteView
-                {
-                    Id = SiteSettings.SiteId,
-                    PhotoFetchSettings = DefaultFetchSettings()
-                };
-                _siteService.InsertAsync(siteSettings);
-            }
-
-            if (siteSettings.PhotoFetchSettings == null)
-            {
-                siteSettings.PhotoFetchSettings = DefaultFetchSettings();
-                _siteService.Save(siteSettings);
-            }
-
-            return _fetchSettings = siteSettings.PhotoFetchSettings;
-        }
 
         private TimeSpan GetFetchInterval(PhotoDocument photo)
         {
-            var settings = GetFetchSettings();
-
+            var settings = _fetchSettings.GetFetchSettings();
             var photoAge = (DateTime.UtcNow - photo.Created).TotalDays;
-
             var category = settings.Categories.OrderBy(x => x.Age).Where(x => x.Age > photoAge).FirstOrDefault();
-
             var ratio = category == null ? 1.0 : category.Ratio;
-            var seconds = settings.DelayBase*ratio;
+            var seconds = settings.DelayBase * ratio;
             return TimeSpan.FromSeconds(seconds);
-        }
-
-
-        private static PhotoFetchSettings DefaultFetchSettings()
-        {
-            return new PhotoFetchSettings
-            {
-                DelayBase = 50,
-                Disabled = false,
-                Categories = new List<PhotoCategory>
-                {
-                    new PhotoCategory {Age = 2, Ratio = 5},
-                    new PhotoCategory {Age = 4, Ratio = 6},
-                    new PhotoCategory {Age = 10, Ratio = 10},
-                    new PhotoCategory {Age = 30, Ratio = 15},
-                    new PhotoCategory {Age = int.MaxValue, Ratio = 20},
-                }
-            };
         }
     }
 }

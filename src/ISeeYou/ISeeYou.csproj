@@ -232,6 +232,7 @@
     <Compile Include="Platform\ViewModels\ValidationError.cs" />
     <Compile Include="Fetching\SourceAnalyzer.cs" />
     <Compile Include="Fetching\SourceFetcher.cs" />
+    <Compile Include="Schedulers\FetchSettings.cs" />
     <Compile Include="Schedulers\PhotoPublisher.cs" />
     <Compile Include="Schedulers\PhotoScheduler.cs" />
     <Compile Include="Schedulers\SourcePublisher.cs" />

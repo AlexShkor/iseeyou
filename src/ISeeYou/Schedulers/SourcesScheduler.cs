@@ -5,6 +5,7 @@ using System.Threading;
 using ISeeYou.Documents;
 using ISeeYou.MQ;
 using ISeeYou.MQ.Events;
+using ISeeYou.Views;
 using ISeeYou.ViewServices;
 using MongoDB.Driver.Builders;
 using StructureMap;
@@ -16,14 +17,16 @@ namespace ISeeYou.Schedulers
         private readonly PhotoDocumentsService _photosService;
         private readonly SourceStatsViewService _sourceStatsService;
         private readonly SourcePublisher _publisher;
+        private readonly FetchSettings _fetchSettings;
         private TimeSpan _delay;
         const int AverageNewPhotos = 10;
 
-        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService, SourcePublisher publisher)
+        public SourcesScheduler(PhotoDocumentsService photosService, SourceStatsViewService sourceStatsService, SourcePublisher publisher, FetchSettings fetchSettings)
         {
             _photosService = photosService;
             _sourceStatsService = sourceStatsService;
             _publisher = publisher;
+            _fetchSettings = fetchSettings;
 
             _delay = TimeSpan.FromMinutes(10);
         }
@@ -33,6 +36,10 @@ namespace ISeeYou.Schedulers
             Console.WriteLine("Started");
             while (true)
             {
+                if (_fetchSettings.IsAppDisabled())
+                {
+                    continue;
+                }
                 var chunkSize = 500;
                 var items = _sourceStatsService.Items.Find(Query<SourceStats>.LT(x => x.NextFetching, DateTime.UtcNow)).SetSortOrder(SortBy<SourceStats>.Ascending(x => x.NextFetching)).SetLimit(chunkSize).ToList();
                 var counter = 0;
